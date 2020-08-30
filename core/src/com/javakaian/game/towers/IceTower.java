@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.map.GameConstants;
+import com.javakaian.game.entity.Bullet;
+import com.javakaian.game.entity.Enemy;
+import com.javakaian.game.entity.Bullet.EnumBulletType;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.util.GameConstants;
 
 public class IceTower extends BaseTower {
 
@@ -30,6 +33,17 @@ public class IceTower extends BaseTower {
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
+	}
+
+	@Override
+	public void projectileShoot() {
+
+		bulletList.add(new Bullet(center.x, center.y, target, damage, EnumBulletType.ICE_BULLET));
+	}
+
+	@Override
+	public void contiuniousShoot() {
+
 	}
 
 }

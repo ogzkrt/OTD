@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.badlogic.gdx.math.Vector2;
+import com.javakaian.game.util.GameConstants;
 
 public class MapMaker {
 
@@ -151,5 +152,9 @@ public class MapMaker {
 
 	public LinkedList<Direction> getDirectionList() {
 		return directionList;
+	}
+
+	public enum Direction {
+		LEFT, RIGHT, UP, DOWN;
 	}
 }

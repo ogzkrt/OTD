@@ -4,8 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.states.State.StateEnum;
 import com.javakaian.game.states.StateController;
-import com.javakaian.game.states.StateEnum;
 
 public class OTDGame extends ApplicationAdapter {
 	private StateController stateController;
@@ -15,7 +15,7 @@ public class OTDGame extends ApplicationAdapter {
 
 		MyAtlas.init();
 		stateController = new StateController();
-		stateController.setState(StateEnum.PlayState);
+		stateController.setState(StateEnum.MenuState);
 	}
 
 	@Override

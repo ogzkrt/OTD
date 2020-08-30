@@ -5,8 +5,9 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.javakaian.game.map.GameConstants;
+import com.javakaian.game.entity.Enemy;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.util.GameConstants;
 
 public class ElectricTower extends BaseTower {
 
@@ -16,7 +17,9 @@ public class ElectricTower extends BaseTower {
 		spriteSelected = MyAtlas.ELECTRIC_TOWER;
 		ice = false;
 		damage = GameConstants.TOWER_DAMAGE_ELECTRIC;
-		range = GameConstants.GRID_WIDTH * 15;
+		range = GameConstants.GRID_WIDTH * 3;
+
+		setType(TowerType.ELECTRIC);
 
 	}
 
@@ -36,16 +39,28 @@ public class ElectricTower extends BaseTower {
 	@Override
 	public void render(SpriteBatch sb) {
 		super.render(sb);
-
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
+
 	}
 
 	@Override
-	public void shoot(float deltaTime) {
-		target.shoot(this.damage);
+	public void projectileShoot() {
+
 	}
+
+	@Override
+	public void contiuniousShoot() {
+		target.shoot(damage);
+	}
+
+	@Override
+	public void increaseDamage() {
+		this.damage += 1;
+		this.attackPrice += 1;
+	}
+
 }

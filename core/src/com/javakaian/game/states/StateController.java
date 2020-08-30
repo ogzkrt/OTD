@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.javakaian.game.states.State.StateEnum;
 
 public class StateController {
 
@@ -24,17 +25,17 @@ public class StateController {
 			case PlayState:
 				currentState = new PlayState(this);
 				break;
-			case GameOver:
+			case GameOverState:
 				currentState = new GameOverState(this);
+				break;
+			case PauseState:
+				currentState = new PauseState(this);
 				break;
 			case MenuState:
 				currentState = new MenuState(this);
 				break;
-			case OptionState:
-				currentState = new OptionState(this);
-				break;
-			case LevelSelectionState:
-				currentState = new LevelSelectionState(this);
+			case CreditsState:
+				currentState = new CreditState(this);
 				break;
 			default:
 				break;
@@ -55,4 +56,7 @@ public class StateController {
 		currentState.update(deltaTime);
 	}
 
+	public Map<Integer, State> getStateMap() {
+		return stateMap;
+	}
 }

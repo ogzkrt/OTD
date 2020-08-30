@@ -6,31 +6,32 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.javakaian.game.input.GameOverInput;
+import com.javakaian.game.input.CreditStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
+import com.javakaian.game.ui.menu.MenuItem;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
-public class GameOverState extends State {
+public class CreditState extends State {
 
-	private String stateName = "GAME OVER";
+	private String stateName = "CREDIT STATE";
 
-	private OButton btnReplay;
-	private OButton btnMenu;
+	private OButton btnBack;
 
 	private OButton selectedButton;
 
 	private List<OButton> menuItems;
 
-	public GameOverState(StateController stateController) {
+	private BitmapFont textFont;
+
+	public CreditState(StateController stateController) {
 		super(stateController);
 
-		inputProcessor = new GameOverInput(this);
-
-		bitmapFont = GameUtils.generateBitmapFont(100, Color.WHITE);
+		inputProcessor = new CreditStateInput(this);
 
 		glipLayout.setText(bitmapFont, stateName);
 
@@ -41,8 +42,9 @@ public class GameOverState extends State {
 
 		selectedButton = null;
 
-		menuItems.add(btnReplay);
-		menuItems.add(btnMenu);
+		menuItems.add(btnBack);
+
+		textFont = GameUtils.generateBitmapFont(30, Color.GRAY);
 	}
 
 	@Override
@@ -53,7 +55,6 @@ public class GameOverState extends State {
 		float blue = 94f;
 
 		Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
-
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		sr.begin(ShapeType.Line);
 
@@ -61,8 +62,18 @@ public class GameOverState extends State {
 
 		sb.begin();
 
-		GameUtils.render(stateName, sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT * 0.3f);
+		GameUtils.renderCenter(stateName, sb, bitmapFont);
 
+		float posY = GameConstants.SCREEN_HEIGHT / 2.4f;
+		float marginY = GameConstants.GRID_HEIGHT / 1.5f;
+
+		GameUtils.renderCenterWithY("YIGIT KILIC - GRAPHIC DESIGNER", sb, textFont, posY);
+		posY += marginY;
+		GameUtils.renderCenterWithY("ALI HAYDAR ATIL - DEVELOPER ", sb, textFont, posY);
+		posY += marginY;
+		GameUtils.renderCenterWithY("https://www.flaticon.com/authors/freepik", sb, textFont, posY);
+		posY += marginY;
+		GameUtils.renderCenterWithY("JAVAKAIAN - DEVELOPER", sb, textFont, posY);
 		for (OButton oButton : menuItems) {
 			oButton.render(sb);
 		}
@@ -82,22 +93,19 @@ public class GameOverState extends State {
 
 	private void initButtons() {
 
-		float positionX = GameConstants.GRID_WIDTH * 4.5f;
-		float positionY = GameConstants.GRID_HEIGHT * 5;
 		float width = GameConstants.GRID_WIDTH * 1.5f;
 		float height = GameConstants.GRID_HEIGHT * 1.5f;
 
-		float space = GameConstants.GRID_WIDTH * 5.0f;
+		float positionX = GameConstants.SCREEN_WIDTH / 2 - width / 2;
+		float positionY = GameConstants.GRID_HEIGHT * 7;
 
-		btnReplay = new OButton(positionX, positionY, width, height);
-		btnReplay.setIcon(MyAtlas.REPLAY_BUTTON);
-		btnReplay.setPressedIcon(MyAtlas.REPLAY_BUTTON_PRESSED);
+		float space = GameConstants.GRID_WIDTH * 3.0f;
+
+		btnBack = new MenuItem(positionX, positionY, width, height);
+		btnBack.setIcon(MyAtlas.MENU_BUTTON);
+		btnBack.setPressedIcon(MyAtlas.MENU_BUTTON_PRESSED);
 
 		positionX += space;
-
-		btnMenu = new OButton(positionX, positionY, width, height);
-		btnMenu.setIcon(MyAtlas.MENU_BUTTON);
-		btnMenu.setPressedIcon(MyAtlas.MENU_BUTTON_PRESSED);
 
 	}
 
@@ -121,57 +129,33 @@ public class GameOverState extends State {
 		}
 	}
 
+	@Override
+	public void updateInputs(float x, float y) {
+
+	}
+
 	private void setListeners() {
 
-		btnReplay.setButtonListener(new OButtonListener() {
+		btnBack.setButtonListener(new OButtonListener() {
 
 			@Override
 			public void touchRelease(float x, float y) {
 				// TODO Auto-generated method stub
-				if (btnReplay.getBoundRect().contains(x, y)) {
-					getStateController().setState(StateEnum.PlayState);
-				}
-			}
-
-			@Override
-			public void touchDown(float x, float y) {
-				System.out.println("btn play touch down");
-			}
-
-			@Override
-			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		btnMenu.setButtonListener(new OButtonListener() {
-
-			@Override
-			public void touchRelease(float x, float y) {
-				// TODO Auto-generated method stub
-				if (btnMenu.getBoundRect().contains(x, y)) {
+				if (btnBack.getBoundRect().contains(x, y)) {
 					getStateController().setState(StateEnum.MenuState);
 				}
 			}
 
 			@Override
 			public void touchDown(float x, float y) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void dragged(float x, float y) {
+				// TODO Auto-generated method stub
 
 			}
 		});
-
-	}
-
-	@Override
-	public void updateInputs(float x, float y) {
-		// TODO Auto-generated method stub
 
 	}
 

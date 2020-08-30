@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.map.GameConstants;
-import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.entity.Bullet;
+import com.javakaian.game.entity.Enemy;
+import com.javakaian.game.entity.GameObject;
+import com.javakaian.game.util.GameConstants;
 
 public abstract class BaseTower extends GameObject {
 
@@ -25,7 +26,7 @@ public abstract class BaseTower extends GameObject {
 	protected float rotation = 0;
 	protected float damage;
 
-	protected float attackSpeed = 2f; // time times per second.
+	public float attackSpeed = 2f; // times per second.
 	protected float speedCounter = 0;
 
 	protected boolean ice;
@@ -34,6 +35,13 @@ public abstract class BaseTower extends GameObject {
 	protected int rangePrice;
 	protected int attackPrice;
 	protected int speedPrice;
+
+	protected TowerType type;
+
+	public enum TowerType {
+
+		ELECTRIC, FIRE, ICE
+	}
 
 	protected boolean doubleSpeed = false;
 
@@ -57,7 +65,6 @@ public abstract class BaseTower extends GameObject {
 		if (isSelected) {
 			sr.circle(center.x, center.y, range);
 		}
-		// sr.rect(position.x, position.y, size.x, size.y);
 		for (Bullet bullet : bulletList) {
 			bullet.render(sr);
 		}
@@ -73,7 +80,7 @@ public abstract class BaseTower extends GameObject {
 		} else if (isInRange() && isTargetAlive()) {
 
 			calculateRotation();
-			shoot(deltaTime);
+			invokeShootFunctions(deltaTime);
 			removeBullets();
 		}
 		for (Bullet bullet : bulletList) {
@@ -98,43 +105,24 @@ public abstract class BaseTower extends GameObject {
 	}
 
 	private void calculateRotation() {
-		Vector2 temp = new Vector2(position.x, position.y);
-		float angle = temp.sub(target.center).angle() + 180;
+
+		Vector2 temp = new Vector2(target.center).sub(center);
+		float angle = temp.angle() + 90f;
 		rotation = angle;
 	}
 
-	public void shoot(float deltaTime) {
+	public abstract void projectileShoot();
 
+	public abstract void contiuniousShoot();
+
+	private void invokeShootFunctions(float deltaTime) {
+
+		contiuniousShoot();
 		speedCounter += deltaTime;
 		if (speedCounter >= 1 / attackSpeed) {
 			speedCounter = 0;
-
-			if (ice) {
-				bulletList.add(new Bullet(center.x, center.y, target, damage, EnumBulletType.ICE_BULLET));
-			} else {
-				bulletList.add(new Bullet(center.x, center.y, target, damage, EnumBulletType.FIRE_BULLET));
-			}
+			projectileShoot();
 		}
-	}
-
-	private void shoot_area(float deltaTime) {
-
-		speedCounter += deltaTime;
-		if (speedCounter >= 1 / attackSpeed) {
-			speedCounter = 0;
-
-			if (ice) {
-				Sound s = MyAtlas.shootSoundIce;
-				s.play(1f);
-
-				bulletList.add(new Bullet(position.x, position.y, target, damage, EnumBulletType.ICE_BULLET));
-			} else {
-				Sound s = MyAtlas.shootSound;
-				s.play(0.01f);
-				bulletList.add(new Bullet(position.x, position.y, target, damage, EnumBulletType.FIRE_BULLET));
-			}
-		}
-
 	}
 
 	private void removeBullets() {
@@ -144,7 +132,6 @@ public abstract class BaseTower extends GameObject {
 			if (!bullet.isVisible()) {
 				tempList.add(bullet);
 			}
-
 		}
 		bulletList.removeAll(tempList);
 
@@ -159,7 +146,7 @@ public abstract class BaseTower extends GameObject {
 	}
 
 	private boolean isInRange() {
-		float distance = position.dst(target.position);
+		float distance = center.dst(target.position);
 		if (distance > range) {
 			target = null;
 		}
@@ -170,7 +157,7 @@ public abstract class BaseTower extends GameObject {
 	private void findTarget() {
 		HashMap<Enemy, Float> enemyMap = new HashMap<>();
 		for (Enemy enemy : enemyList) {
-			float distance = position.dst(enemy.position);
+			float distance = center.dst(enemy.position);
 			if (distance <= range && enemy.isAlive()) {
 				enemyMap.put(enemy, distance);
 			}
@@ -178,15 +165,23 @@ public abstract class BaseTower extends GameObject {
 		Collection<Float> values = enemyMap.values();
 		if (!values.isEmpty()) {
 
-			float loest = Collections.min(values);
+			float lowest = Collections.min(values);
 
 			for (Entry<Enemy, Float> entry : enemyMap.entrySet()) {
-				if (entry.getValue().equals(loest)) {
+				if (entry.getValue().equals(lowest)) {
 					target = entry.getKey();
 				}
 			}
 
 		}
+	}
+
+	public void setType(TowerType type) {
+		this.type = type;
+	}
+
+	public TowerType getType() {
+		return type;
 	}
 
 	public float getRange() {
@@ -217,14 +212,15 @@ public abstract class BaseTower extends GameObject {
 		doubleSpeed = false;
 	}
 
-	public void increaseDamage(float damage) {
-		this.damage += damage;
+	public void increaseDamage() {
+		this.damage += 1;
 		attackPrice += 1;
 	}
 
 	public void increaseRange(float range) {
 		this.range += range;
 		rangePrice += 1;
+
 	}
 
 	public void increaseSpeed() {

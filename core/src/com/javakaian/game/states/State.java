@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.map.GameConstants;
-import com.javakaian.game.map.GameUtils;
+import com.javakaian.game.util.GameConstants;
+import com.javakaian.game.util.GameUtils;
 
 public abstract class State {
 
@@ -51,4 +51,11 @@ public abstract class State {
 	public abstract void update(float deltaTime);
 
 	public abstract void updateInputs(float x, float y);
+
+	public enum StateEnum {
+
+		PlayState, PauseState, MenuState, GameOverState, CreditsState
+
+	}
+
 }

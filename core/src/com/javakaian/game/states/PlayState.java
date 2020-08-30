@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 import com.javakaian.game.input.PlayStateInput;
 import com.javakaian.game.level.Level;
+import com.javakaian.game.resources.MyAtlas;
 
 public class PlayState extends State {
 
@@ -15,6 +16,9 @@ public class PlayState extends State {
 		super(stateController);
 		level = new Level(this, bitmapFont, glipLayout);
 		inputProcessor = new PlayStateInput(this);
+
+		MyAtlas.CURRENT_MUSIC = MyAtlas.GAME_PLAY_MUSIC;
+		// MyAtlas.CURRENT_MUSIC.play();
 	}
 
 	@Override
@@ -46,8 +50,9 @@ public class PlayState extends State {
 	}
 
 	public void gameOver() {
+
 		level.restart();
-		stateController.setState(StateEnum.GameOver);
+		stateController.setState(StateEnum.GameOverState);
 	}
 
 	public void pause() {
@@ -63,6 +68,13 @@ public class PlayState extends State {
 
 		Vector3 unprojected = camera.unproject(new Vector3(x, y, 1));
 		level.updateInputs(unprojected.x, unprojected.y);
+	}
+
+	public void restart() {
+		MyAtlas.CURRENT_MUSIC.stop();
+		MyAtlas.CURRENT_MUSIC = MyAtlas.GAME_PLAY_MUSIC;
+		MyAtlas.CURRENT_MUSIC.play();
+		level.restart();
 	}
 
 }

@@ -7,20 +7,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.map.EnumGridType;
-import com.javakaian.game.map.GameConstants;
-import com.javakaian.game.map.GameUtils;
+import com.javakaian.game.controllers.EnemyController;
+import com.javakaian.game.controllers.TowerController;
+import com.javakaian.game.entity.Entity;
+import com.javakaian.game.map.Grid;
+import com.javakaian.game.map.Grid.EnumGridType;
 import com.javakaian.game.map.Map;
-import com.javakaian.game.menu.Entity;
-import com.javakaian.game.menu.HeaderMenu;
-import com.javakaian.game.menu.TowerSelectionMenu;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.states.PlayState;
-import com.javakaian.game.states.StateEnum;
+import com.javakaian.game.states.State.StateEnum;
 import com.javakaian.game.towers.BaseTower;
-import com.javakaian.game.towers.EnemyController;
-import com.javakaian.game.towers.Grid;
-import com.javakaian.game.towers.TowerController;
+import com.javakaian.game.ui.menu.InformationMenu;
+import com.javakaian.game.ui.menu.TowerSelectionMenu;
+import com.javakaian.game.util.GameConstants;
+import com.javakaian.game.util.GameUtils;
 
 public class Level implements Entity {
 
@@ -29,7 +29,7 @@ public class Level implements Entity {
 
 	private Map map;
 	private TowerSelectionMenu towerSelectionMenu;
-	private HeaderMenu headerMenu;
+	private InformationMenu informationMenu;
 
 	private int enemyNumber;
 	private int enemyHealth;
@@ -37,7 +37,6 @@ public class Level implements Entity {
 	private int money;
 	private int remainingHealth;
 	private BitmapFont bitmapFont;
-	private GlyphLayout glyphLayout;
 	private PlayState state;
 
 	private int timeLeft;
@@ -47,7 +46,6 @@ public class Level implements Entity {
 	public Level(PlayState state, BitmapFont bitmapFont, GlyphLayout glyphLayout) {
 		this.state = state;
 		this.bitmapFont = GameUtils.generateBitmapFont(80, Color.BLACK);
-		this.glyphLayout = glyphLayout;
 		init();
 
 	}
@@ -63,16 +61,17 @@ public class Level implements Entity {
 		map = new Map();
 		enemyController = new EnemyController(this);
 
-		towerController = new TowerController();
+		towerController = new TowerController(this);
 
 		// initiliase menu and update its texts
-		headerMenu = new HeaderMenu(MyAtlas.PATH_GREY1);
-		headerMenu.fireMoneyChanged(money);
+		informationMenu = new InformationMenu(MyAtlas.MENU);
+		informationMenu.fireMoneyChanged(money);
 
 		towerSelectionMenu = new TowerSelectionMenu(this);
 		towerSelectionMenu.fireEnemyNumberChanged(enemyNumber);
 		towerSelectionMenu.fireHealthChanged(remainingHealth);
-		towerSelectionMenu.fireMoneyChanged(money);
+		towerSelectionMenu.fireMoneyChangedForMenuItems(money);
+		towerSelectionMenu.fireMoneyChangedForMenuProps(money);
 		towerSelectionMenu.initButtonStates();
 	}
 
@@ -91,7 +90,7 @@ public class Level implements Entity {
 		enemyController.render(sb);
 		towerController.render(sb);
 		towerSelectionMenu.render(sb);
-		headerMenu.render(sb);
+		informationMenu.render(sb);
 		if (renderTimeAndWaveNumber) {
 			GameUtils.renderCenter(
 					"Wave: " + String.valueOf(waveNumber) + " in: " + String.valueOf(timeLeft) + " second", sb,
@@ -129,7 +128,7 @@ public class Level implements Entity {
 				case TOWER:
 					System.out.println("CAN NOT BUILD TOWER ALREADY EXIST");
 					break;
-				case GRASS:
+				case LAND:
 
 					if (canBuildTower()) {
 						towerController.createFireTower(grid.getPosition().x, grid.getPosition().y,
@@ -162,7 +161,7 @@ public class Level implements Entity {
 				case TOWER:
 					System.out.println("CAN NOT BUILD TOWER ALREADY EXIST");
 					break;
-				case GRASS:
+				case LAND:
 
 					if (canBuildTower()) {
 						towerController.createElectricTower(grid.getPosition().x, grid.getPosition().y,
@@ -195,7 +194,7 @@ public class Level implements Entity {
 				case TOWER:
 					System.out.println("CAN NOT BUILD TOWER ALREADY EXIST");
 					break;
-				case GRASS:
+				case LAND:
 
 					if (canBuildTower()) {
 						towerController.createIceTower(grid.getPosition().x, grid.getPosition().y,
@@ -233,6 +232,7 @@ public class Level implements Entity {
 		score += GameConstants.SCORE_INCREASE_CONSTANT;
 		enemyNumber -= 1;
 		money += bounty;
+		fireScoreChanged();
 		fireMoneyChanged();
 		fireEnemyNumberChanged();
 	}
@@ -246,11 +246,8 @@ public class Level implements Entity {
 	public void touchDown(float x, float y) {
 
 		if (towerSelectionMenu.getBoundaryRect().contains(x, y)) {
-
 			towerSelectionMenu.touchDown(x, y);
-
 		} else {
-			// towerSelectionMenu.clearSelectedMenuItem();
 			selectGrid(x, y);
 		}
 
@@ -271,21 +268,17 @@ public class Level implements Entity {
 				switch (grid.getType()) {
 				case TOWER:
 					BaseTower t = towerController.getTower(grid.getPosition());
-
 					// update header and towerselection menu informations
-					fireDamagePriceChanged(t.getAttackPrice());
-					fireRangePriceChanged(t.getRangePrice());
-					fireAttackSpeedPriceChanged(t.getSpeedPrice());
-					headerMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
-
+					fireTowerSelectedEvent(t);
 					break;
-				case GRASS:
+				case LAND:
 					towerController.clearSelectedTower();
-					towerSelectionMenu.disableAllMenuItems();
+					informationMenu.clearInformations();
+					towerSelectionMenu.clearSelectedTower();
 					break;
 				case PATH:
 					towerController.clearSelectedTower();
-					towerSelectionMenu.disableAllMenuItems();
+					towerSelectionMenu.clearSelectedTower();
 					System.out.println("CAN NOT BUILD TO THE PATH");
 					break;
 
@@ -320,7 +313,6 @@ public class Level implements Entity {
 			money -= t.getAttackPrice();
 			fireMoneyChanged();
 			towerController.increaseAttack();
-			fireDamagePriceChanged(t.getAttackPrice());
 		}
 
 	}
@@ -331,7 +323,6 @@ public class Level implements Entity {
 			money -= t.getRangePrice();
 			fireMoneyChanged();
 			towerController.increaseRange();
-			fireRangePriceChanged(t.getRangePrice());
 		}
 
 	}
@@ -343,7 +334,6 @@ public class Level implements Entity {
 			money -= t.getSpeedPrice();
 			fireMoneyChanged();
 			towerController.increaseSpeed();
-			fireAttackSpeedPriceChanged(t.getSpeedPrice());
 		}
 	}
 
@@ -369,14 +359,19 @@ public class Level implements Entity {
 		enemyController.normalSpeedClicked();
 	}
 
-	public int getMoney() {
-		return money;
-	}
-
 	public void nextWaveCountDown(int i) {
 		this.timeLeft = i;
 		renderTimeAndWaveNumber = true;
 
+	}
+
+	private void fireTowerSelectedEvent(BaseTower t) {
+		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
+		towerSelectionMenu.updatePropertyButtons(t.getAttackPrice(), t.getRangePrice(), t.getSpeedPrice());
+	}
+
+	private void fireScoreChanged() {
+		informationMenu.fireScoreChanged(this.score);
 	}
 
 	private void fireHealthChanged() {
@@ -388,35 +383,30 @@ public class Level implements Entity {
 	}
 
 	public void fireMoneyChanged() {
+		informationMenu.fireMoneyChanged(money);
+		towerSelectionMenu.fireMoneyChangedForMenuItems(money);
 		if (towerController.getSelectedTower() != null) {
-			towerSelectionMenu.fireMoneyChanged(this.money);
+			towerSelectionMenu.fireMoneyChangedForMenuProps(money);
 		}
-		headerMenu.fireMoneyChanged(this.money);
 	}
 
-	public void fireDamagePriceChanged(int price) {
-		if (towerController.getSelectedTower() != null) {
-			towerSelectionMenu.damagePriceChanged(price);
-		}
-
+	public void fireDamagePriceChanged(BaseTower t) {
+		towerSelectionMenu.damagePriceChanged(t.getAttackPrice());
+		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
 	}
 
-	public void fireRangePriceChanged(int price) {
-		if (towerController.getSelectedTower() != null) {
-			towerSelectionMenu.rangePriceChanged(price);
-		}
-
+	public void fireRangePriceChanged(BaseTower t) {
+		towerSelectionMenu.rangePriceChanged(t.getRangePrice());
+		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
 	}
 
-	public void fireAttackSpeedPriceChanged(int price) {
-		if (towerController.getSelectedTower() != null) {
-			towerSelectionMenu.attacSpeedPriceChanged(price);
-		}
-
+	public void fireAttackSpeedPriceChanged(BaseTower t) {
+		towerSelectionMenu.attacSpeedPriceChanged(t.getSpeedPrice());
+		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
 	}
 
-	public void returnTomenu() {
-		state.getStateController().setState(StateEnum.MenuState);
+	public void returnToMenuClicked() {
+		state.getStateController().setState(StateEnum.PauseState);
 	}
 
 }

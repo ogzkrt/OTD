@@ -3,7 +3,7 @@ package com.javakaian.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.javakaian.game.OTDGame;
-import com.javakaian.game.map.GameConstants;
+import com.javakaian.game.util.GameConstants;
 
 public class DesktopLauncher {
 	public static void main(String[] arg) {

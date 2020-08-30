@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.map.GameConstants;
+import com.javakaian.game.entity.Bullet;
+import com.javakaian.game.entity.Enemy;
+import com.javakaian.game.entity.Bullet.EnumBulletType;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.util.GameConstants;
 
 public class FireTower extends BaseTower {
 
@@ -20,13 +23,11 @@ public class FireTower extends BaseTower {
 
 	@Override
 	public void render(ShapeRenderer sr) {
-		// TODO Auto-generated method stub
 		super.render(sr);
 	}
 
 	@Override
 	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
 		super.render(sb);
 
 	}
@@ -36,4 +37,20 @@ public class FireTower extends BaseTower {
 		super.update(deltaTime);
 	}
 
+	@Override
+	public void increaseDamage() {
+		this.damage += 10;
+		this.attackPrice += 1;
+	}
+
+	@Override
+	public void projectileShoot() {
+
+		bulletList.add(new Bullet(center.x, center.y, target, damage, EnumBulletType.FIRE_BULLET));
+	}
+
+	@Override
+	public void contiuniousShoot() {
+
+	}
 }

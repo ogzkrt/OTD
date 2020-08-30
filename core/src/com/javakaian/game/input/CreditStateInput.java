@@ -1,17 +1,15 @@
 package com.javakaian.game.input;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import com.javakaian.game.states.PlayState;
-import com.javakaian.game.states.State.StateEnum;
+import com.javakaian.game.states.CreditState;
 
-public class PlayStateInput extends InputAdapter {
+public class CreditStateInput extends InputAdapter {
 
-	private PlayState state;
+	private CreditState state;
 
-	public PlayStateInput(PlayState state) {
+	public CreditStateInput(CreditState state) {
 
 		this.state = state;
 	}
@@ -31,15 +29,6 @@ public class PlayStateInput extends InputAdapter {
 		Vector3 unprojected = camera.unproject(new Vector3(screenX, screenY, 1));
 		state.touchRelease(unprojected.x, unprojected.y);
 		return super.touchUp(screenX, screenY, pointer, button);
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-
-		if (keycode == Keys.SPACE) {
-			state.getStateController().setState(StateEnum.GameOverState);
-		}
-		return super.keyDown(keycode);
 	}
 
 }

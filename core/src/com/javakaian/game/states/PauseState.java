@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.javakaian.game.input.MenuStateInput;
+import com.javakaian.game.input.PauseStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
@@ -15,23 +16,25 @@ import com.javakaian.game.ui.buttons.OToggleButtonListener;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
-public class MenuState extends State {
+public class PauseState extends State {
 
-	private String stateName = "MAIN MENU";
+	private String stateName = "Main Menu";
 
-	private OButton btnPlay;
+	private OButton btnResume;
+	private OButton btnRestart;
 	private OToggleButton btnMusic;
 	private OToggleButton btnSound;
-	private OButton btnCredits;
 
 	private OButton selectedButton;
 
 	private List<OButton> menuItems;
 
-	public MenuState(StateController stateController) {
+	public PauseState(StateController stateController) {
 		super(stateController);
 
-		inputProcessor = new MenuStateInput(this);
+		inputProcessor = new PauseStateInput(this);
+
+		bitmapFont = GameUtils.generateBitmapFont(80, Color.WHITE);
 
 		glipLayout.setText(bitmapFont, stateName);
 
@@ -42,10 +45,11 @@ public class MenuState extends State {
 
 		selectedButton = null;
 
-		menuItems.add(btnPlay);
+		menuItems.add(btnRestart);
+		menuItems.add(btnResume);
 		menuItems.add(btnSound);
 		menuItems.add(btnMusic);
-		menuItems.add(btnCredits);
+
 	}
 
 	@Override
@@ -56,6 +60,7 @@ public class MenuState extends State {
 		float blue = 94f;
 
 		Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
+
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		sr.begin(ShapeType.Line);
 
@@ -63,7 +68,9 @@ public class MenuState extends State {
 
 		sb.begin();
 
-		GameUtils.renderCenter(stateName, sb, bitmapFont);
+		GameUtils.render("PLANE DEFENCE", sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2,
+				GameConstants.SCREEN_HEIGHT * 0.3f);
+
 		for (OButton oButton : menuItems) {
 			oButton.render(sb);
 		}
@@ -83,27 +90,27 @@ public class MenuState extends State {
 
 	private void initButtons() {
 
-		float positionX = GameConstants.GRID_WIDTH * 4.5f;
+		float positionX = GameConstants.GRID_WIDTH * 3;
 		float positionY = GameConstants.GRID_HEIGHT * 5;
 		float width = GameConstants.GRID_WIDTH * 1.5f;
 		float height = GameConstants.GRID_HEIGHT * 1.5f;
 
 		float space = GameConstants.GRID_WIDTH * 3.0f;
 
-		btnPlay = new OButton(positionX, positionY, width, height);
-		btnPlay.setIcon(MyAtlas.MENU_PLAY);
-		btnPlay.setPressedIcon(MyAtlas.MENU_PLAY_PRESSED);
+		btnRestart = new OButton(positionX, positionY, width, height);
+		btnRestart.setIcon(MyAtlas.REPLAY_BUTTON);
+		btnRestart.setPressedIcon(MyAtlas.REPLAY_BUTTON_PRESSED);
+
+		positionX += space;
+
+		btnResume = new OButton(positionX, positionY, width, height);
+		btnResume.setIcon(MyAtlas.MENU_RESUME);
+		btnResume.setPressedIcon(MyAtlas.MENU_RESUME_PRESSED);
 
 		positionX += space;
 		btnSound = new OToggleButton(positionX, positionY, width, height);
 		btnSound.setIcon(MyAtlas.MENU_SOUND_ON);
 		btnSound.setPressedIcon(MyAtlas.MENU_SOUND_OFF);
-
-		btnCredits = new OButton(positionX, positionY + GameConstants.GRID_HEIGHT * 2, width, height);
-		btnCredits.setIcon(MyAtlas.CREDIT_BUTTON);
-		btnCredits.setPressedIcon(MyAtlas.CREDIT_BUTTON_PRESSED);
-		btnCredits.setText("CREDITS");
-		btnCredits.setTextPositionCenter(true);
 
 		positionX += space;
 		btnMusic = new OToggleButton(positionX, positionY, width, height);
@@ -130,16 +137,20 @@ public class MenuState extends State {
 		if (selectedButton != null) {
 			selectedButton.touchRelease(x, y);
 		}
+
 	}
 
 	private void setListeners() {
 
-		btnPlay.setButtonListener(new OButtonListener() {
+		btnRestart.setButtonListener(new OButtonListener() {
 
 			@Override
 			public void touchRelease(float x, float y) {
 				// TODO Auto-generated method stub
-				if (btnPlay.getBoundRect().contains(x, y)) {
+				if (btnRestart.getBoundRect().contains(x, y)) {
+
+					PlayState state = (PlayState) getStateController().getStateMap().get(StateEnum.PlayState.ordinal());
+					state.restart();
 					getStateController().setState(StateEnum.PlayState);
 				}
 			}
@@ -147,6 +158,30 @@ public class MenuState extends State {
 			@Override
 			public void touchDown(float x, float y) {
 				System.out.println("btn play touch down");
+			}
+
+			@Override
+			public void dragged(float x, float y) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		btnResume.setButtonListener(new OButtonListener() {
+
+			@Override
+			public void touchRelease(float x, float y) {
+
+				if (btnResume.getBoundRect().contains(x, y)) {
+					System.out.println("btn resume release");
+					getStateController().setState(StateEnum.PlayState);
+				}
+			}
+
+			@Override
+			public void touchDown(float x, float y) {
+				// TODO Auto-generated method stub
+				System.out.println("btn resume  touch down");
 			}
 
 			@Override
@@ -169,29 +204,11 @@ public class MenuState extends State {
 			@Override
 			public void toggled(boolean isToggled) {
 
-			}
-		});
-
-		btnCredits.setButtonListener(new OButtonListener() {
-
-			@Override
-			public void touchRelease(float x, float y) {
-
-				if (btnCredits.getBoundRect().contains(x, y)) {
-
-					getStateController().setState(StateEnum.CreditsState);
+				if (MyAtlas.CURRENT_MUSIC.isPlaying()) {
+					MyAtlas.CURRENT_MUSIC.pause();
+				} else {
+					MyAtlas.CURRENT_MUSIC.play();
 				}
-			}
-
-			@Override
-			public void touchDown(float x, float y) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -203,5 +220,4 @@ public class MenuState extends State {
 		// TODO Auto-generated method stub
 
 	}
-
 }

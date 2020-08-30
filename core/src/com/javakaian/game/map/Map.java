@@ -6,8 +6,9 @@ import java.util.Set;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.menu.Entity;
-import com.javakaian.game.towers.Board;
+import com.javakaian.game.entity.Board;
+import com.javakaian.game.entity.Entity;
+import com.javakaian.game.map.MapMaker.Direction;
 
 public class Map implements Entity {
 
