@@ -86,10 +86,10 @@ public class EnemyController {
 		spawnTime += Gdx.graphics.getDeltaTime();
 		if (spawnTime >= spawnPeriod) {
 			spawnTime = 0;
-			if (count != enemyNumberLimit) {
+			if (count < enemyNumberLimit) {
 				Vector2 p = map.getStartingPoint();
 				enemyList
-						.add(new Enemy(GameConstants.GRID_WIDTH * p.x + GameConstants.ENEMY_WIDTH / 2,
+						.add(new Enemy(p.x - GameConstants.GRID_WIDTH + GameConstants.ENEMY_WIDTH / 2,
 								GameConstants.GRID_HEIGHT * p.y + GameConstants.GRID_HEIGHT
 										+ GameConstants.ENEMY_HEIGHT / 2,
 								GameConstants.ENEMY_WIDTH, GameConstants.ENEMY_HEIGHT, health, directionList, bounty,

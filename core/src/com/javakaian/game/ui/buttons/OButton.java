@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameUtils;
 
@@ -88,6 +89,7 @@ public class OButton {
 	public void touchDown(float x, float y) {
 		if (enable) {
 			isSelected = true;
+			MusicHandler.playClickSound();
 			buttonListener.touchDown(x, y);
 		}
 	}

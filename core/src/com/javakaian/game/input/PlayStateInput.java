@@ -1,11 +1,9 @@
 package com.javakaian.game.input;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.javakaian.game.states.PlayState;
-import com.javakaian.game.states.State.StateEnum;
 
 public class PlayStateInput extends InputAdapter {
 
@@ -34,12 +32,14 @@ public class PlayStateInput extends InputAdapter {
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
-
-		if (keycode == Keys.SPACE) {
-			state.getStateController().setState(StateEnum.GameOverState);
+	public boolean scrolled(int amount) {
+		if (amount == 1) {
+			state.getCamera().zoom += 1;
+			System.out.println(state.getCamera().zoom);
+		} else {
+			state.getCamera().zoom -= 1;
+			System.out.println(state.getCamera().zoom);
 		}
-		return super.keyDown(keycode);
+		return super.scrolled(amount);
 	}
-
 }

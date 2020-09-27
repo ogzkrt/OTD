@@ -2,6 +2,7 @@ package com.javakaian.game.states;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
 import com.javakaian.game.states.State.StateEnum;
@@ -12,9 +13,12 @@ public class StateController {
 
 	private State currentState;
 
+	private Stack<StateEnum> stateStack;
+
 	public StateController() {
 
 		stateMap = new HashMap<Integer, State>();
+		stateStack = new Stack<StateEnum>();
 	}
 
 	public void setState(StateEnum stateEnum) {
@@ -28,20 +32,25 @@ public class StateController {
 			case GameOverState:
 				currentState = new GameOverState(this);
 				break;
-			case PauseState:
-				currentState = new PauseState(this);
-				break;
 			case MenuState:
 				currentState = new MenuState(this);
+				break;
+			case OptionState:
+				currentState = new OptionsState(this);
 				break;
 			case CreditsState:
 				currentState = new CreditState(this);
 				break;
+			case PauseState:
+				currentState = new PauseState(this);
+				break;
+
 			default:
 				break;
 			}
 		}
 		stateMap.put(stateEnum.ordinal(), currentState);
+		stateStack.push(stateEnum);
 		Gdx.input.setInputProcessor(currentState.inputProcessor);
 	}
 
@@ -59,4 +68,13 @@ public class StateController {
 	public Map<Integer, State> getStateMap() {
 		return stateMap;
 	}
+
+	public StateEnum popState() {
+		return stateStack.pop();
+	}
+
+	public StateEnum peek() {
+		return stateStack.peek();
+	}
+
 }

@@ -143,21 +143,21 @@ btn_remake_pressed
   orig: 256, 256
   offset: 0, 0
   index: -1
-credit_button
+electric_tower
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-credit_button_pressed
+empty_button
   rotate: false
   xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-electric_tower
+empty_button_pressed
   rotate: false
   xy: 518, 260
   size: 256, 256

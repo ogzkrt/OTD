@@ -38,6 +38,8 @@ public abstract class BaseTower extends GameObject {
 
 	protected TowerType type;
 
+	protected HashMap<Enemy, Float> enemyMap;
+
 	public enum TowerType {
 
 		ELECTRIC, FIRE, ICE
@@ -74,7 +76,7 @@ public abstract class BaseTower extends GameObject {
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-
+		updateTargetMap();
 		if (target == null) {
 			findTarget();
 		} else if (isInRange() && isTargetAlive()) {
@@ -90,7 +92,6 @@ public abstract class BaseTower extends GameObject {
 
 	public void render(SpriteBatch sb) {
 
-		// origin is bottom left for the texture objects.
 		if (isSelected) {
 
 			sb.draw(spriteSelected, position.x, position.y, size.x / 2, size.y / 2, size.x, size.y, 1, 1, rotation);
@@ -102,6 +103,7 @@ public abstract class BaseTower extends GameObject {
 		for (Bullet bullet : bulletList) {
 			bullet.render(sb);
 		}
+
 	}
 
 	private void calculateRotation() {
@@ -115,11 +117,15 @@ public abstract class BaseTower extends GameObject {
 
 	public abstract void contiuniousShoot();
 
+	public abstract void onTargetFound();
+
+	public abstract void onTargetLost();
+
 	private void invokeShootFunctions(float deltaTime) {
 
 		contiuniousShoot();
 		speedCounter += deltaTime;
-		if (speedCounter >= 1 / attackSpeed) {
+		if (speedCounter >= 1.0f / attackSpeed) {
 			speedCounter = 0;
 			projectileShoot();
 		}
@@ -139,7 +145,7 @@ public abstract class BaseTower extends GameObject {
 
 	private boolean isTargetAlive() {
 		if (!target.isAlive()) {
-			target = null;
+			setTarget(null);
 			return false;
 		}
 		return true;
@@ -148,20 +154,27 @@ public abstract class BaseTower extends GameObject {
 	private boolean isInRange() {
 		float distance = center.dst(target.position);
 		if (distance > range) {
-			target = null;
+			setTarget(null);
 		}
 		return distance <= range;
 
 	}
 
-	private void findTarget() {
-		HashMap<Enemy, Float> enemyMap = new HashMap<>();
+	private void updateTargetMap() {
+		enemyMap = new HashMap<>();
 		for (Enemy enemy : enemyList) {
 			float distance = center.dst(enemy.position);
 			if (distance <= range && enemy.isAlive()) {
 				enemyMap.put(enemy, distance);
+			} else {
+				enemyMap.remove(enemy);
 			}
 		}
+
+	}
+
+	private void findTarget() {
+
 		Collection<Float> values = enemyMap.values();
 		if (!values.isEmpty()) {
 
@@ -170,10 +183,25 @@ public abstract class BaseTower extends GameObject {
 			for (Entry<Enemy, Float> entry : enemyMap.entrySet()) {
 				if (entry.getValue().equals(lowest)) {
 					target = entry.getKey();
+					setTarget(entry.getKey());
 				}
 			}
 
 		}
+	}
+
+	public void setTarget(Enemy target) {
+		if (target == null) {
+			onTargetLost();
+			this.target = null;
+		} else {
+			this.target = target;
+			onTargetFound();
+		}
+	}
+
+	public Enemy getTarget() {
+		return target;
 	}
 
 	public void setType(TowerType type) {

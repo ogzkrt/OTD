@@ -7,11 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.input.MenuStateInput;
+import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.buttons.OToggleButton;
-import com.javakaian.game.ui.buttons.OToggleButtonListener;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -20,8 +19,7 @@ public class MenuState extends State {
 	private String stateName = "MAIN MENU";
 
 	private OButton btnPlay;
-	private OToggleButton btnMusic;
-	private OToggleButton btnSound;
+	private OButton btnOptions;
 	private OButton btnCredits;
 
 	private OButton selectedButton;
@@ -43,8 +41,7 @@ public class MenuState extends State {
 		selectedButton = null;
 
 		menuItems.add(btnPlay);
-		menuItems.add(btnSound);
-		menuItems.add(btnMusic);
+		menuItems.add(btnOptions);
 		menuItems.add(btnCredits);
 	}
 
@@ -83,7 +80,7 @@ public class MenuState extends State {
 
 	private void initButtons() {
 
-		float positionX = GameConstants.GRID_WIDTH * 4.5f;
+		float positionX = GameConstants.GRID_WIDTH * 4f;
 		float positionY = GameConstants.GRID_HEIGHT * 5;
 		float width = GameConstants.GRID_WIDTH * 1.5f;
 		float height = GameConstants.GRID_HEIGHT * 1.5f;
@@ -95,20 +92,18 @@ public class MenuState extends State {
 		btnPlay.setPressedIcon(MyAtlas.MENU_PLAY_PRESSED);
 
 		positionX += space;
-		btnSound = new OToggleButton(positionX, positionY, width, height);
-		btnSound.setIcon(MyAtlas.MENU_SOUND_ON);
-		btnSound.setPressedIcon(MyAtlas.MENU_SOUND_OFF);
-
-		btnCredits = new OButton(positionX, positionY + GameConstants.GRID_HEIGHT * 2, width, height);
-		btnCredits.setIcon(MyAtlas.CREDIT_BUTTON);
-		btnCredits.setPressedIcon(MyAtlas.CREDIT_BUTTON_PRESSED);
-		btnCredits.setText("CREDITS");
-		btnCredits.setTextPositionCenter(true);
+		btnOptions = new OButton(positionX, positionY, width, height);
+		btnOptions.setIcon(MyAtlas.EMPTY_BUTTON);
+		btnOptions.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+		btnOptions.setText("OPTIONS");
+		btnOptions.setTextPositionCenter(true);
 
 		positionX += space;
-		btnMusic = new OToggleButton(positionX, positionY, width, height);
-		btnMusic.setIcon(MyAtlas.MENU_MUSIC_ON);
-		btnMusic.setPressedIcon(MyAtlas.MENU_MUSIC_OFF);
+		btnCredits = new OButton(positionX, positionY, width, height);
+		btnCredits.setIcon(MyAtlas.EMPTY_BUTTON);
+		btnCredits.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+		btnCredits.setText("CREDITS");
+		btnCredits.setTextPositionCenter(true);
 
 	}
 
@@ -141,6 +136,8 @@ public class MenuState extends State {
 				// TODO Auto-generated method stub
 				if (btnPlay.getBoundRect().contains(x, y)) {
 					getStateController().setState(StateEnum.PlayState);
+					MusicHandler.playBackgroundMusic();
+					MusicHandler.stopMenuMusic();
 				}
 			}
 
@@ -156,18 +153,25 @@ public class MenuState extends State {
 			}
 		});
 
-		btnSound.setToggleListener(new OToggleButtonListener() {
+		btnOptions.setButtonListener(new OButtonListener() {
 
 			@Override
-			public void toggled(boolean isToggled) {
+			public void touchRelease(float x, float y) {
+
+				if (btnOptions.getBoundRect().contains(x, y)) {
+					getStateController().setState(StateEnum.OptionState);
+				}
+			}
+
+			@Override
+			public void touchDown(float x, float y) {
+				// TODO Auto-generated method stub
 
 			}
-		});
-
-		btnMusic.setToggleListener(new OToggleButtonListener() {
 
 			@Override
-			public void toggled(boolean isToggled) {
+			public void dragged(float x, float y) {
+				// TODO Auto-generated method stub
 
 			}
 		});

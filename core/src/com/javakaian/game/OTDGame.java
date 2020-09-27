@@ -3,19 +3,23 @@ package com.javakaian.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.states.State.StateEnum;
 import com.javakaian.game.states.StateController;
 
 public class OTDGame extends ApplicationAdapter {
+
 	private StateController stateController;
 
 	@Override
 	public void create() {
 
+		MusicHandler.init();
 		MyAtlas.init();
 		stateController = new StateController();
 		stateController.setState(StateEnum.MenuState);
+		MusicHandler.playMenuMusic();
 	}
 
 	@Override

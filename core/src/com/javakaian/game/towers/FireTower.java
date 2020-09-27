@@ -5,12 +5,14 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.entity.Bullet;
-import com.javakaian.game.entity.Enemy;
 import com.javakaian.game.entity.Bullet.EnumBulletType;
+import com.javakaian.game.entity.Enemy;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
 
 public class FireTower extends BaseTower {
+
+	private long soundId;
 
 	public FireTower(float x, float y, float width, float height, List<Enemy> enemyList) {
 		super(x, y, width, height, enemyList);
@@ -52,5 +54,14 @@ public class FireTower extends BaseTower {
 	@Override
 	public void contiuniousShoot() {
 
+	}
+
+	@Override
+	public void onTargetFound() {
+		// long id = MusicHandler.fireShoot.loop();
+	}
+
+	@Override
+	public void onTargetLost() {
 	}
 }

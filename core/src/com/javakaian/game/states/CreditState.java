@@ -12,7 +12,6 @@ import com.javakaian.game.input.CreditStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.menu.MenuItem;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -33,6 +32,8 @@ public class CreditState extends State {
 
 		inputProcessor = new CreditStateInput(this);
 
+		bitmapFont = GameUtils.generateBitmapFont(100, Color.WHITE);
+
 		glipLayout.setText(bitmapFont, stateName);
 
 		menuItems = new ArrayList<OButton>();
@@ -45,6 +46,7 @@ public class CreditState extends State {
 		menuItems.add(btnBack);
 
 		textFont = GameUtils.generateBitmapFont(30, Color.GRAY);
+
 	}
 
 	@Override
@@ -55,12 +57,15 @@ public class CreditState extends State {
 		float blue = 94f;
 
 		Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
+
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		sr.begin(ShapeType.Line);
 
 		sr.end();
 
 		sb.begin();
+
+		GameUtils.render(stateName, sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT * 0.3f);
 
 		GameUtils.renderCenter(stateName, sb, bitmapFont);
 
@@ -74,6 +79,7 @@ public class CreditState extends State {
 		GameUtils.renderCenterWithY("https://www.flaticon.com/authors/freepik", sb, textFont, posY);
 		posY += marginY;
 		GameUtils.renderCenterWithY("JAVAKAIAN - DEVELOPER", sb, textFont, posY);
+
 		for (OButton oButton : menuItems) {
 			oButton.render(sb);
 		}
@@ -93,19 +99,18 @@ public class CreditState extends State {
 
 	private void initButtons() {
 
+		float positionX = GameConstants.GRID_WIDTH * 4.5f;
+		float positionY = GameConstants.GRID_HEIGHT * 5;
 		float width = GameConstants.GRID_WIDTH * 1.5f;
 		float height = GameConstants.GRID_HEIGHT * 1.5f;
 
-		float positionX = GameConstants.SCREEN_WIDTH / 2 - width / 2;
-		float positionY = GameConstants.GRID_HEIGHT * 7;
-
 		float space = GameConstants.GRID_WIDTH * 3.0f;
 
-		btnBack = new MenuItem(positionX, positionY, width, height);
-		btnBack.setIcon(MyAtlas.MENU_BUTTON);
-		btnBack.setPressedIcon(MyAtlas.MENU_BUTTON_PRESSED);
-
-		positionX += space;
+		btnBack = new OButton(positionX + space, positionY + GameConstants.GRID_HEIGHT * 2, width, height);
+		btnBack.setIcon(MyAtlas.EMPTY_BUTTON);
+		btnBack.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+		btnBack.setText("BACK");
+		btnBack.setTextPositionCenter(true);
 
 	}
 
@@ -129,11 +134,6 @@ public class CreditState extends State {
 		}
 	}
 
-	@Override
-	public void updateInputs(float x, float y) {
-
-	}
-
 	private void setListeners() {
 
 		btnBack.setButtonListener(new OButtonListener() {
@@ -148,14 +148,21 @@ public class CreditState extends State {
 
 			@Override
 			public void touchDown(float x, float y) {
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
 
 			}
 		});
+
+	}
+
+	@Override
+	public void updateInputs(float x, float y) {
+		// TODO Auto-generated method stub
 
 	}
 

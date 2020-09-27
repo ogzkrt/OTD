@@ -1,60 +1,89 @@
 package com.javakaian.game.resources;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class MusicHandler {
 
-	public Sound fireShoot;
-	public Sound iceShoot;
-	public Sound electrikShoot;
-	public Sound buttonClick;
+	private static Sound clickSound;
+	private static Sound deadSound;
+	private static Music gamePlayMusic;
+	private static Music gameOverMusic;
+	private static Music menuMusic;
+	public static Music em;
 
-	public Music gamePlayMusic;
-	public Music menuMusic;
-	public Music gameOverMusic;
+	public static boolean soundOn = true;
 
-	private static MusicHandler instance;
+	public static void init() {
 
-	private Set<Long> soundMap;
+		clickSound = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
+		deadSound = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
 
-	private MusicHandler() {
+		gamePlayMusic = Gdx.audio.newMusic(Gdx.files.internal("gameplay.wav"));
+		gamePlayMusic.setVolume(0.5f);
+		gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("gameover.wav"));
+		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menumusic.wav"));
 
-		fireShoot = Gdx.audio.newSound(Gdx.files.internal("boom2.wav"));
-		soundMap = new HashSet();
 	}
 
-	public static MusicHandler getInstance() {
+	public static void playBackgroundMusic() {
 
-		if (instance == null) {
-			instance = new MusicHandler();
+		gamePlayMusic.setLooping(true);
+		gamePlayMusic.play();
+	}
+
+	public static void stopBackgroundMusic() {
+
+		gamePlayMusic.stop();
+	}
+
+	public static void playMenuMusic() {
+
+		menuMusic.setLooping(true);
+		menuMusic.play();
+	}
+
+	public static void stopMenuMusic() {
+
+		menuMusic.stop();
+	}
+
+	public static void playGameoverMusic() {
+
+		gameOverMusic.play();
+	}
+
+	public static void playClickSound() {
+		if (soundOn) {
+			clickSound.play();
 		}
-		return instance;
+
 	}
 
-	public void playSound(SoundTypes type) {
-
-		switch (type) {
-		case FIRE:
-			long id = fireShoot.play();
-			soundMap.add(id);
-			break;
-
-		default:
-			break;
+	public static void playDeadSound() {
+		if (soundOn) {
+			deadSound.play();
 		}
 
 	}
 
-	public void stopSound(long id) {
+	public static void setMusicOnOff(boolean isMusicOn) {
+		if (isMusicOn) {
+			gameOverMusic.setVolume(1);
+			gamePlayMusic.setVolume(1);
+			menuMusic.setVolume(1);
 
+		} else {
+			gameOverMusic.setVolume(0);
+			gamePlayMusic.setVolume(0);
+			menuMusic.setVolume(0);
+
+		}
 	}
 
-	public enum SoundTypes {
-		FIRE, ICE, ELECTRIC, BUTTON_CLICK
+	public static void setSoundOnOff(boolean isSoundOn) {
+		soundOn = isSoundOn;
 	}
+
 }

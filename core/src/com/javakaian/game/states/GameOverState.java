@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.input.GameOverInput;
+import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
@@ -130,6 +131,7 @@ public class GameOverState extends State {
 				// TODO Auto-generated method stub
 				if (btnReplay.getBoundRect().contains(x, y)) {
 					getStateController().setState(StateEnum.PlayState);
+					MusicHandler.playBackgroundMusic();
 				}
 			}
 
@@ -152,6 +154,7 @@ public class GameOverState extends State {
 				// TODO Auto-generated method stub
 				if (btnMenu.getBoundRect().contains(x, y)) {
 					getStateController().setState(StateEnum.MenuState);
+					MusicHandler.playMenuMusic();
 				}
 			}
 

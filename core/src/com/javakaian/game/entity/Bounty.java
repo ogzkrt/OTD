@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 
 public class Bounty extends GameObject {
@@ -18,6 +19,7 @@ public class Bounty extends GameObject {
 		super(x, y, width, height);
 
 		goldAnimation = new Animation<TextureRegion>(0.1f, MyAtlas.coingRegions, PlayMode.LOOP);
+		MusicHandler.playDeadSound();
 
 	}
 

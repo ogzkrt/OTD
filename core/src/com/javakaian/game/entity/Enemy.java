@@ -22,7 +22,7 @@ public class Enemy extends GameObject {
 	private boolean alive = true;
 
 	private float slowDownTime;
-	private float slowDownDuration = 2;
+	private float slowDownDuration = 0.5f;
 	private boolean slowed = false;
 
 	private HealthBar healthBar;
@@ -137,9 +137,6 @@ public class Enemy extends GameObject {
 
 			healthBar.setRemaniningHealth(remainingHealth);
 
-			float ratio = this.remainingHealth / this.health;
-//			size.x = GameConstants.ENEMY_WIDTH * ratio;
-//			size.y = GameConstants.ENEMY_HEIGHT * ratio;
 		}
 
 	}

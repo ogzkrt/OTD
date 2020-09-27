@@ -38,6 +38,7 @@ public class MapMaker {
 
 		// add last direction to the list one more time
 		// so enemy can go outside of screen
+		directionList.add(0, directionList.get(0));
 		directionList.add(directionList.get(directionList.size() - 1));
 	}
 

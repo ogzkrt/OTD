@@ -63,4 +63,12 @@ public class ElectricTower extends BaseTower {
 		this.attackPrice += 1;
 	}
 
+	@Override
+	public void onTargetFound() {
+	}
+
+	@Override
+	public void onTargetLost() {
+	}
+
 }

@@ -3,6 +3,7 @@ package com.javakaian.game.ui.buttons;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.javakaian.game.resources.MusicHandler;
 
 public class OToggleButton extends OButton {
 
@@ -28,13 +29,15 @@ public class OToggleButton extends OButton {
 
 	@Override
 	public void touchDown(float x, float y) {
-
+		MusicHandler.playClickSound();
 	}
 
 	@Override
 	public void touchRelease(float x, float y) {
-		setSelected(!isSelected());
-		buttonListener.toggled(isSelected());
+		if (boundRect.contains(x, y)) {
+			setSelected(!isSelected);
+			buttonListener.toggled(isSelected);
+		}
 	}
 
 	@Override
@@ -45,5 +48,9 @@ public class OToggleButton extends OButton {
 	@Override
 	public void setIcon(Sprite sprite) {
 		super.setIcon(sprite);
+	}
+
+	public void click() {
+		setSelected(!isSelected);
 	}
 }

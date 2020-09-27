@@ -11,8 +11,6 @@ import com.javakaian.game.input.PauseStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.buttons.OToggleButton;
-import com.javakaian.game.ui.buttons.OToggleButtonListener;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -22,8 +20,7 @@ public class PauseState extends State {
 
 	private OButton btnResume;
 	private OButton btnRestart;
-	private OToggleButton btnMusic;
-	private OToggleButton btnSound;
+	private OButton btnOptions;
 
 	private OButton selectedButton;
 
@@ -47,8 +44,7 @@ public class PauseState extends State {
 
 		menuItems.add(btnRestart);
 		menuItems.add(btnResume);
-		menuItems.add(btnSound);
-		menuItems.add(btnMusic);
+		menuItems.add(btnOptions);
 
 	}
 
@@ -90,7 +86,7 @@ public class PauseState extends State {
 
 	private void initButtons() {
 
-		float positionX = GameConstants.GRID_WIDTH * 3;
+		float positionX = GameConstants.GRID_WIDTH * 4;
 		float positionY = GameConstants.GRID_HEIGHT * 5;
 		float width = GameConstants.GRID_WIDTH * 1.5f;
 		float height = GameConstants.GRID_HEIGHT * 1.5f;
@@ -108,14 +104,12 @@ public class PauseState extends State {
 		btnResume.setPressedIcon(MyAtlas.MENU_RESUME_PRESSED);
 
 		positionX += space;
-		btnSound = new OToggleButton(positionX, positionY, width, height);
-		btnSound.setIcon(MyAtlas.MENU_SOUND_ON);
-		btnSound.setPressedIcon(MyAtlas.MENU_SOUND_OFF);
 
-		positionX += space;
-		btnMusic = new OToggleButton(positionX, positionY, width, height);
-		btnMusic.setIcon(MyAtlas.MENU_MUSIC_ON);
-		btnMusic.setPressedIcon(MyAtlas.MENU_MUSIC_OFF);
+		btnOptions = new OButton(positionX, positionY, width, height);
+		btnOptions.setIcon(MyAtlas.EMPTY_BUTTON);
+		btnOptions.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+		btnOptions.setText("Options");
+		btnOptions.setTextPositionCenter(true);
 
 	}
 
@@ -150,19 +144,22 @@ public class PauseState extends State {
 				if (btnRestart.getBoundRect().contains(x, y)) {
 
 					PlayState state = (PlayState) getStateController().getStateMap().get(StateEnum.PlayState.ordinal());
-					state.restart();
-					getStateController().setState(StateEnum.PlayState);
+					if (state == null) {
+						System.out.println("nulll");
+					} else {
+						state.restart();
+						getStateController().setState(StateEnum.PlayState);
+					}
+
 				}
 			}
 
 			@Override
 			public void touchDown(float x, float y) {
-				System.out.println("btn play touch down");
 			}
 
 			@Override
 			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -173,42 +170,37 @@ public class PauseState extends State {
 			public void touchRelease(float x, float y) {
 
 				if (btnResume.getBoundRect().contains(x, y)) {
-					System.out.println("btn resume release");
 					getStateController().setState(StateEnum.PlayState);
 				}
 			}
 
 			@Override
 			public void touchDown(float x, float y) {
-				// TODO Auto-generated method stub
-				System.out.println("btn resume  touch down");
 			}
 
 			@Override
 			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
 
 			}
 		});
 
-		btnSound.setToggleListener(new OToggleButtonListener() {
+		btnOptions.setButtonListener(new OButtonListener() {
 
 			@Override
-			public void toggled(boolean isToggled) {
+			public void touchRelease(float x, float y) {
+				if (btnOptions.getBoundRect().contains(x, y)) {
 
-			}
-		});
-
-		btnMusic.setToggleListener(new OToggleButtonListener() {
-
-			@Override
-			public void toggled(boolean isToggled) {
-
-				if (MyAtlas.CURRENT_MUSIC.isPlaying()) {
-					MyAtlas.CURRENT_MUSIC.pause();
-				} else {
-					MyAtlas.CURRENT_MUSIC.play();
+					getStateController().setState(StateEnum.OptionState);
 				}
+			}
+
+			@Override
+			public void touchDown(float x, float y) {
+
+			}
+
+			@Override
+			public void dragged(float x, float y) {
 
 			}
 		});
@@ -220,4 +212,5 @@ public class PauseState extends State {
 		// TODO Auto-generated method stub
 
 	}
+
 }

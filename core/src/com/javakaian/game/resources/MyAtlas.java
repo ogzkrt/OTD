@@ -1,7 +1,6 @@
 package com.javakaian.game.resources;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -57,10 +56,6 @@ public class MyAtlas {
 	public static Sprite MENU_ITEM_2X;
 	public static Sprite MENU_ITEM_2X_PRESSED;
 
-	public static Music CURRENT_MUSIC;
-	public static Music GAME_OVER_MUSIC;
-	public static Music GAME_PLAY_MUSIC;
-
 	public static Sprite MENU_SOUND_ON;
 	public static Sprite MENU_SOUND_OFF;
 	public static Sprite MENU_MUSIC_ON;
@@ -70,8 +65,8 @@ public class MyAtlas {
 	public static Sprite MENU_RESUME;
 	public static Sprite MENU_RESUME_PRESSED;
 
-	public static Sprite CREDIT_BUTTON;
-	public static Sprite CREDIT_BUTTON_PRESSED;
+	public static Sprite EMPTY_BUTTON;
+	public static Sprite EMPTY_BUTTON_PRESSED;
 
 	public static Array<AtlasRegion> coingRegions;
 	private static TextureAtlas atlas;
@@ -83,14 +78,6 @@ public class MyAtlas {
 		for (Texture t : atlas.getTextures()) {
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
-
-		GAME_PLAY_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		GAME_PLAY_MUSIC.setLooping(true);
-		GAME_PLAY_MUSIC.setVolume(1f);
-
-		GAME_OVER_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("tosun.mp3"));
-		GAME_OVER_MUSIC.setLooping(true);
-		GAME_OVER_MUSIC.setVolume(1f);
 
 		coingRegions = atlas.findRegions("coin");
 
@@ -156,8 +143,8 @@ public class MyAtlas {
 		MENU_MUSIC_ON = createSprite(atlas.findRegion("music_on"));
 		MENU_MUSIC_OFF = createSprite(atlas.findRegion("music_off"));
 
-		CREDIT_BUTTON = createSprite(atlas.findRegion("credit_button"));
-		CREDIT_BUTTON_PRESSED = createSprite(atlas.findRegion("credit_button_pressed"));
+		EMPTY_BUTTON = createSprite(atlas.findRegion("empty_button"));
+		EMPTY_BUTTON_PRESSED = createSprite(atlas.findRegion("empty_button_pressed"));
 
 	}
 
