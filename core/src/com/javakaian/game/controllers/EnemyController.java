@@ -87,13 +87,13 @@ public class EnemyController {
 		if (spawnTime >= spawnPeriod) {
 			spawnTime = 0;
 			if (count < enemyNumberLimit) {
-				Vector2 p = map.getStartingPoint();
-				enemyList
-						.add(new Enemy(p.x - GameConstants.GRID_WIDTH + GameConstants.ENEMY_WIDTH / 2,
-								GameConstants.GRID_HEIGHT * p.y + GameConstants.GRID_HEIGHT
-										+ GameConstants.ENEMY_HEIGHT / 2,
-								GameConstants.ENEMY_WIDTH, GameConstants.ENEMY_HEIGHT, health, directionList, bounty,
-								enemySpeed));
+				Vector2 p = new Vector2(0, 0);
+				enemyList.add(new Enemy(
+						p.x - GameConstants.GRID_WIDTH + (GameConstants.GRID_WIDTH / 2 - GameConstants.ENEMY_WIDTH / 2),
+						p.y + GameConstants.GRID_HEIGHT
+								+ (GameConstants.GRID_HEIGHT / 2 - GameConstants.ENEMY_HEIGHT / 2),
+						GameConstants.ENEMY_WIDTH, GameConstants.ENEMY_HEIGHT, health, directionList, bounty,
+						enemySpeed));
 				count++;
 			} else {
 

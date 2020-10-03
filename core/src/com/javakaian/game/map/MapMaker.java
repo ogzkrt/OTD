@@ -1,9 +1,7 @@
 package com.javakaian.game.map;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -30,28 +28,22 @@ public class MapMaker {
 
 		columnSize = GameConstants.COLUMN_SIZE;
 		rowSize = GameConstants.MAP_ROW_SIZE;
-		matrix = generateRandomMap();
-
+		matrix = generateMap(rowSize, columnSize);
+		printMap();
 		loadPathPoints();
-		beginningPoint = findStartingPoint();
-		loadDirectionList((int) beginningPoint.y, (int) beginningPoint.x);
+		loadDirectionList(0, 0);
 
 		// add last direction to the list one more time
 		// so enemy can go outside of screen
-		directionList.add(0, directionList.get(0));
+		directionList.add(0, Direction.RIGHT);
 		directionList.add(directionList.get(directionList.size() - 1));
+		for (Direction direction : directionList) {
+			System.out.println(direction);
+		}
 	}
 
 	public Vector2 findStartingPoint() {
-		for (int row = 0; row < matrix.length; row++) {
-
-			if (matrix[row][0] == 1) {
-				// matrix[row][0] = 0;
-				return new Vector2(0, row);
-			}
-
-		}
-		return null;
+		return new Vector2(0, 0);
 	}
 
 	public Vector2 findFinishPoint() {
@@ -66,6 +58,7 @@ public class MapMaker {
 	}
 
 	public void loadDirectionList(int x, int y) {
+		matrix[x][y] = 0;
 		if (!(x + 1 >= rowSize) && matrix[x + 1][y] == 1) {
 			matrix[x + 1][y] = 0;
 			directionList.add(Direction.DOWN);
@@ -78,62 +71,60 @@ public class MapMaker {
 			matrix[x][y + 1] = 0;
 			directionList.add(Direction.RIGHT);
 			loadDirectionList(x, y + 1);
-		} else if (!(y - 1 < 0) && matrix[x][y - 1] == 1) {
-			matrix[x][y - 1] = 0;
-			directionList.add(Direction.LEFT);
-			loadDirectionList(x, y - 1);
 		}
 
 	}
 
-	public int[][] generateRandomMap() {
+	public void printMap() {
 
-		int colSize = GameConstants.COLUMN_SIZE;
-		int rowSize = GameConstants.MAP_ROW_SIZE;
-		Random generator = new Random();
-		int matrix[][] = new int[rowSize][colSize];
-		List<Integer> indexList = new ArrayList<Integer>();
-		int a = generator.nextInt(GameConstants.MAP_ROW_SIZE - 1) + 1;
-		indexList.add(a);
-		indexList.add(a);
-		for (int i = 1; i < colSize; i++) {
-
-			if (i % 2 == 0) {
-				int temp = generator.nextInt(rowSize);
-				indexList.add(temp);
-			} else {
-				indexList.add(indexList.get(i));
-			}
-
-		}
-
-		for (int i = 0; i < colSize; i++) {
-
-			int temp = indexList.get(i);
-			int temp1 = indexList.get(i + 1);
-
-			if (temp > temp1) {
-
-				for (int j = temp1; j <= temp; j++) {
-
-					matrix[j][i] = 1;
-				}
-			} else {
-				for (int j = temp; j <= temp1; j++) {
-					matrix[j][i] = 1;
-				}
-			}
-
-		}
-
-		for (int i = 0; i < rowSize; i++) {
-			for (int j = 0; j < colSize; j++) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
 				System.out.print(matrix[i][j]);
 			}
 			System.out.println("");
 		}
 
+	}
+
+	public void fillMap(int col, int start, int finish) {
+
+		if (start > finish) {
+			int temp = finish;
+			finish = start;
+			start = temp;
+		}
+		for (int i = start; i < finish + 1; i++) {
+			matrix[i][col] = 1;
+		}
+	}
+
+	public int[][] generateMap(int row, int col) {
+
+		matrix = new int[row][col];
+		int start = 0;
+		int finish = 0;
+		Random rand = new Random();
+
+		for (int i = 0; i < col; i++) {
+			if (i % 2 == 0) {
+				finish = rand.nextInt(row);
+				fillMap(i, start, finish);
+				start = finish;
+			} else {
+				start = finish;
+				fillMap(i, start, finish);
+			}
+		}
 		return matrix;
+	}
+
+	public static void main(String[] args) {
+
+		MapMaker map = new MapMaker();
+		map.loadDirectionList(0, 0);
+		for (Direction d : map.directionList) {
+			System.out.println(d);
+		}
 	}
 
 	public void loadPathPoints() {
