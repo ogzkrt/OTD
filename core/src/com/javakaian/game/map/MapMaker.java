@@ -13,7 +13,6 @@ public class MapMaker {
 	private int rowSize;
 	private int columnSize;
 	private int[][] matrix;
-	private Vector2 beginningPoint;
 	private Set<Vector2> pathPoints;
 	private LinkedList<Direction> directionList;
 
@@ -29,7 +28,6 @@ public class MapMaker {
 		columnSize = GameConstants.COLUMN_SIZE;
 		rowSize = GameConstants.MAP_ROW_SIZE;
 		matrix = generateMap(rowSize, columnSize);
-		printMap();
 		loadPathPoints();
 		loadDirectionList(0, 0);
 
@@ -40,21 +38,6 @@ public class MapMaker {
 		for (Direction direction : directionList) {
 			System.out.println(direction);
 		}
-	}
-
-	public Vector2 findStartingPoint() {
-		return new Vector2(0, 0);
-	}
-
-	public Vector2 findFinishPoint() {
-		for (int row = 0; row < matrix.length; row++) {
-
-			if (matrix[row][columnSize - 1] == 1) {
-				return new Vector2(columnSize - 1, row);
-			}
-
-		}
-		return null;
 	}
 
 	public void loadDirectionList(int x, int y) {
@@ -71,17 +54,6 @@ public class MapMaker {
 			matrix[x][y + 1] = 0;
 			directionList.add(Direction.RIGHT);
 			loadDirectionList(x, y + 1);
-		}
-
-	}
-
-	public void printMap() {
-
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				System.out.print(matrix[i][j]);
-			}
-			System.out.println("");
 		}
 
 	}
@@ -116,15 +88,6 @@ public class MapMaker {
 			}
 		}
 		return matrix;
-	}
-
-	public static void main(String[] args) {
-
-		MapMaker map = new MapMaker();
-		map.loadDirectionList(0, 0);
-		for (Direction d : map.directionList) {
-			System.out.println(d);
-		}
 	}
 
 	public void loadPathPoints() {

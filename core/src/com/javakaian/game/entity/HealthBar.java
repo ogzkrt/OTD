@@ -40,9 +40,7 @@ public class HealthBar extends GameObject {
 
 	@Override
 	public void update(float deltaTime) {
-		// TODO Auto-generated method stub
 		super.update(deltaTime);
-
 		timer += deltaTime;
 		if (timer > 1.0f) {
 			timer = 0;

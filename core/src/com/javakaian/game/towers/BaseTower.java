@@ -29,8 +29,6 @@ public abstract class BaseTower extends GameObject {
 	public float attackSpeed = 2f; // times per second.
 	protected float speedCounter = 0;
 
-	protected boolean ice;
-
 	protected int towerPrice;
 	protected int rangePrice;
 	protected int attackPrice;
@@ -47,8 +45,8 @@ public abstract class BaseTower extends GameObject {
 
 	protected boolean doubleSpeed = false;
 
-	public BaseTower(float x, float y, float width, float height, List<Enemy> enemyList) {
-		super(x, y, width, height);
+	public BaseTower(float x, float y, List<Enemy> enemyList) {
+		super(x, y, GameConstants.TOWER_SIZE, GameConstants.TOWER_SIZE);
 		this.enemyList = enemyList;
 		this.range = GameConstants.TOWER_RANGE;
 
@@ -204,14 +202,6 @@ public abstract class BaseTower extends GameObject {
 		return target;
 	}
 
-	public void setType(TowerType type) {
-		this.type = type;
-	}
-
-	public TowerType getType() {
-		return type;
-	}
-
 	public float getRange() {
 		return range;
 	}
@@ -234,27 +224,18 @@ public abstract class BaseTower extends GameObject {
 
 	public void doubleSpeedClicked() {
 		doubleSpeed = true;
+		// this.attackSpeed*=2;
 	}
 
 	public void normalSpeedClicked() {
 		doubleSpeed = false;
 	}
 
-	public void increaseDamage() {
-		this.damage += 1;
-		attackPrice += 1;
-	}
+	public abstract void increaseDamage();
 
-	public void increaseRange(float range) {
-		this.range += range;
-		rangePrice += 1;
+	public abstract void increaseRange(float range);
 
-	}
-
-	public void increaseSpeed() {
-		this.attackSpeed *= 1.1;
-		speedPrice += 1;
-	}
+	public abstract void increaseSpeed();
 
 	public int getTowerPrice() {
 		return towerPrice;

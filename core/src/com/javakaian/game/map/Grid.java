@@ -30,17 +30,14 @@ public class Grid extends GameObject {
 	public void render(SpriteBatch sb) {
 
 		switch (type) {
-		case TOWER:
 		case LAND:
 			sb.draw(MyAtlas.LAND, this.position.x, this.position.y, this.size.x, this.size.y);
-			break;
-		case WATER:
-
 			break;
 		case PATH:
 			sb.draw(MyAtlas.PATH, this.position.x, this.position.y, this.size.x, this.size.y);
 			break;
 		default:
+			sb.draw(MyAtlas.LAND, this.position.x, this.position.y, this.size.x, this.size.y);
 			break;
 		}
 

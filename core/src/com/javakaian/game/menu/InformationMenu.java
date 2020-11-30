@@ -1,4 +1,4 @@
-package com.javakaian.game.ui.menu;
+package com.javakaian.game.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

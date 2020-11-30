@@ -11,15 +11,12 @@ import com.javakaian.game.util.GameConstants;
 
 public class ElectricTower extends BaseTower {
 
-	public ElectricTower(float x, float y, float width, float height, List<Enemy> enemyList) {
-		super(x, y, width, height, enemyList);
+	public ElectricTower(float x, float y, List<Enemy> enemyList) {
+		super(x, y, enemyList);
 		sprite = MyAtlas.ELECTRIC_TOWER;
 		spriteSelected = MyAtlas.ELECTRIC_TOWER;
-		ice = false;
 		damage = GameConstants.TOWER_DAMAGE_ELECTRIC;
 		range = GameConstants.GRID_WIDTH * 3;
-
-		setType(TowerType.ELECTRIC);
 
 	}
 
@@ -59,8 +56,21 @@ public class ElectricTower extends BaseTower {
 
 	@Override
 	public void increaseDamage() {
-		this.damage += 1;
-		this.attackPrice += 1;
+		this.damage += this.damage * 0.6f;
+		this.attackPrice *= 2;
+	}
+
+	@Override
+	public void increaseRange(float range) {
+		// TODO Auto-generated method stub
+		this.rangePrice *= 2;
+
+	}
+
+	@Override
+	public void increaseSpeed() {
+		// TODO Auto-generated method stub
+		this.speedPrice *= 2;
 	}
 
 	@Override
@@ -70,5 +80,4 @@ public class ElectricTower extends BaseTower {
 	@Override
 	public void onTargetLost() {
 	}
-
 }

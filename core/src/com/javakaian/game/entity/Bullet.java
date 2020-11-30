@@ -95,7 +95,7 @@ public class Bullet extends GameObject {
 
 	public enum EnumBulletType {
 
-		ICE_BULLET, FIRE_BULLET, POISON_BULLET
+		ICE_BULLET, FIRE_BULLET
 
 	}
 

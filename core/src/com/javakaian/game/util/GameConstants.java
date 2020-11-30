@@ -17,16 +17,18 @@ public class GameConstants {
 
 	public static float ENEMY_WIDTH = GRID_WIDTH / 2f;
 	public static float ENEMY_HEIGHT = GRID_HEIGHT / 2f;
-	public static float ENEMY_SPAWN_PERIOD = 0.5f;
+	public static float ENEMY_SPAWN_PERIOD = 0.8f;
 
 	public static int ENEMY_SPEED = (int) GRID_WIDTH * (2 / 2);
 	public static int SLOW_ENEMY_SPEED = ENEMY_SPEED / 2;
 
 	public static float TOWER_SIZE = GRID_WIDTH / 1;
 	public static float TOWER_RANGE = GRID_WIDTH * 2;
-	public static int TOWER_DAMAGE_FIRE = 45;
+	public static int TOWER_DAMAGE_FIRE = 90;
 	public static int TOWER_DAMAGE_ICE = 1;
-	public static int TOWER_DAMAGE_ELECTRIC = 1;
+	public static int TOWER_DAMAGE_ELECTRIC = 10;
+
+	public static int INITIAL_MONEY = 100;
 
 	public static float TOWER_SELECTION_MENU_WIDTH = SCREEN_WIDTH;
 	public static float TOWER_SELECTION_MENU_HEIGHT = GRID_WIDTH * 2;
@@ -45,15 +47,16 @@ public class GameConstants {
 	public static float BULLET_SPEED = GRID_WIDTH * 8;
 
 	public static int SCORE_INCREASE_CONSTANT = 100;
-	public static float ENEMY_BOUNTY = 5;
+	public static float ENEMY_BOUNTY = 2;
 
 	public static int NEXT_WAVE_SPAWN_TIME = 10;
 	public static int REMAINING_HEALTH = 6;
 
 	public static int TOWER_PRICE = 50;
-	public static int TOWER_RANGE_PRICE = 3;
-	public static int TOWER_SPEED_PRICE = 3;
-	public static int TOWER_ATTACK_PRICE = 3;
+	public static int ELECTRIC_TOWER_PRICE = 200;
+	public static int TOWER_RANGE_PRICE = 15;
+	public static int TOWER_SPEED_PRICE = 15;
+	public static int TOWER_ATTACK_PRICE = 15;
 
 	// FONT POSITIONS
 	public static float OFFEST_Y = 0.375f;

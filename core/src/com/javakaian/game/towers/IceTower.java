@@ -13,10 +13,9 @@ import com.javakaian.game.util.GameConstants;
 
 public class IceTower extends BaseTower {
 
-	public IceTower(float x, float y, float width, float height, List<Enemy> enemyList) {
-		super(x, y, width, height, enemyList);
+	public IceTower(float x, float y, List<Enemy> enemyList) {
+		super(x, y, enemyList);
 		damage = GameConstants.TOWER_DAMAGE_ICE;
-		ice = true;
 		sprite = MyAtlas.ICE_TOWER;
 		spriteSelected = MyAtlas.ICE_TOWER;
 	}
@@ -56,6 +55,23 @@ public class IceTower extends BaseTower {
 
 	@Override
 	public void onTargetLost() {
+
+	}
+
+	@Override
+	public void increaseDamage() {
+
+	}
+
+	@Override
+	public void increaseRange(float range) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void increaseSpeed() {
+		// TODO Auto-generated method stub
 
 	}
 

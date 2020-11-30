@@ -1,4 +1,4 @@
-package com.javakaian.game.ui.buttons;
+package com.javakaian.game.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

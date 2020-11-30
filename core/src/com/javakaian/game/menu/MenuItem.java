@@ -1,8 +1,8 @@
-package com.javakaian.game.ui.menu;
+package com.javakaian.game.menu;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.ui.buttons.OButton;
+import com.javakaian.game.buttons.OButton;
 
 public class MenuItem extends OButton {
 

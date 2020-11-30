@@ -1,4 +1,4 @@
-package com.javakaian.game.ui.buttons;
+package com.javakaian.game.buttons;
 
 public interface OToggleButtonListener {
 

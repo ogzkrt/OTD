@@ -13,12 +13,12 @@ import com.javakaian.game.entity.Entity;
 import com.javakaian.game.map.Grid;
 import com.javakaian.game.map.Grid.EnumGridType;
 import com.javakaian.game.map.Map;
+import com.javakaian.game.menu.InformationMenu;
+import com.javakaian.game.menu.TowerSelectionMenu;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.states.PlayState;
 import com.javakaian.game.states.State.StateEnum;
 import com.javakaian.game.towers.BaseTower;
-import com.javakaian.game.ui.menu.InformationMenu;
-import com.javakaian.game.ui.menu.TowerSelectionMenu;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -53,8 +53,8 @@ public class Level implements Entity {
 	private void init() {
 		waveNumber = 1;
 		score = 0;
-		money = 200;
-		enemyNumber = 20;
+		money = GameConstants.INITIAL_MONEY;
+		enemyNumber = 10;
 		enemyHealth = 200;
 		remainingHealth = GameConstants.REMAINING_HEALTH;
 
@@ -119,6 +119,16 @@ public class Level implements Entity {
 		return false;
 	}
 
+	private boolean canBuildElectricTower() {
+		if (money >= GameConstants.ELECTRIC_TOWER_PRICE) {
+			money -= GameConstants.ELECTRIC_TOWER_PRICE;
+			fireMoneyChanged();
+			return true;
+		}
+		return false;
+
+	}
+
 	public void createFireTowerClicked(float x, float y) {
 		List<Grid> gridList = this.map.getBoard().getGridList();
 		for (Grid grid : gridList) {
@@ -163,7 +173,7 @@ public class Level implements Entity {
 					break;
 				case LAND:
 
-					if (canBuildTower()) {
+					if (canBuildElectricTower()) {
 						towerController.createElectricTower(grid.getPosition().x, grid.getPosition().y,
 								enemyController.getEnemyList());
 						grid.setType(EnumGridType.TOWER);
@@ -367,7 +377,7 @@ public class Level implements Entity {
 
 	private void fireTowerSelectedEvent(BaseTower t) {
 		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
-		towerSelectionMenu.updatePropertyButtons(t.getAttackPrice(), t.getRangePrice(), t.getSpeedPrice());
+		towerSelectionMenu.updatePropertyButtons(t);
 	}
 
 	private void fireScoreChanged() {

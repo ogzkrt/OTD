@@ -12,8 +12,6 @@ import com.javakaian.game.map.MapMaker.Direction;
 
 public class Map implements Entity {
 
-	private Vector2 startingPoint;
-	private Vector2 finishPoint;
 	private LinkedList<Direction> directionList;
 	private Set<Vector2> pathPoints;
 	private MapMaker mapMaker;
@@ -24,8 +22,6 @@ public class Map implements Entity {
 		mapMaker = new MapMaker();
 
 		directionList = mapMaker.getDirectionList();
-		startingPoint = mapMaker.findStartingPoint();
-		finishPoint = mapMaker.findFinishPoint();
 		pathPoints = mapMaker.getPathPoints();
 		board = new Board(pathPoints);
 	}
@@ -43,22 +39,6 @@ public class Map implements Entity {
 	@Override
 	public void update(float deltaTime) {
 		board.update(deltaTime);
-	}
-
-	public Vector2 getStartingPoint() {
-		return startingPoint;
-	}
-
-	public void setStartingPoint(Vector2 startingPoint) {
-		this.startingPoint = startingPoint;
-	}
-
-	public Vector2 getFinishPoint() {
-		return finishPoint;
-	}
-
-	public void setFinishPoint(Vector2 finishPoint) {
-		this.finishPoint = finishPoint;
 	}
 
 	public LinkedList<Direction> getDirectionList() {

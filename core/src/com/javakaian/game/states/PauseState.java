@@ -7,10 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.javakaian.game.buttons.OButton;
+import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.input.PauseStateInput;
 import com.javakaian.game.resources.MyAtlas;
-import com.javakaian.game.ui.buttons.OButton;
-import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 

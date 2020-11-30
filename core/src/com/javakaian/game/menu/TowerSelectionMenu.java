@@ -1,15 +1,16 @@
-package com.javakaian.game.ui.menu;
+package com.javakaian.game.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.javakaian.game.buttons.OButton;
+import com.javakaian.game.buttons.OButtonListener;
+import com.javakaian.game.buttons.OToggleButton;
+import com.javakaian.game.buttons.OToggleButtonListener;
+import com.javakaian.game.buttons.PropertyButton;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MyAtlas;
-import com.javakaian.game.ui.buttons.OButton;
-import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.buttons.OToggleButton;
-import com.javakaian.game.ui.buttons.OToggleButtonListener;
-import com.javakaian.game.ui.buttons.PropertyButton;
+import com.javakaian.game.towers.BaseTower;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -69,7 +70,7 @@ public class TowerSelectionMenu extends Menu {
 		btnElectric.setIcon(MyAtlas.ELECTRIC_MENU_ITEM);
 		btnElectric.setPressedIcon(MyAtlas.ELECTRIC_MENU_ITEM);
 		btnElectric.setDisabledSprite(MyAtlas.ELECTRIC_MENU_ITEM_DISABLED);
-		btnElectric.setPrice(GameConstants.TOWER_PRICE);
+		btnElectric.setPrice(GameConstants.ELECTRIC_TOWER_PRICE);
 
 		xPosition += GameConstants.GRID_WIDTH * 3.5;
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
@@ -325,7 +326,7 @@ public class TowerSelectionMenu extends Menu {
 		}
 		btnFire.setEnable(true);
 		btnIce.setEnable(true);
-		btnElectric.setEnable(true);
+		btnElectric.setEnable(false);
 		btnRestart.setEnable(true);
 		btnExit.setEnable(true);
 	}
@@ -430,10 +431,10 @@ public class TowerSelectionMenu extends Menu {
 		btnAttackSpped.setEnable(flag);
 	}
 
-	public void updatePropertyButtons(int attackPrice, int rangePrice, int speedPrice) {
-		btnDamage.priceChanged(attackPrice);
-		btnRange.priceChanged(rangePrice);
-		btnAttackSpped.priceChanged(speedPrice);
+	public void updatePropertyButtons(BaseTower t) {
+		btnDamage.priceChanged(t.getAttackPrice());
+		btnRange.priceChanged(t.getRangePrice());
+		btnAttackSpped.priceChanged(t.getSpeedPrice());
 
 	}
 

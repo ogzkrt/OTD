@@ -114,9 +114,9 @@ public class EnemyController {
 			if (nextWaveTimer == GameConstants.NEXT_WAVE_SPAWN_TIME) {
 				count = 0;
 				nextWaveTimer = 0;
-				this.health += 125;
+				this.health *= 2;
 				this.enemyNumberLimit += 1;
-				this.bounty += 5;
+				this.bounty += 7;
 				level.newWaveCreated(this.enemyNumberLimit);
 			}
 		}

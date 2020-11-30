@@ -13,7 +13,6 @@ import com.javakaian.game.towers.BaseTower;
 import com.javakaian.game.towers.ElectricTower;
 import com.javakaian.game.towers.FireTower;
 import com.javakaian.game.towers.IceTower;
-import com.javakaian.game.util.GameConstants;
 
 public class TowerController implements Entity {
 
@@ -53,17 +52,17 @@ public class TowerController implements Entity {
 
 	public void createFireTower(float x, float y, List<Enemy> enemyList) {
 
-		towerList.add(new FireTower(x, y, GameConstants.TOWER_SIZE, GameConstants.TOWER_SIZE, enemyList));
+		towerList.add(new FireTower(x, y, enemyList));
 	}
 
 	public void createIceTower(float x, float y, List<Enemy> enemyList) {
 
-		towerList.add(new IceTower(x, y, GameConstants.TOWER_SIZE, GameConstants.TOWER_SIZE, enemyList));
+		towerList.add(new IceTower(x, y, enemyList));
 	}
 
 	public void createElectricTower(float x, float y, List<Enemy> enemyList) {
 
-		towerList.add(new ElectricTower(x, y, GameConstants.TOWER_SIZE, GameConstants.TOWER_SIZE, enemyList));
+		towerList.add(new ElectricTower(x, y, enemyList));
 	}
 
 	public List<BaseTower> getTowerList() {

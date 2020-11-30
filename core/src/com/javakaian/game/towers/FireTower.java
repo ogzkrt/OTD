@@ -12,12 +12,9 @@ import com.javakaian.game.util.GameConstants;
 
 public class FireTower extends BaseTower {
 
-	private long soundId;
-
-	public FireTower(float x, float y, float width, float height, List<Enemy> enemyList) {
-		super(x, y, width, height, enemyList);
+	public FireTower(float x, float y, List<Enemy> enemyList) {
+		super(x, y, enemyList);
 		damage = GameConstants.TOWER_DAMAGE_FIRE;
-		ice = false;
 		sprite = MyAtlas.FIRE_PLANE;
 		spriteSelected = MyAtlas.FIRE_PLANE;
 
@@ -41,8 +38,20 @@ public class FireTower extends BaseTower {
 
 	@Override
 	public void increaseDamage() {
-		this.damage += 10;
-		this.attackPrice += 1;
+		this.damage += this.damage * 0.6f;
+		this.attackPrice *= 2;
+	}
+
+	@Override
+	public void increaseRange(float range) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void increaseSpeed() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -58,10 +67,10 @@ public class FireTower extends BaseTower {
 
 	@Override
 	public void onTargetFound() {
-		// long id = MusicHandler.fireShoot.loop();
 	}
 
 	@Override
 	public void onTargetLost() {
 	}
+
 }
