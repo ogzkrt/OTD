@@ -21,10 +21,10 @@ public class MusicHandler {
 		deadSound = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
 
 		gamePlayMusic = Gdx.audio.newMusic(Gdx.files.internal("gameplay.wav"));
-		gamePlayMusic.setVolume(0.5f);
+		gamePlayMusic.setVolume(0.0005f);
 		gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("gameover.wav"));
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menumusic.wav"));
-
+		menuMusic.setVolume(0.0005f);
 	}
 
 	public static void playBackgroundMusic() {

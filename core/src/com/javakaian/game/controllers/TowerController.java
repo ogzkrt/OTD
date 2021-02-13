@@ -91,7 +91,7 @@ public class TowerController implements Entity {
 	}
 
 	public void increaseRange() {
-		selectedTower.increaseRange(10);
+		selectedTower.increaseRange();
 		level.fireRangePriceChanged(selectedTower);
 	}
 

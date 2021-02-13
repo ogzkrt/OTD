@@ -35,9 +35,6 @@ public class MapMaker {
 		// so enemy can go outside of screen
 		directionList.add(0, Direction.RIGHT);
 		directionList.add(directionList.get(directionList.size() - 1));
-		for (Direction direction : directionList) {
-			System.out.println(direction);
-		}
 	}
 
 	public void loadDirectionList(int x, int y) {

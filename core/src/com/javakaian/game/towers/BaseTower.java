@@ -111,13 +111,13 @@ public abstract class BaseTower extends GameObject {
 		rotation = angle;
 	}
 
-	public abstract void projectileShoot();
+	public void projectileShoot() {
 
-	public abstract void contiuniousShoot();
+	}
 
-	public abstract void onTargetFound();
+	public void contiuniousShoot() {
 
-	public abstract void onTargetLost();
+	}
 
 	private void invokeShootFunctions(float deltaTime) {
 
@@ -190,11 +190,9 @@ public abstract class BaseTower extends GameObject {
 
 	public void setTarget(Enemy target) {
 		if (target == null) {
-			onTargetLost();
 			this.target = null;
 		} else {
 			this.target = target;
-			onTargetFound();
 		}
 	}
 
@@ -222,20 +220,20 @@ public abstract class BaseTower extends GameObject {
 		return isSelected;
 	}
 
-	public void doubleSpeedClicked() {
-		doubleSpeed = true;
-		// this.attackSpeed*=2;
+	public void increaseDamage() {
+		this.damage *= 2;
+		this.attackPrice *= 2;
 	}
 
-	public void normalSpeedClicked() {
-		doubleSpeed = false;
+	public void increaseRange() {
+		this.range *= 1.1;
+		this.rangePrice *= 2;
 	}
 
-	public abstract void increaseDamage();
-
-	public abstract void increaseRange(float range);
-
-	public abstract void increaseSpeed();
+	public void increaseSpeed() {
+		this.attackSpeed *= 1.1;
+		this.speedPrice *= 2;
+	}
 
 	public int getTowerPrice() {
 		return towerPrice;
@@ -253,4 +251,7 @@ public abstract class BaseTower extends GameObject {
 		return speedPrice;
 	}
 
+	public TowerType getType() {
+		return type;
+	}
 }

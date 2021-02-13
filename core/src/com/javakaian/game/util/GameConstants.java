@@ -28,7 +28,7 @@ public class GameConstants {
 	public static int TOWER_DAMAGE_ICE = 1;
 	public static int TOWER_DAMAGE_ELECTRIC = 10;
 
-	public static int INITIAL_MONEY = 100;
+	public static int INITIAL_MONEY = 1500;
 
 	public static float TOWER_SELECTION_MENU_WIDTH = SCREEN_WIDTH;
 	public static float TOWER_SELECTION_MENU_HEIGHT = GRID_WIDTH * 2;

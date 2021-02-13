@@ -326,7 +326,7 @@ public class TowerSelectionMenu extends Menu {
 		}
 		btnFire.setEnable(true);
 		btnIce.setEnable(true);
-		btnElectric.setEnable(false);
+		btnElectric.setEnable(true);
 		btnRestart.setEnable(true);
 		btnExit.setEnable(true);
 	}
@@ -432,9 +432,21 @@ public class TowerSelectionMenu extends Menu {
 	}
 
 	public void updatePropertyButtons(BaseTower t) {
+
 		btnDamage.priceChanged(t.getAttackPrice());
 		btnRange.priceChanged(t.getRangePrice());
 		btnAttackSpped.priceChanged(t.getSpeedPrice());
+		switch (t.getType()) {
+		case ICE:
+			btnDamage.setEnable(false);
+			break;
+		case ELECTRIC:
+			btnAttackSpped.setEnable(false);
+			break;
+
+		default:
+			break;
+		}
 
 	}
 
