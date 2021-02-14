@@ -10,9 +10,11 @@ import com.javakaian.game.entity.Enemy;
 import com.javakaian.game.entity.Entity;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.towers.BaseTower;
+import com.javakaian.game.towers.BaseTower.TowerType;
 import com.javakaian.game.towers.ElectricTower;
 import com.javakaian.game.towers.FireTower;
 import com.javakaian.game.towers.IceTower;
+import com.javakaian.game.util.GameConstants;
 
 public class TowerController implements Entity {
 
@@ -50,19 +52,52 @@ public class TowerController implements Entity {
 		}
 	}
 
-	public void createFireTower(float x, float y, List<Enemy> enemyList) {
+	/**
+	 * This fuction builds a tower and returns the cost value according to the tower
+	 * type. if building tower is not possible then it returns zero as a cost value.
+	 **/
+	public int buildTower(float x, float y, List<Enemy> enemyList, TowerType type, int money) {
+		int cost = 0;
+		switch (type) {
+		case FIRE:
+			cost = GameConstants.TOWER_PRICE;
+			if (money >= cost) {
+				return buildFireTower(x, y, enemyList);
+			}
+			break;
+		case ICE:
+			cost = GameConstants.TOWER_PRICE;
+			if (money >= cost) {
+				return buildIceTower(x, y, enemyList);
+			}
+			break;
+		case ELECTRIC:
+			cost = GameConstants.ELECTRIC_TOWER_PRICE;
+			if (money >= cost) {
+				return buildElectricTower(x, y, enemyList);
+			}
+			break;
+		}
+		return 0;
+
+	}
+
+	private int buildFireTower(float x, float y, List<Enemy> enemyList) {
 
 		towerList.add(new FireTower(x, y, enemyList));
+		return GameConstants.TOWER_PRICE;
 	}
 
-	public void createIceTower(float x, float y, List<Enemy> enemyList) {
+	private int buildIceTower(float x, float y, List<Enemy> enemyList) {
 
 		towerList.add(new IceTower(x, y, enemyList));
+		return GameConstants.TOWER_PRICE;
 	}
 
-	public void createElectricTower(float x, float y, List<Enemy> enemyList) {
+	private int buildElectricTower(float x, float y, List<Enemy> enemyList) {
 
 		towerList.add(new ElectricTower(x, y, enemyList));
+		return GameConstants.ELECTRIC_TOWER_PRICE;
 	}
 
 	public List<BaseTower> getTowerList() {
@@ -86,18 +121,15 @@ public class TowerController implements Entity {
 	}
 
 	public void increaseAttack() {
-		this.selectedTower.increaseDamage();
-		level.fireDamagePriceChanged(selectedTower);
+		selectedTower.increaseDamage();
 	}
 
 	public void increaseRange() {
 		selectedTower.increaseRange();
-		level.fireRangePriceChanged(selectedTower);
 	}
 
 	public void increaseSpeed() {
 		selectedTower.increaseSpeed();
-		level.fireAttackSpeedPriceChanged(selectedTower);
 	}
 
 	public void clearSelectedTower() {
@@ -108,7 +140,6 @@ public class TowerController implements Entity {
 	}
 
 	public void speed2xClicked() {
-
 		// also consider towers which will be builded during the process.
 		for (BaseTower baseTower : towerList) {
 			baseTower.attackSpeed = baseTower.attackSpeed * 2;

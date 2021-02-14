@@ -9,17 +9,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.javakaian.game.buttons.OButton;
-import com.javakaian.game.buttons.PropertyButton;
+import com.javakaian.game.buttons.TowerButton;
 
 public class Menu {
 
-	protected List<MenuItem> menuItems;
+	protected List<TowerButton> towerButtons;
 	protected List<OButton> menuButtons;
-	protected List<PropertyButton> propertyButtons;
 
-	protected MenuItem selectedMenuItem = null;
+	protected TowerButton selectedMenuItem = null;
 	protected OButton selectedMenuButton = null;
-	protected PropertyButton selectedPropertyButton = null;
+	protected OButton selectedPropertyButton = null;
 
 	protected Vector2 position;
 	protected Vector2 size;
@@ -36,9 +35,8 @@ public class Menu {
 		this.boundaryRect = new Rectangle(x, y, width, height);
 		this.menuSprite = menuSprite;
 
-		menuItems = new ArrayList<MenuItem>();
+		towerButtons = new ArrayList<TowerButton>();
 		menuButtons = new ArrayList<OButton>();
-		propertyButtons = new ArrayList<PropertyButton>();
 	}
 
 	public void render(SpriteBatch sb) {
@@ -46,11 +44,8 @@ public class Menu {
 		for (OButton button : menuButtons) {
 			button.render(sb);
 		}
-		for (MenuItem menuItem : menuItems) {
-			menuItem.render(sb);
-		}
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.render(sb);
+		for (TowerButton towerButton : towerButtons) {
+			towerButton.render(sb);
 		}
 	}
 
@@ -60,11 +55,8 @@ public class Menu {
 		for (OButton button : menuButtons) {
 			button.render(sr);
 		}
-		for (MenuItem menuItem : menuItems) {
+		for (TowerButton menuItem : towerButtons) {
 			menuItem.render(sr);
-		}
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.render(sr);
 		}
 	}
 
@@ -73,13 +65,9 @@ public class Menu {
 		for (OButton button : menuButtons) {
 			button.update(deltaTime);
 		}
-		for (MenuItem menuItem : menuItems) {
+		for (TowerButton menuItem : towerButtons) {
 			menuItem.update(deltaTime);
 		}
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.update(deltaTime);
-		}
-
 	}
 
 	public void updateInputs(float x, float y) {
@@ -87,17 +75,14 @@ public class Menu {
 		for (OButton button : menuButtons) {
 			button.updateInputs(x, y);
 		}
-		for (MenuItem menuItem : menuItems) {
+		for (TowerButton menuItem : towerButtons) {
 			menuItem.updateInputs(x, y);
-		}
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.updateInputs(x, y);
 		}
 	}
 
 	public void touchDown(float x, float y) {
 
-		for (MenuItem menuItem : menuItems) {
+		for (TowerButton menuItem : towerButtons) {
 
 			if (menuItem.getBoundRect().contains(x, y)) {
 				selectedMenuItem = menuItem;
@@ -112,12 +97,6 @@ public class Menu {
 				selectedMenuButton.touchDown(x, y);
 			}
 
-		}
-		for (PropertyButton propertyButton : propertyButtons) {
-			if (propertyButton.getBoundRect().contains(x, y)) {
-				selectedPropertyButton = propertyButton;
-				selectedPropertyButton.touchDown(x, y);
-			}
 		}
 
 	}

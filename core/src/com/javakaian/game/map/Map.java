@@ -1,12 +1,12 @@
 package com.javakaian.game.map;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.entity.Board;
 import com.javakaian.game.entity.Entity;
 import com.javakaian.game.map.MapMaker.Direction;
 
@@ -55,5 +55,15 @@ public class Map implements Entity {
 
 	public Set<Vector2> getPathPoints() {
 		return pathPoints;
+	}
+
+	public Grid getSelectedGrid(float x, float y) {
+		List<Grid> gridList = this.board.getGridList();
+		for (Grid grid : gridList) {
+			if (grid.contains(x, y)) {
+				return grid;
+			}
+		}
+		return null;
 	}
 }

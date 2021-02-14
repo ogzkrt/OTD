@@ -57,7 +57,7 @@ public class Grid extends GameObject {
 
 	public enum EnumGridType {
 
-		PATH, WATER, PIT, LAND, TOWER
+		PATH, LAND, TOWER
 
 	}
 }

@@ -47,7 +47,7 @@ public class GameConstants {
 	public static float BULLET_SPEED = GRID_WIDTH * 8;
 
 	public static int SCORE_INCREASE_CONSTANT = 100;
-	public static float ENEMY_BOUNTY = 2;
+	public static int ENEMY_BOUNTY = 2;
 
 	public static int NEXT_WAVE_SPAWN_TIME = 10;
 	public static int REMAINING_HEALTH = 6;

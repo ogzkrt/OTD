@@ -10,9 +10,8 @@ import com.javakaian.game.util.GameConstants;
 
 public class Enemy extends GameObject {
 
-	private float health;
 	private float remainingHealth;
-	private float bounty;
+	private int bounty;
 	private int speed;
 
 	private float distanceToTile;
@@ -28,11 +27,10 @@ public class Enemy extends GameObject {
 	private HealthBar healthBar;
 
 	public Enemy(float x, float y, float width, float height, float health, LinkedList<Direction> directionList,
-			float bounty, int speed) {
+			int bounty, int speed) {
 		super(x, y, width, height);
 		this.speed = speed;
 		this.directionList = new LinkedList<Direction>(directionList);
-		this.health = health;
 		this.remainingHealth = health;
 		this.bounty = bounty;
 		this.sprite = MyAtlas.ENEMY;
@@ -43,7 +41,6 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void render(ShapeRenderer sr) {
-		// super.render(sr);
 		healthBar.render(sr);
 
 	}
@@ -119,8 +116,6 @@ public class Enemy extends GameObject {
 			case LEFT:
 				distanceToTile = GameConstants.HORIZONTAL_MOVEMENT_UNIT;
 				break;
-			default:
-				break;
 			}
 
 		}
@@ -170,7 +165,7 @@ public class Enemy extends GameObject {
 		return alive;
 	}
 
-	public float getBounty() {
+	public int getBounty() {
 		return bounty;
 	}
 

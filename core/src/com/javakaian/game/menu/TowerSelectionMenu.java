@@ -7,10 +7,11 @@ import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.buttons.OToggleButton;
 import com.javakaian.game.buttons.OToggleButtonListener;
-import com.javakaian.game.buttons.PropertyButton;
+import com.javakaian.game.buttons.TowerButton;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.towers.BaseTower;
+import com.javakaian.game.towers.BaseTower.TowerType;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -23,13 +24,13 @@ public class TowerSelectionMenu extends Menu {
 
 	private BitmapFont bitmapFont;
 
-	private MenuItem btnFire;
-	private MenuItem btnIce;
-	private MenuItem btnElectric;
+	private TowerButton btnFire;
+	private TowerButton btnIce;
+	private TowerButton btnElectric;
 
-	private PropertyButton btnDamage;
-	private PropertyButton btnRange;
-	private PropertyButton btnAttackSpped;
+	private OButton btnDamage;
+	private OButton btnRange;
+	private OButton btnSpeed;
 
 	private OToggleButton btnPauseResume;
 	private OToggleButton btnDoubleSpeed;
@@ -52,54 +53,52 @@ public class TowerSelectionMenu extends Menu {
 		float yPosition = GameConstants.MENU_ITEM_OFFSET_Y + GameConstants.GRID_HEIGHT * 7;
 		float damageRangeSpeedYPosition = GameConstants.MENU_ITEM_OFFSET_Y + GameConstants.GRID_HEIGHT * 7.2f;
 
-		btnFire = new MenuItem(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
+		btnFire = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
+		btnFire.setPrice(GameConstants.TOWER_PRICE);
 		btnFire.setIcon(MyAtlas.FIRE_PLANE_MENU);
 		btnFire.setPressedIcon(MyAtlas.FIRE_PLANE);
 		btnFire.setDisabledSprite(MyAtlas.FIRE_PLANE_MENU_DISABLED);
-		btnFire.setPrice(GameConstants.TOWER_PRICE);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnIce = new MenuItem(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
+		btnIce = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
+		btnIce.setPrice(GameConstants.TOWER_PRICE);
 		btnIce.setIcon(MyAtlas.ICE_TOWER_MENU);
 		btnIce.setPressedIcon(MyAtlas.ICE_TOWER_MENU);
 		btnIce.setDisabledSprite(MyAtlas.ICE_TOWER_MENU_DISABLED);
-		btnIce.setPrice(GameConstants.TOWER_PRICE);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnElectric = new MenuItem(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
+		btnElectric = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH,
+				GameConstants.MENU_ITEM_HEIGHT);
+		btnElectric.setPrice(GameConstants.ELECTRIC_TOWER_PRICE);
 		btnElectric.setIcon(MyAtlas.ELECTRIC_MENU_ITEM);
 		btnElectric.setPressedIcon(MyAtlas.ELECTRIC_MENU_ITEM);
 		btnElectric.setDisabledSprite(MyAtlas.ELECTRIC_MENU_ITEM_DISABLED);
-		btnElectric.setPrice(GameConstants.ELECTRIC_TOWER_PRICE);
 
 		xPosition += GameConstants.GRID_WIDTH * 3.5;
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
 
-		btnDamage = new PropertyButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+		btnDamage = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
 				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
 		btnDamage.setIcon(MyAtlas.ATTACK_MENU_ITEM);
 		btnDamage.setPressedIcon(MyAtlas.ATTAKC_MENU_ITEM_PRESSED);
 		btnDamage.setDisabledSprite(MyAtlas.ATTAKC_MENU_ITEM_DISABLED);
 		btnDamage.setEnable(false);
-		btnDamage.setPrice(GameConstants.TOWER_ATTACK_PRICE);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnRange = new PropertyButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+		btnRange = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
 				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
 		btnRange.setIcon(MyAtlas.RANGE_MENU_ITEM);
 		btnRange.setPressedIcon(MyAtlas.RANGE_MENU_ITEM_PRESSED);
 		btnRange.setDisabledSprite(MyAtlas.RANGE_MENU_ITEM_DISABLED);
 		btnRange.setEnable(false);
-		btnRange.setPrice(GameConstants.TOWER_RANGE_PRICE);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnAttackSpped = new PropertyButton(xPosition, damageRangeSpeedYPosition,
-				GameConstants.MENU_ITEM_WIDTH * (0.75f), GameConstants.MENU_ITEM_HEIGHT * (0.75f));
-		btnAttackSpped.setIcon(MyAtlas.SPEED_MENU_ITEM);
-		btnAttackSpped.setPressedIcon(MyAtlas.SPEED_MENU_ITEM_PRESSED);
-		btnAttackSpped.setDisabledSprite(MyAtlas.SPEED_MENU_ITEM_DISABLED);
-		btnAttackSpped.setEnable(false);
-		btnAttackSpped.setPrice(GameConstants.TOWER_SPEED_PRICE);
+		btnSpeed = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
+		btnSpeed.setIcon(MyAtlas.SPEED_MENU_ITEM);
+		btnSpeed.setPressedIcon(MyAtlas.SPEED_MENU_ITEM_PRESSED);
+		btnSpeed.setDisabledSprite(MyAtlas.SPEED_MENU_ITEM_DISABLED);
+		btnSpeed.setEnable(false);
 
 		btnPauseResume = new OToggleButton(GameConstants.PAUSE_RESUME_POS_X, yPosition,
 				GameConstants.PAUSE2X_ITEM_WIDTH, GameConstants.PAUSE2X_ITEM_HEIGHT);
@@ -121,13 +120,13 @@ public class TowerSelectionMenu extends Menu {
 		btnRestart.setIcon(MyAtlas.REMAKE_MENU_ITEM);
 		btnRestart.setPressedIcon(MyAtlas.REMAKE_MENU_ITEM_PRESSED);
 
-		menuItems.add(btnFire);
-		menuItems.add(btnIce);
-		menuItems.add(btnElectric);
+		towerButtons.add(btnFire);
+		towerButtons.add(btnIce);
+		towerButtons.add(btnElectric);
 
-		propertyButtons.add(btnDamage);
-		propertyButtons.add(btnRange);
-		propertyButtons.add(btnAttackSpped);
+		menuButtons.add(btnDamage);
+		menuButtons.add(btnRange);
+		menuButtons.add(btnSpeed);
 
 		menuButtons.add(btnPauseResume);
 		menuButtons.add(btnDoubleSpeed);
@@ -150,7 +149,7 @@ public class TowerSelectionMenu extends Menu {
 
 			@Override
 			public void touchRelease(float x, float y) {
-				level.createFireTowerClicked(x, y);
+				level.createTowerClicked(x, y, TowerType.FIRE);
 				level.renderGrids(false);
 			}
 
@@ -169,7 +168,7 @@ public class TowerSelectionMenu extends Menu {
 
 			@Override
 			public void touchRelease(float x, float y) {
-				level.createIceTowerClicked(x, y);
+				level.createTowerClicked(x, y, TowerType.ICE);
 				level.renderGrids(false);
 			}
 
@@ -182,7 +181,7 @@ public class TowerSelectionMenu extends Menu {
 			@Override
 			public void touchRelease(float x, float y) {
 				// TODO Auto-generated method stub
-				level.createElectricTowerClicked(x, y);
+				level.createTowerClicked(x, y, TowerType.ELECTRIC);
 				level.renderGrids(false);
 			}
 
@@ -258,7 +257,7 @@ public class TowerSelectionMenu extends Menu {
 			}
 		});
 
-		btnAttackSpped.setButtonListener(new OButtonListener() {
+		btnSpeed.setButtonListener(new OButtonListener() {
 
 			@Override
 			public void touchDown(float x, float y) {
@@ -320,17 +319,6 @@ public class TowerSelectionMenu extends Menu {
 
 	}
 
-	public void initButtonStates() {
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.setEnable(false);
-		}
-		btnFire.setEnable(true);
-		btnIce.setEnable(true);
-		btnElectric.setEnable(true);
-		btnRestart.setEnable(true);
-		btnExit.setEnable(true);
-	}
-
 	@Override
 	public void render(SpriteBatch sb) {
 		renderGrids(sb);
@@ -374,31 +362,6 @@ public class TowerSelectionMenu extends Menu {
 		level.renderGrids(b);
 	}
 
-	public void fireMoneyChangedForMenuItems(int money) {
-		for (MenuItem menuItem : menuItems) {
-			menuItem.moneyChanged(money);
-		}
-	}
-
-	public void fireMoneyChangedForMenuProps(int money) {
-
-		for (PropertyButton propertyButton : propertyButtons) {
-			propertyButton.moneyChanged(money);
-		}
-	}
-
-	public void damagePriceChanged(int price) {
-		btnDamage.priceChanged(price);
-	}
-
-	public void rangePriceChanged(int price) {
-		btnRange.priceChanged(price);
-	}
-
-	public void attacSpeedPriceChanged(int price) {
-		btnAttackSpped.priceChanged(price);
-	}
-
 	public void fireHealthChanged(int remainingHealth) {
 		this.healthText = "HEALTH: " + String.valueOf(remainingHealth);
 
@@ -412,40 +375,75 @@ public class TowerSelectionMenu extends Menu {
 	public void clearSelectedTower() {
 		btnDamage.setEnable(false);
 		btnRange.setEnable(false);
-		btnAttackSpped.setEnable(false);
+		btnSpeed.setEnable(false);
 
 		btnDamage.setText("");
 		btnRange.setText("");
-		btnAttackSpped.setText("");
+		btnSpeed.setText("");
 	}
 
-	public void setDamageButtonEnablity(boolean flag) {
-		btnDamage.setEnable(flag);
+	public void moneyChanged(int money) {
+		updateTowerButtons(money);
+		BaseTower selectedTower = level.getSelectedTower();
+		if (selectedTower == null) {
+			btnDamage.setEnable(false);
+			btnRange.setEnable(false);
+			btnSpeed.setEnable(false);
+			return;
+		}
+		updateUpgradeButtons(money);
 	}
 
-	public void setRangeButtonEnablity(boolean flag) {
-		btnRange.setEnable(flag);
-	}
+	public void updateUpgradeButtons(int money) {
 
-	public void setSpeedButtonEnablity(boolean flag) {
-		btnAttackSpped.setEnable(flag);
-	}
+		BaseTower selectedTower = level.getSelectedTower();
+		int dprice = selectedTower.getAttackPrice();
+		int rprice = selectedTower.getRangePrice();
+		int sprice = selectedTower.getSpeedPrice();
+		btnDamage.setText(String.valueOf(dprice));
+		btnRange.setText(String.valueOf(rprice));
+		btnSpeed.setText(String.valueOf(sprice));
+		btnDamage.setEnable(true);
+		btnRange.setEnable(true);
+		btnSpeed.setEnable(true);
+		switch (selectedTower.getType()) {
+		case FIRE:
 
-	public void updatePropertyButtons(BaseTower t) {
-
-		btnDamage.priceChanged(t.getAttackPrice());
-		btnRange.priceChanged(t.getRangePrice());
-		btnAttackSpped.priceChanged(t.getSpeedPrice());
-		switch (t.getType()) {
+			if (money < dprice) {
+				btnDamage.setEnable(false);
+			}
+			if (money < rprice) {
+				btnRange.setEnable(false);
+			}
+			if (money < sprice) {
+				btnSpeed.setEnable(false);
+			}
+			break;
 		case ICE:
 			btnDamage.setEnable(false);
+			if (money < selectedTower.getRangePrice()) {
+				btnRange.setEnable(false);
+			}
+			if (money < selectedTower.getSpeedPrice()) {
+				btnSpeed.setEnable(false);
+			}
 			break;
 		case ELECTRIC:
-			btnAttackSpped.setEnable(false);
+			btnSpeed.setEnable(false);
+			if (money < selectedTower.getRangePrice()) {
+				btnRange.setEnable(false);
+			}
+			if (money < selectedTower.getAttackPrice()) {
+				btnDamage.setEnable(false);
+			}
 			break;
+		}
 
-		default:
-			break;
+	}
+
+	private void updateTowerButtons(int money) {
+		for (TowerButton tbutton : towerButtons) {
+			tbutton.moneyChanged(money);
 		}
 
 	}

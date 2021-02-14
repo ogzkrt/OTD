@@ -24,7 +24,7 @@ public class EnemyController {
 
 	private float health;
 	private int enemyNumberLimit;
-	private float bounty;
+	private int bounty;
 	private LinkedList<Direction> directionList;
 	private Map map;
 

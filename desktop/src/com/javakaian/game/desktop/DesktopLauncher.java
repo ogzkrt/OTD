@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		// config.fullscreen = true;
 		config.x = 2750;
-		config.x = 130;
+		// config.x = 130;
 		config.y = 350;
 		System.out.println(config.width);
 		System.out.println(config.height);

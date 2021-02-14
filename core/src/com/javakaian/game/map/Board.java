@@ -1,4 +1,4 @@
-package com.javakaian.game.entity;
+package com.javakaian.game.map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import java.util.Set;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.map.Grid;
 import com.javakaian.game.map.Grid.EnumGridType;
 import com.javakaian.game.util.GameConstants;
 
