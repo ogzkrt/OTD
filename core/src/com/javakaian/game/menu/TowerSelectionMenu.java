@@ -8,6 +8,7 @@ import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.buttons.OToggleButton;
 import com.javakaian.game.buttons.OToggleButtonListener;
 import com.javakaian.game.buttons.TowerButton;
+import com.javakaian.game.buttons.UpgradeButton;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.towers.BaseTower;
@@ -28,12 +29,13 @@ public class TowerSelectionMenu extends Menu {
 	private TowerButton btnIce;
 	private TowerButton btnElectric;
 
-	private OButton btnDamage;
-	private OButton btnRange;
-	private OButton btnSpeed;
+	private UpgradeButton btnDamage;
+	private UpgradeButton btnRange;
+	private UpgradeButton btnSpeed;
 
 	private OToggleButton btnPauseResume;
 	private OToggleButton btnDoubleSpeed;
+
 	private OButton btnRestart;
 	private OButton btnExit;
 
@@ -77,7 +79,7 @@ public class TowerSelectionMenu extends Menu {
 		xPosition += GameConstants.GRID_WIDTH * 3.5;
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
 
-		btnDamage = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+		btnDamage = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
 				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
 		btnDamage.setIcon(MyAtlas.ATTACK_MENU_ITEM);
 		btnDamage.setPressedIcon(MyAtlas.ATTAKC_MENU_ITEM_PRESSED);
@@ -85,7 +87,7 @@ public class TowerSelectionMenu extends Menu {
 		btnDamage.setEnable(false);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnRange = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+		btnRange = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
 				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
 		btnRange.setIcon(MyAtlas.RANGE_MENU_ITEM);
 		btnRange.setPressedIcon(MyAtlas.RANGE_MENU_ITEM_PRESSED);
@@ -93,7 +95,7 @@ public class TowerSelectionMenu extends Menu {
 		btnRange.setEnable(false);
 
 		xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
-		btnSpeed = new OButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
+		btnSpeed = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
 				GameConstants.MENU_ITEM_HEIGHT * (0.75f));
 		btnSpeed.setIcon(MyAtlas.SPEED_MENU_ITEM);
 		btnSpeed.setPressedIcon(MyAtlas.SPEED_MENU_ITEM_PRESSED);
@@ -124,9 +126,9 @@ public class TowerSelectionMenu extends Menu {
 		towerButtons.add(btnIce);
 		towerButtons.add(btnElectric);
 
-		menuButtons.add(btnDamage);
-		menuButtons.add(btnRange);
-		menuButtons.add(btnSpeed);
+		upgradeButtons.add(btnDamage);
+		upgradeButtons.add(btnRange);
+		upgradeButtons.add(btnSpeed);
 
 		menuButtons.add(btnPauseResume);
 		menuButtons.add(btnDoubleSpeed);
@@ -225,11 +227,12 @@ public class TowerSelectionMenu extends Menu {
 
 			@Override
 			public void touchDown(float x, float y) {
-
+				System.out.println("increase damage clciked");
 			}
 
 			@Override
 			public void touchRelease(float x, float y) {
+				System.out.println("increase attack clicked");
 				level.increaseAttackClickled();
 			}
 
@@ -397,45 +400,29 @@ public class TowerSelectionMenu extends Menu {
 	public void updateUpgradeButtons(int money) {
 
 		BaseTower selectedTower = level.getSelectedTower();
-		int dprice = selectedTower.getAttackPrice();
-		int rprice = selectedTower.getRangePrice();
-		int sprice = selectedTower.getSpeedPrice();
-		btnDamage.setText(String.valueOf(dprice));
-		btnRange.setText(String.valueOf(rprice));
-		btnSpeed.setText(String.valueOf(sprice));
+		btnDamage.setText(String.valueOf(selectedTower.getAttackPrice()));
+		btnDamage.setPrice(selectedTower.getAttackPrice());
+		btnRange.setText(String.valueOf(selectedTower.getRangePrice()));
+		btnRange.setPrice(selectedTower.getRangePrice());
+		btnSpeed.setText(String.valueOf(selectedTower.getSpeedPrice()));
+		btnSpeed.setPrice(selectedTower.getSpeedPrice());
+
 		btnDamage.setEnable(true);
 		btnRange.setEnable(true);
 		btnSpeed.setEnable(true);
-		switch (selectedTower.getType()) {
-		case FIRE:
 
-			if (money < dprice) {
-				btnDamage.setEnable(false);
-			}
-			if (money < rprice) {
-				btnRange.setEnable(false);
-			}
-			if (money < sprice) {
-				btnSpeed.setEnable(false);
-			}
-			break;
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			upgradeButton.moneyChanged(money);
+		}
+
+		switch (selectedTower.getType()) {
 		case ICE:
 			btnDamage.setEnable(false);
-			if (money < selectedTower.getRangePrice()) {
-				btnRange.setEnable(false);
-			}
-			if (money < selectedTower.getSpeedPrice()) {
-				btnSpeed.setEnable(false);
-			}
 			break;
 		case ELECTRIC:
 			btnSpeed.setEnable(false);
-			if (money < selectedTower.getRangePrice()) {
-				btnRange.setEnable(false);
-			}
-			if (money < selectedTower.getAttackPrice()) {
-				btnDamage.setEnable(false);
-			}
+			break;
+		default:
 			break;
 		}
 

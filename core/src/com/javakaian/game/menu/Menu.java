@@ -10,15 +10,17 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.TowerButton;
+import com.javakaian.game.buttons.UpgradeButton;
 
 public class Menu {
 
 	protected List<TowerButton> towerButtons;
+	protected List<UpgradeButton> upgradeButtons;
 	protected List<OButton> menuButtons;
 
 	protected TowerButton selectedMenuItem = null;
 	protected OButton selectedMenuButton = null;
-	protected OButton selectedPropertyButton = null;
+	protected UpgradeButton selectedUpgradeButton = null;
 
 	protected Vector2 position;
 	protected Vector2 size;
@@ -37,6 +39,7 @@ public class Menu {
 
 		towerButtons = new ArrayList<TowerButton>();
 		menuButtons = new ArrayList<OButton>();
+		upgradeButtons = new ArrayList<UpgradeButton>();
 	}
 
 	public void render(SpriteBatch sb) {
@@ -46,6 +49,9 @@ public class Menu {
 		}
 		for (TowerButton towerButton : towerButtons) {
 			towerButton.render(sb);
+		}
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			upgradeButton.render(sb);
 		}
 	}
 
@@ -58,6 +64,9 @@ public class Menu {
 		for (TowerButton menuItem : towerButtons) {
 			menuItem.render(sr);
 		}
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			upgradeButton.render(sr);
+		}
 	}
 
 	public void update(float deltaTime) {
@@ -68,6 +77,9 @@ public class Menu {
 		for (TowerButton menuItem : towerButtons) {
 			menuItem.update(deltaTime);
 		}
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			upgradeButton.update(deltaTime);
+		}
 	}
 
 	public void updateInputs(float x, float y) {
@@ -77,6 +89,9 @@ public class Menu {
 		}
 		for (TowerButton menuItem : towerButtons) {
 			menuItem.updateInputs(x, y);
+		}
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			upgradeButton.updateInputs(x, y);
 		}
 	}
 
@@ -98,6 +113,12 @@ public class Menu {
 			}
 
 		}
+		for (UpgradeButton upgradeButton : upgradeButtons) {
+			if (upgradeButton.getBoundRect().contains(x, y)) {
+				selectedUpgradeButton = upgradeButton;
+				selectedUpgradeButton.touchDown(x, y);
+			}
+		}
 
 	}
 
@@ -112,9 +133,9 @@ public class Menu {
 			selectedMenuButton.touchRelease(x, y);
 			selectedMenuButton = null;
 		}
-		if (selectedPropertyButton != null) {
-			selectedPropertyButton.touchRelease(x, y);
-			selectedPropertyButton = null;
+		if (selectedUpgradeButton != null) {
+			selectedUpgradeButton.touchRelease(x, y);
+			selectedUpgradeButton = null;
 		}
 
 	}
