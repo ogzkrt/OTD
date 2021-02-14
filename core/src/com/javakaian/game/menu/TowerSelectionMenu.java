@@ -407,14 +407,9 @@ public class TowerSelectionMenu extends Menu {
 		btnSpeed.setText(String.valueOf(selectedTower.getSpeedPrice()));
 		btnSpeed.setPrice(selectedTower.getSpeedPrice());
 
-		btnDamage.setEnable(true);
-		btnRange.setEnable(true);
-		btnSpeed.setEnable(true);
-
 		for (UpgradeButton upgradeButton : upgradeButtons) {
 			upgradeButton.moneyChanged(money);
 		}
-
 		switch (selectedTower.getType()) {
 		case ICE:
 			btnDamage.setEnable(false);
