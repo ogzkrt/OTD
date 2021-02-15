@@ -26,7 +26,7 @@ public abstract class BaseTower extends GameObject {
 	protected float rotation = 0;
 	protected float damage;
 
-	protected float attackSpeed = 2f; // times per second.
+	protected float speed = 2f; // times per second.
 	protected float speedCounter = 0;
 
 	protected int towerPrice;
@@ -73,17 +73,21 @@ public abstract class BaseTower extends GameObject {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		updateTargetMap();
-		if (target == null) {
-			findTarget();
-		} else if (isInRange() && isTargetAlive()) {
-
-			calculateRotation();
-			invokeShootFunctions(deltaTime);
-			removeBullets();
-		}
 		for (Bullet bullet : bulletList) {
 			bullet.update(deltaTime);
 		}
+		if (target == null) {
+			findTarget();
+			return;
+		}
+		if (target.isAlive()) {
+			calculateRotation();
+			invokeShootFunctions(deltaTime);
+			removeBullets();
+		} else {
+			target = null;
+		}
+
 	}
 
 	public void render(SpriteBatch sb) {
@@ -102,6 +106,9 @@ public abstract class BaseTower extends GameObject {
 
 	}
 
+	/**
+	 * Calculates the rotation of the tower according to the target .
+	 */
 	private void calculateRotation() {
 
 		Vector2 temp = new Vector2(target.center).sub(center);
@@ -109,10 +116,18 @@ public abstract class BaseTower extends GameObject {
 		rotation = angle;
 	}
 
+	/**
+	 * Override this method if your tower shoots periodically. This method will be
+	 * called according to attack speed of a tower.
+	 */
 	public void projectileShoot() {
 
 	}
 
+	/**
+	 * Override this method if your tower is going to shoot continiously. This
+	 * method will be called per update.
+	 */
 	public void contiuniousShoot() {
 
 	}
@@ -121,12 +136,16 @@ public abstract class BaseTower extends GameObject {
 
 		contiuniousShoot();
 		speedCounter += deltaTime;
-		if (speedCounter >= 1.0f / attackSpeed) {
+		if (speedCounter >= 1.0f / speed) {
 			speedCounter = 0;
 			projectileShoot();
 		}
 	}
 
+	/**
+	 * Bullets gets invisible after they hit their target.This functions iterates
+	 * through the bullet lists and removes the invisible ones.
+	 */
 	private void removeBullets() {
 		List<Bullet> tempList = new ArrayList<Bullet>();
 		for (int i = 0; i < bulletList.size(); i++) {
@@ -139,23 +158,10 @@ public abstract class BaseTower extends GameObject {
 
 	}
 
-	private boolean isTargetAlive() {
-		if (!target.isAlive()) {
-			setTarget(null);
-			return false;
-		}
-		return true;
-	}
-
-	private boolean isInRange() {
-		float distance = center.dst(target.position);
-		if (distance > range) {
-			setTarget(null);
-		}
-		return distance <= range;
-
-	}
-
+	/**
+	 * Finds all the enemies within the tower range and puts them in hashmap called
+	 * enemyMap. If the enemy is out of the range, removes it from the hashmap..
+	 */
 	private void updateTargetMap() {
 		enemyMap = new HashMap<>();
 		for (Enemy enemy : enemyList) {
@@ -169,6 +175,10 @@ public abstract class BaseTower extends GameObject {
 
 	}
 
+	/**
+	 * Iterates though enemies within the range and sets the closest one as a
+	 * target.
+	 */
 	private void findTarget() {
 
 		Collection<Float> values = enemyMap.values();
@@ -178,19 +188,10 @@ public abstract class BaseTower extends GameObject {
 
 			for (Entry<Enemy, Float> entry : enemyMap.entrySet()) {
 				if (entry.getValue().equals(lowest)) {
-					target = entry.getKey();
-					setTarget(entry.getKey());
+					this.target = entry.getKey();
 				}
 			}
 
-		}
-	}
-
-	public void setTarget(Enemy target) {
-		if (target == null) {
-			this.target = null;
-		} else {
-			this.target = target;
 		}
 	}
 
@@ -210,12 +211,12 @@ public abstract class BaseTower extends GameObject {
 		this.damage = damage;
 	}
 
-	public void setAttackSpeed(float attackSpeed) {
-		this.attackSpeed = attackSpeed;
+	public void setSpeed(float attackSpeed) {
+		this.speed = attackSpeed;
 	}
 
 	public float getSpeed() {
-		return attackSpeed;
+		return speed;
 	}
 
 	public void setSelected(boolean isSelected) {
@@ -237,7 +238,7 @@ public abstract class BaseTower extends GameObject {
 	}
 
 	public void increaseSpeed() {
-		this.attackSpeed *= 1.1;
+		this.speed *= 1.1;
 		this.speedPrice *= 2;
 	}
 

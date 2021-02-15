@@ -6,15 +6,34 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * @author javakaian
+ * 
+ * 
+ * 
+ *         Base class for almost all game objects. Inherit from this class if
+ *         the object on your mind has following features; -selectable, -has a
+ *         sprite -position -dimensions.
+ * 
+ *
+ */
 public abstract class GameObject {
 
+	/** Position of the object: X,Y coordinates */
 	public Vector2 position;
+	/** Size of the object width,height */
 	public Vector2 size;
+	/** Center point of an object:X,Y */
 	public Vector2 center;
+	/** Image that going to be rendered if its visible and not selected */
 	protected Sprite sprite;
+	/** Image that going to be rendered if its visible and selected */
 	protected Sprite spriteSelected;
+	/** Sets the visibility of the object */
 	protected boolean visible;
+	/** Boundry rectangle for the collision detection */
 	protected Rectangle boundRect;
+	/** To see if its selected or not. */
 	protected boolean isSelected = false;
 
 	public GameObject(float x, float y, float width, float height) {
@@ -26,6 +45,10 @@ public abstract class GameObject {
 		this.visible = true;
 	}
 
+	/**
+	 * Renders the boundary rect with shape renderer if object is visible.
+	 * 
+	 */
 	public void render(ShapeRenderer sr) {
 
 		if (visible) {
@@ -34,17 +57,22 @@ public abstract class GameObject {
 
 	}
 
+	/**
+	 * Renders the sprites of an object if object is visible
+	 **/
 	public void render(SpriteBatch sb) {
-
-		if (visible) {
-			if (isSelected) {
-				sb.draw(spriteSelected, this.position.x, this.position.y, this.size.x, this.size.y);
-			} else {
-				sb.draw(sprite, this.position.x, this.position.y, this.size.x, this.size.y);
-			}
+		if (!visible)
+			return;
+		if (isSelected) {
+			sb.draw(spriteSelected, this.position.x, this.position.y, this.size.x, this.size.y);
+		} else {
+			sb.draw(sprite, this.position.x, this.position.y, this.size.x, this.size.y);
 		}
 	}
 
+	/**
+	 * Updates the boundary rect's coordinates and center location.
+	 */
 	public void update(float deltaTime) {
 
 		// update position

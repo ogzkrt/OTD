@@ -22,11 +22,6 @@ public class Grid extends GameObject {
 
 	}
 
-	@Override
-	public void update(float deltaTime) {
-
-	}
-
 	public void render(SpriteBatch sb) {
 
 		switch (type) {

@@ -84,7 +84,7 @@ public class TowerController implements Entity {
 
 		FireTower ft = new FireTower(x, y, enemyList);
 		if (speedMode) {
-			ft.setAttackSpeed(ft.getSpeed() * 2);
+			ft.setSpeed(ft.getSpeed() * 2);
 		}
 		towerList.add(ft);
 		return GameConstants.TOWER_PRICE;
@@ -94,7 +94,7 @@ public class TowerController implements Entity {
 
 		IceTower it = new IceTower(x, y, enemyList);
 		if (speedMode) {
-			it.setAttackSpeed(it.getSpeed() * 2);
+			it.setSpeed(it.getSpeed() * 2);
 		}
 		towerList.add(new IceTower(x, y, enemyList));
 		return GameConstants.TOWER_PRICE;
@@ -151,14 +151,14 @@ public class TowerController implements Entity {
 		// also consider towers which will be builded during the process.
 		speedMode = true;
 		for (BaseTower baseTower : towerList) {
-			baseTower.setAttackSpeed(baseTower.getSpeed() * 2);
+			baseTower.setSpeed(baseTower.getSpeed() * 2);
 		}
 	}
 
 	public void normalSpeedClicked() {
 		speedMode = false;
 		for (BaseTower baseTower : towerList) {
-			baseTower.setAttackSpeed(baseTower.getSpeed() / 2);
+			baseTower.setSpeed(baseTower.getSpeed() / 2);
 		}
 	}
 
