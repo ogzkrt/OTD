@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.javakaian.game.entity.Enemy;
 import com.javakaian.game.entity.Entity;
-import com.javakaian.game.level.Level;
 import com.javakaian.game.towers.BaseTower;
 import com.javakaian.game.towers.BaseTower.TowerType;
 import com.javakaian.game.towers.ElectricTower;
@@ -22,11 +21,10 @@ public class TowerController implements Entity {
 
 	private BaseTower selectedTower;
 
-	private Level level;
+	private boolean speedMode = false;
 
-	public TowerController(Level level) {
+	public TowerController() {
 
-		this.level = level;
 		towerList = new ArrayList<BaseTower>();
 	}
 
@@ -84,27 +82,37 @@ public class TowerController implements Entity {
 
 	private int buildFireTower(float x, float y, List<Enemy> enemyList) {
 
-		towerList.add(new FireTower(x, y, enemyList));
+		FireTower ft = new FireTower(x, y, enemyList);
+		if (speedMode) {
+			ft.setAttackSpeed(ft.getSpeed() * 2);
+		}
+		towerList.add(ft);
 		return GameConstants.TOWER_PRICE;
 	}
 
 	private int buildIceTower(float x, float y, List<Enemy> enemyList) {
 
+		IceTower it = new IceTower(x, y, enemyList);
+		if (speedMode) {
+			it.setAttackSpeed(it.getSpeed() * 2);
+		}
 		towerList.add(new IceTower(x, y, enemyList));
 		return GameConstants.TOWER_PRICE;
 	}
 
 	private int buildElectricTower(float x, float y, List<Enemy> enemyList) {
-
+		ElectricTower et = new ElectricTower(x, y, enemyList);
+		if (speedMode) {
+			et.setDamage(et.getDamage() * 2);
+		}
 		towerList.add(new ElectricTower(x, y, enemyList));
 		return GameConstants.ELECTRIC_TOWER_PRICE;
 	}
 
-	public List<BaseTower> getTowerList() {
-		return towerList;
-	}
-
-	public BaseTower getTower(Vector2 center) {
+	/**
+	 * Returns the selected tower.
+	 */
+	public BaseTower getSelectedTower(Vector2 center) {
 
 		for (BaseTower tower : towerList) {
 			tower.setSelected(false);
@@ -141,15 +149,16 @@ public class TowerController implements Entity {
 
 	public void speed2xClicked() {
 		// also consider towers which will be builded during the process.
+		speedMode = true;
 		for (BaseTower baseTower : towerList) {
-			baseTower.attackSpeed = baseTower.attackSpeed * 2;
+			baseTower.setAttackSpeed(baseTower.getSpeed() * 2);
 		}
 	}
 
 	public void normalSpeedClicked() {
-
+		speedMode = false;
 		for (BaseTower baseTower : towerList) {
-			baseTower.attackSpeed = baseTower.attackSpeed / 2;
+			baseTower.setAttackSpeed(baseTower.getSpeed() / 2);
 		}
 	}
 

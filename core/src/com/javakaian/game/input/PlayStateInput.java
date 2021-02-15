@@ -33,11 +33,12 @@ public class PlayStateInput extends InputAdapter {
 
 	@Override
 	public boolean scrolled(int amount) {
-		if (amount == 1) {
-			state.getCamera().zoom += 1;
+		if (amount > 0) {
+			state.getCamera().zoom += 0.5;
 		} else {
-			state.getCamera().zoom -= 1;
+			state.getCamera().zoom -= 0.5;
 		}
 		return super.scrolled(amount);
 	}
+
 }

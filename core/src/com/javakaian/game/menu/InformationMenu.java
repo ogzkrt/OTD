@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.javakaian.game.towers.BaseTower;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
@@ -21,7 +22,7 @@ public class InformationMenu extends Menu {
 	private int money;
 
 	public InformationMenu(Sprite menuSprite) {
-		super(0, 0, GameConstants.SCREEN_WIDTH, GameConstants.GRID_HEIGHT * 2, menuSprite);
+		super(0, 0, GameConstants.SCREEN_WIDTH, GameConstants.GRID_HEIGHT, menuSprite);
 		this.bitmapFont = GameUtils.generateBitmapFont(25, Color.BLACK);
 	}
 
@@ -66,10 +67,14 @@ public class InformationMenu extends Menu {
 		moneyText = "MONEY: " + String.valueOf(money);
 	}
 
-	public void updateTowerInformations(float damage, float range, float attackSpeed) {
+	public void updateTowerInformations(BaseTower t) {
+
+		float damage = t.getDamage();
+		float range = t.getRange();
+		float speed = t.getSpeed();
 		towerDamageText = "DAMAGE: " + String.format("%.00f", damage);
 		towerRangeText = "RANGE: " + String.format("%.00f", range);
-		towerSpeedText = "SPEED: " + String.format("%.02f", attackSpeed);
+		towerSpeedText = "SPEED: " + String.format("%.02f", speed);
 	}
 
 	public void fireMoneyChanged(int amount) {

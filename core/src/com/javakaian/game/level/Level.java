@@ -58,7 +58,7 @@ public class Level implements Entity {
 
 		map = new Map();
 		enemyController = new EnemyController(this);
-		towerController = new TowerController(this);
+		towerController = new TowerController();
 		informationMenu = new InformationMenu(MyAtlas.MENU);
 		towerSelectionMenu = new TowerSelectionMenu(this);
 	}
@@ -123,7 +123,7 @@ public class Level implements Entity {
 
 	public void enemyPassedTheCheckPoint() {
 		remainingHealth--;
-		fireHealthChanged();
+		towerSelectionMenu.fireHealthChanged(remainingHealth);
 		if (remainingHealth == 0) {
 			state.gameOver();
 		}
@@ -133,9 +133,9 @@ public class Level implements Entity {
 
 		score += GameConstants.SCORE_INCREASE_CONSTANT;
 		enemyNumber -= 1;
-		fireScoreChanged();
 		increaseMoney(bounty);
-		fireEnemyNumberChanged();
+		informationMenu.fireScoreChanged(this.score);
+		towerSelectionMenu.fireEnemyNumberChanged(enemyNumber);
 	}
 
 	public void newWaveCreated(int size) {
@@ -170,8 +170,9 @@ public class Level implements Entity {
 			return;
 		switch (grid.getType()) {
 		case TOWER:
-			BaseTower t = towerController.getTower(grid.getPosition());
-			fireTowerSelectedEvent(t);
+			BaseTower t = towerController.getSelectedTower(grid.getPosition());
+			informationMenu.updateTowerInformations(t);
+			towerSelectionMenu.updateUpgradeButtons(money);
 			break;
 		case LAND:
 			towerController.clearSelectedTower();
@@ -210,12 +211,19 @@ public class Level implements Entity {
 		this.map.getBoard().setRender(b);
 	}
 
+	public void nextWaveCountDown(int i) {
+		this.timeLeft = i;
+		renderTimeAndWaveNumber = true;
+
+	}
+
 	public void increaseAttackClickled() {
 		BaseTower t = towerController.getSelectedTower();
 		int cost = t.getAttackPrice();
 		if (cost <= money) {
 			towerController.increaseAttack();
 			decreaseMoney(cost);
+			informationMenu.updateTowerInformations(t);
 		}
 
 	}
@@ -226,6 +234,7 @@ public class Level implements Entity {
 		if (cost <= money) {
 			towerController.increaseRange();
 			decreaseMoney(cost);
+			informationMenu.updateTowerInformations(t);
 		}
 
 	}
@@ -236,6 +245,7 @@ public class Level implements Entity {
 		if (cost <= money) {
 			towerController.increaseSpeed();
 			decreaseMoney(cost);
+			informationMenu.updateTowerInformations(t);
 		}
 	}
 
@@ -261,46 +271,20 @@ public class Level implements Entity {
 		enemyController.normalSpeedClicked();
 	}
 
-	public void nextWaveCountDown(int i) {
-		this.timeLeft = i;
-		renderTimeAndWaveNumber = true;
-
-	}
-
-	private void fireTowerSelectedEvent(BaseTower t) {
-		informationMenu.updateTowerInformations(t.getDamage(), t.getRange(), t.getSpeed());
-		towerSelectionMenu.updateUpgradeButtons(money);
-	}
-
-	private void fireScoreChanged() {
-		informationMenu.fireScoreChanged(this.score);
-	}
-
-	private void fireHealthChanged() {
-		towerSelectionMenu.fireHealthChanged(remainingHealth);
-	}
-
-	private void fireEnemyNumberChanged() {
-		towerSelectionMenu.fireEnemyNumberChanged(enemyNumber);
-	}
-
-	public void fireMoneyChanged() {
-		informationMenu.fireMoneyChanged(money);
-		towerSelectionMenu.moneyChanged(money);
-	}
-
 	public void returnToMenuClicked() {
 		state.getStateController().setState(StateEnum.PauseState);
 	}
 
 	public void increaseMoney(int amount) {
 		this.money += amount;
-		fireMoneyChanged();
+		informationMenu.fireMoneyChanged(money);
+		towerSelectionMenu.moneyChanged(money);
 	}
 
 	public void decreaseMoney(int amount) {
 		this.money -= amount;
-		fireMoneyChanged();
+		informationMenu.fireMoneyChanged(money);
+		towerSelectionMenu.moneyChanged(money);
 	}
 
 }

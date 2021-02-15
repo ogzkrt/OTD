@@ -26,7 +26,7 @@ public abstract class BaseTower extends GameObject {
 	protected float rotation = 0;
 	protected float damage;
 
-	public float attackSpeed = 2f; // times per second.
+	protected float attackSpeed = 2f; // times per second.
 	protected float speedCounter = 0;
 
 	protected int towerPrice;
@@ -42,8 +42,6 @@ public abstract class BaseTower extends GameObject {
 
 		ELECTRIC, FIRE, ICE
 	}
-
-	protected boolean doubleSpeed = false;
 
 	public BaseTower(float x, float y, List<Enemy> enemyList) {
 		super(x, y, GameConstants.TOWER_SIZE, GameConstants.TOWER_SIZE);
@@ -206,6 +204,14 @@ public abstract class BaseTower extends GameObject {
 
 	public float getDamage() {
 		return damage;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	public void setAttackSpeed(float attackSpeed) {
+		this.attackSpeed = attackSpeed;
 	}
 
 	public float getSpeed() {
