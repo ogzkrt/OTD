@@ -6,114 +6,135 @@ filter: Nearest,Nearest
 repeat: none
 attack_menu
   rotate: false
-  xy: 516, 722
+  xy: 662, 584
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 attack_menu_disabled
   rotate: false
-  xy: 516, 464
+  xy: 2, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 attack_menu_pressed
   rotate: false
-  xy: 268, 206
+  xy: 260, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 btn_quit
   rotate: false
-  xy: 526, 206
+  xy: 518, 326
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+btn_quit_pressed
+  rotate: false
+  xy: 2, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+btn_remake
+  rotate: false
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+btn_remake_pressed
+  rotate: false
+  xy: 518, 68
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 bullet_fire
   rotate: false
-  xy: 2, 134
+  xy: 2, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 c6
   rotate: false
-  xy: 774, 914
+  xy: 68, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 coin
   rotate: false
-  xy: 2, 68
+  xy: 134, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
 coin
   rotate: false
-  xy: 68, 134
+  xy: 200, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
 coin
   rotate: false
-  xy: 774, 848
+  xy: 266, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 coin
   rotate: false
-  xy: 840, 914
+  xy: 332, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 4
 coin
   rotate: false
-  xy: 2, 2
+  xy: 398, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 5
+electric_tower
+  rotate: false
+  xy: 2, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+empty_button
+  rotate: false
+  xy: 260, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 ice_bullet
   rotate: false
-  xy: 68, 68
+  xy: 464, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-ice_tower
-  rotate: false
-  xy: 2, 466
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 land
   rotate: false
-  xy: 134, 134
+  xy: 530, 776
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 menu
   rotate: false
-  xy: 774, 782
+  xy: 596, 776
   size: 64, 64
   orig: 64, 64
-  offset: 0, 0
-  index: -1
-path
-  rotate: false
-  xy: 2, 200
-  size: 264, 264
-  orig: 264, 264
   offset: 0, 0
   index: -1
 
@@ -122,63 +143,63 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-btn_quit_pressed
+empty_button_pressed
   rotate: false
   xy: 2, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-btn_remake
+enemy
   rotate: false
   xy: 260, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-btn_remake_pressed
+enemy_slowed
   rotate: false
   xy: 518, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-electric_tower
+fire_plane
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-empty_button
+fire_plane_menu
   rotate: false
   xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-empty_button_pressed
+fire_plane_menu_disabled
   rotate: false
   xy: 518, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-enemy
+ice_tower
   rotate: false
   xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-enemy_slowed
+menu_button
   rotate: false
   xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-fire_plane
+menu_button_pressed
   rotate: false
   xy: 518, 2
   size: 256, 256
@@ -191,63 +212,63 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fire_plane_menu
+menu_item_2x
   rotate: false
   xy: 2, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-fire_plane_menu_disabled
+menu_item_2x_pressed
   rotate: false
   xy: 260, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_button
+menu_item_electric
   rotate: false
   xy: 518, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_button_pressed
+menu_item_electric_disabled
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_item_2x
+music_off
   rotate: false
   xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_item_2x_pressed
+music_on
   rotate: false
   xy: 518, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_item_electric
+path
   rotate: false
   xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-menu_item_electric_disabled
+pause_menu_item
   rotate: false
   xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-music_off
+play
   rotate: false
   xy: 518, 2
   size: 256, 256
@@ -260,63 +281,63 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-music_on
+play_pressed
   rotate: false
   xy: 2, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-pause_menu_item
+range_menu
   rotate: false
   xy: 260, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-play
+range_menu_disabled
   rotate: false
   xy: 518, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-play_pressed
+range_menu_pressed
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-range_menu
+replay_button
   rotate: false
   xy: 260, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-range_menu_disabled
+replay_button_pressed
   rotate: false
   xy: 518, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-range_menu_pressed
+resume
   rotate: false
   xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-replay_button
+resume_menu_item
   rotate: false
   xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-replay_button_pressed
+resume_pressed
   rotate: false
   xy: 518, 2
   size: 256, 256
@@ -336,35 +357,35 @@ ice_tower_menu
   orig: 512, 512
   offset: 0, 0
   index: -1
-resume
+sound_off
   rotate: false
   xy: 2, 4
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-resume_menu_item
+sound_on
   rotate: false
   xy: 516, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-resume_pressed
+speed_menu
   rotate: false
   xy: 260, 4
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-sound_off
+speed_menu_disabled
   rotate: false
   xy: 518, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-sound_on
+speed_menu_pressed
   rotate: false
   xy: 518, 2
   size: 256, 256
@@ -379,29 +400,8 @@ filter: Nearest,Nearest
 repeat: none
 ice_tower_menu_disabled
   rotate: false
-  xy: 2, 260
+  xy: 2, 2
   size: 512, 512
   orig: 512, 512
-  offset: 0, 0
-  index: -1
-speed_menu
-  rotate: false
-  xy: 2, 2
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-speed_menu_disabled
-  rotate: false
-  xy: 516, 516
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-speed_menu_pressed
-  rotate: false
-  xy: 260, 2
-  size: 256, 256
-  orig: 256, 256
   offset: 0, 0
   index: -1
