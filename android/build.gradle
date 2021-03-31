@@ -89,4 +89,5 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.javakaian.game/com.javakaian.game.AndroidLauncher'
 }
 
+
 eclipse.project.name = appName + "-android"
