@@ -1,17 +1,19 @@
-package com.javakaian.game.desktop;
+package com.javakaian.game;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.javakaian.game.OTDGame;
 import com.javakaian.game.util.GameConstants;
 
-public class DesktopLauncher {
-	public static void main(String[] arg) {
+public class Main {
+
+	public static void main(String[] args) {
 
 		OTDGame game = new OTDGame();
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = (int) (GameConstants.SCREEN_WIDTH * GameConstants.GAME_SCALE);
-		config.height = (int) (GameConstants.SCREEN_HEIGHT * GameConstants.GAME_SCALE);
+		config.width = (int) (GameConstants.SCREEN_WIDTH
+				* GameConstants.GAME_SCALE);
+		config.height = (int) (GameConstants.SCREEN_HEIGHT
+				* GameConstants.GAME_SCALE);
 		config.resizable = false;
 		// config.fullscreen = true;
 		config.x = 2750;
@@ -21,4 +23,5 @@ public class DesktopLauncher {
 		System.out.println(config.height);
 		new LwjglApplication(game, config);
 	}
+
 }
