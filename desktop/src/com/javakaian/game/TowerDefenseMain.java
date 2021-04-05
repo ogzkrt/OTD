@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.javakaian.game.util.GameConstants;
 
-public class Main {
+public class TowerDefenseMain {
 
 	public static void main(String[] args) {
 
