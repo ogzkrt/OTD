@@ -4,15 +4,15 @@ OTD is a tower defense game written with Java by using LibGDX. Game works both A
 
 Here is the game play running on the Android emulator.
 
-![android](https://user-images.githubusercontent.com/6486180/113413765-10d1f380-93c4-11eb-8afe-d202b04cc712.gif)
-
+<p align="center">
+<img src="https://user-images.githubusercontent.com/6486180/113413765-10d1f380-93c4-11eb-8afe-d202b04cc712.gif" alt="Game Play GIF" width="1000">
+</p>
 
 This is the desktop gameplay.
 
-
-
-![desktop](https://user-images.githubusercontent.com/6486180/113414414-9f934000-93c5-11eb-9e23-0da8387b2ca4.gif)
-
+<p align="center">
+<img src="https://user-images.githubusercontent.com/6486180/113414414-9f934000-93c5-11eb-9e23-0da8387b2ca4.gif" alt="Game Play GIF" width="1000">
+</p>
 
 ## Installation
 
