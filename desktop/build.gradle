@@ -11,3 +11,18 @@ project.ext.assetsDir = new File("../android/assets")
 
 
 eclipse.project.name = appName + "-desktop"
+
+
+libsDirName = '../../jars/'
+
+jar {
+
+    manifest {
+        attributes(
+                'Main-Class': 'com.javakaian.game.TowerDefenseMain'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
