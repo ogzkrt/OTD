@@ -1,6 +1,6 @@
 # OTD
 
-OTD is a tower defense game written with Java by using LibGDX. Game works both Android and Desktop (tested on Ubuntu,MacOS,Windows).
+OTD is a tower defense game written with Java by using LibGDX. Game works both on Android and Desktop (tested on Ubuntu,MacOS,Windows).
 
 Here is the game play running on the Android emulator.
 
