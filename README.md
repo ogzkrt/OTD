@@ -24,6 +24,14 @@ git clone https://github.com/ogzkrt/OTD.git
 
 Then import it as a Gradle project with IDE of your choice. It has been tested both with Eclipse and Android Studio.
 
+or
+
+Download the desktop-1.0.jar from the **/jars** folder and execute the following command.
+```bash
+java -jar desktop-1.0.jar
+```
+
+
 ## Usage
 
 Game consist of three part which are.
