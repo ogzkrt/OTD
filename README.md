@@ -1,3 +1,6 @@
+![Build Workflow](https://github.com/ogzkrt/OTD/actions/workflows/gradle.yml/badge.svg)
+
+
 # OTD
 
 OTD is a tower defense game written with Java by using LibGDX. Game works both on Android and Desktop (tested on Ubuntu,MacOS,Windows).
