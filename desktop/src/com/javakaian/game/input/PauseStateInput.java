@@ -7,28 +7,28 @@ import com.javakaian.game.states.PauseState;
 
 public class PauseStateInput extends InputAdapter {
 
-	private PauseState state;
+    private final PauseState state;
 
-	public PauseStateInput(PauseState state) {
+    public PauseStateInput(PauseState state) {
 
-		this.state = state;
-	}
+        this.state = state;
+    }
 
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		OrthographicCamera camera = state.getCamera();
-		Vector3 unprojected = camera.unproject(new Vector3(screenX, screenY, 1));
-		state.touchDown(unprojected.x, unprojected.y);
-		return super.touchDown(screenX, screenY, pointer, button);
-	}
+        OrthographicCamera camera = state.getCamera();
+        Vector3 unprojected = camera.unproject(new Vector3(screenX, screenY, 1));
+        state.touchDown(unprojected.x, unprojected.y);
+        return super.touchDown(screenX, screenY, pointer, button);
+    }
 
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		OrthographicCamera camera = state.getCamera();
-		Vector3 unprojected = camera.unproject(new Vector3(screenX, screenY, 1));
-		state.touchRelease(unprojected.x, unprojected.y);
-		return super.touchUp(screenX, screenY, pointer, button);
-	}
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        OrthographicCamera camera = state.getCamera();
+        Vector3 unprojected = camera.unproject(new Vector3(screenX, screenY, 1));
+        state.touchRelease(unprojected.x, unprojected.y);
+        return super.touchUp(screenX, screenY, pointer, button);
+    }
 
 }

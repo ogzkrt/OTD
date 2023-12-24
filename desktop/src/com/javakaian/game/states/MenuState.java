@@ -1,8 +1,5 @@
 package com.javakaian.game.states;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -14,198 +11,201 @@ import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuState extends State {
 
-	private String stateName = "MAIN MENU";
+    private final String stateName = "MAIN MENU";
 
-	private OButton btnPlay;
-	private OButton btnOptions;
-	private OButton btnCredits;
+    private OButton btnPlay;
+    private OButton btnOptions;
+    private OButton btnCredits;
 
-	private OButton selectedButton;
+    private OButton selectedButton;
 
-	private List<OButton> menuItems;
+    private final List<OButton> menuItems;
 
-	public MenuState(StateController stateController) {
-		super(stateController);
+    public MenuState(StateController stateController) {
+        super(stateController);
 
-		inputProcessor = new MenuStateInput(this);
+        inputProcessor = new MenuStateInput(this);
 
-		glipLayout.setText(bitmapFont, stateName);
+        glipLayout.setText(bitmapFont, stateName);
 
-		menuItems = new ArrayList<OButton>();
+        menuItems = new ArrayList<>();
 
-		initButtons();
-		setListeners();
+        initButtons();
+        setListeners();
 
-		selectedButton = null;
+        selectedButton = null;
 
-		menuItems.add(btnPlay);
-		menuItems.add(btnOptions);
-		menuItems.add(btnCredits);
-	}
+        menuItems.add(btnPlay);
+        menuItems.add(btnOptions);
+        menuItems.add(btnCredits);
+    }
 
-	@Override
-	public void render() {
+    @Override
+    public void render() {
 
-		float red = 50f;
-		float green = 63f;
-		float blue = 94f;
+        float red = 50f;
+        float green = 63f;
+        float blue = 94f;
 
-		Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		sr.begin(ShapeType.Line);
+        Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        sr.begin(ShapeType.Line);
 
-		sr.end();
+        sr.end();
 
-		sb.begin();
+        sb.begin();
 
-		GameUtils.renderCenter(stateName, sb, bitmapFont);
-		for (OButton oButton : menuItems) {
-			oButton.render(sb);
-		}
+        GameUtils.renderCenter(stateName, sb, bitmapFont);
+        for (OButton oButton : menuItems) {
+            oButton.render(sb);
+        }
 
-		sb.end();
+        sb.end();
 
-	}
+    }
 
-	@Override
-	public void update(float deltaTime) {
+    @Override
+    public void update(float deltaTime) {
 
-		for (OButton oButton : menuItems) {
-			oButton.update(deltaTime);
-		}
+        for (OButton oButton : menuItems) {
+            oButton.update(deltaTime);
+        }
 
-	}
+    }
 
-	private void initButtons() {
+    private void initButtons() {
 
-		float positionX = GameConstants.GRID_WIDTH * 4f;
-		float positionY = GameConstants.GRID_HEIGHT * 5;
-		float width = GameConstants.GRID_WIDTH * 1.5f;
-		float height = GameConstants.GRID_HEIGHT * 1.5f;
+        float positionX = GameConstants.GRID_WIDTH * 4f;
+        float positionY = GameConstants.GRID_HEIGHT * 5;
+        float width = GameConstants.GRID_WIDTH * 1.5f;
+        float height = GameConstants.GRID_HEIGHT * 1.5f;
 
-		float space = GameConstants.GRID_WIDTH * 3.0f;
+        float space = GameConstants.GRID_WIDTH * 3.0f;
 
-		btnPlay = new OButton(positionX, positionY, width, height);
-		btnPlay.setIcon(MyAtlas.MENU_PLAY);
-		btnPlay.setPressedIcon(MyAtlas.MENU_PLAY_PRESSED);
+        btnPlay = new OButton(positionX, positionY, width, height);
+        btnPlay.setIcon(MyAtlas.MENU_PLAY);
+        btnPlay.setPressedIcon(MyAtlas.MENU_PLAY_PRESSED);
 
-		positionX += space;
-		btnOptions = new OButton(positionX, positionY, width, height);
-		btnOptions.setIcon(MyAtlas.EMPTY_BUTTON);
-		btnOptions.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
-		btnOptions.setText("OPTIONS");
-		btnOptions.setTextPositionCenter(true);
+        positionX += space;
+        btnOptions = new OButton(positionX, positionY, width, height);
+        btnOptions.setIcon(MyAtlas.EMPTY_BUTTON);
+        btnOptions.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnOptions.setText("OPTIONS");
+        btnOptions.setTextPositionCenter(true);
 
-		positionX += space;
-		btnCredits = new OButton(positionX, positionY, width, height);
-		btnCredits.setIcon(MyAtlas.EMPTY_BUTTON);
-		btnCredits.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
-		btnCredits.setText("CREDITS");
-		btnCredits.setTextPositionCenter(true);
+        positionX += space;
+        btnCredits = new OButton(positionX, positionY, width, height);
+        btnCredits.setIcon(MyAtlas.EMPTY_BUTTON);
+        btnCredits.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnCredits.setText("CREDITS");
+        btnCredits.setTextPositionCenter(true);
 
-	}
+    }
 
-	public void touchDown(float x, float y) {
+    public void touchDown(float x, float y) {
 
-		for (OButton oButton : menuItems) {
-			if (oButton.getBoundRect().contains(x, y)) {
+        for (OButton oButton : menuItems) {
+            if (oButton.getBoundRect().contains(x, y)) {
 
-				selectedButton = oButton;
-				selectedButton.touchDown(x, y);
+                selectedButton = oButton;
+                selectedButton.touchDown(x, y);
 
-			}
-		}
+            }
+        }
 
-	}
+    }
 
-	public void touchRelease(float x, float y) {
+    public void touchRelease(float x, float y) {
 
-		if (selectedButton != null) {
-			selectedButton.touchRelease(x, y);
-		}
-	}
+        if (selectedButton != null) {
+            selectedButton.touchRelease(x, y);
+        }
+    }
 
-	private void setListeners() {
+    private void setListeners() {
 
-		btnPlay.setButtonListener(new OButtonListener() {
+        btnPlay.setButtonListener(new OButtonListener() {
 
-			@Override
-			public void touchRelease(float x, float y) {
-				// TODO Auto-generated method stub
-				if (btnPlay.getBoundRect().contains(x, y)) {
-					getStateController().setState(StateEnum.PlayState);
-					MusicHandler.playBackgroundMusic();
-					MusicHandler.stopMenuMusic();
-				}
-			}
+            @Override
+            public void touchRelease(float x, float y) {
+                // TODO Auto-generated method stub
+                if (btnPlay.getBoundRect().contains(x, y)) {
+                    getStateController().setState(StateEnum.PlayState);
+                    MusicHandler.playBackgroundMusic();
+                    MusicHandler.stopMenuMusic();
+                }
+            }
 
-			@Override
-			public void touchDown(float x, float y) {
-				System.out.println("btn play touch down");
-			}
+            @Override
+            public void touchDown(float x, float y) {
+                System.out.println("btn play touch down");
+            }
 
-			@Override
-			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
+            @Override
+            public void dragged(float x, float y) {
+                // TODO Auto-generated method stub
 
-			}
-		});
+            }
+        });
 
-		btnOptions.setButtonListener(new OButtonListener() {
+        btnOptions.setButtonListener(new OButtonListener() {
 
-			@Override
-			public void touchRelease(float x, float y) {
+            @Override
+            public void touchRelease(float x, float y) {
 
-				if (btnOptions.getBoundRect().contains(x, y)) {
-					getStateController().setState(StateEnum.OptionState);
-				}
-			}
+                if (btnOptions.getBoundRect().contains(x, y)) {
+                    getStateController().setState(StateEnum.OptionState);
+                }
+            }
 
-			@Override
-			public void touchDown(float x, float y) {
-				// TODO Auto-generated method stub
+            @Override
+            public void touchDown(float x, float y) {
+                // TODO Auto-generated method stub
 
-			}
+            }
 
-			@Override
-			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
+            @Override
+            public void dragged(float x, float y) {
+                // TODO Auto-generated method stub
 
-			}
-		});
+            }
+        });
 
-		btnCredits.setButtonListener(new OButtonListener() {
+        btnCredits.setButtonListener(new OButtonListener() {
 
-			@Override
-			public void touchRelease(float x, float y) {
+            @Override
+            public void touchRelease(float x, float y) {
 
-				if (btnCredits.getBoundRect().contains(x, y)) {
+                if (btnCredits.getBoundRect().contains(x, y)) {
 
-					getStateController().setState(StateEnum.CreditsState);
-				}
-			}
+                    getStateController().setState(StateEnum.CreditsState);
+                }
+            }
 
-			@Override
-			public void touchDown(float x, float y) {
-				// TODO Auto-generated method stub
+            @Override
+            public void touchDown(float x, float y) {
+                // TODO Auto-generated method stub
 
-			}
+            }
 
-			@Override
-			public void dragged(float x, float y) {
-				// TODO Auto-generated method stub
+            @Override
+            public void dragged(float x, float y) {
+                // TODO Auto-generated method stub
 
-			}
-		});
+            }
+        });
 
-	}
+    }
 
-	@Override
-	public void updateInputs(float x, float y) {
-		// TODO Auto-generated method stub
+    @Override
+    public void updateInputs(float x, float y) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }
