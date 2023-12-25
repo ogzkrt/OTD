@@ -72,3 +72,21 @@ project(":desktop") {
         
     }
 }
+
+project(":tests") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["src/"]
+
+    dependencies {
+
+        implementation project(path: ':desktop')
+
+        implementation "junit:junit:5.+"
+        implementation "org.mockito:mockito-all:1.9.+"
+
+        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+    }
+}
