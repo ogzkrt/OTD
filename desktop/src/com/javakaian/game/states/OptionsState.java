@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.buttons.OToggleButton;
-import com.javakaian.game.buttons.OToggleButtonListener;
-import com.javakaian.game.input.OptionStateInput;
 import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
@@ -19,91 +17,68 @@ import java.util.List;
 public class OptionsState extends State {
 
     private final String stateName = "OPTION MENU";
-
     private OToggleButton btnMusic;
     private OToggleButton btnSound;
     private OButton btnBack;
-
-    private OButton selectedButton;
-
-    private final List<OButton> menuItems;
+    private final List<OButton> buttons;
 
     public OptionsState(StateController stateController) {
         super(stateController);
+        glyphLayout.setText(bitmapFont, stateName);
 
-        inputProcessor = new OptionStateInput(this);
-
-        glipLayout.setText(bitmapFont, stateName);
-
-        menuItems = new ArrayList<>();
-
+        buttons = new ArrayList<>();
         initButtons();
         setListeners();
-
-        selectedButton = null;
-
-        menuItems.add(btnSound);
-        menuItems.add(btnMusic);
-        menuItems.add(btnBack);
+        buttons.add(btnSound);
+        buttons.add(btnMusic);
+        buttons.add(btnBack);
 
     }
 
     @Override
     public void render() {
 
-        float red = 50f;
-        float green = 63f;
-        float blue = 94f;
+        final float red = 50f;
+        final float green = 63f;
+        final float blue = 94f;
 
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sr.begin(ShapeType.Line);
 
-        sr.end();
 
         sb.begin();
-
         GameUtils.renderCenter(stateName, sb, bitmapFont);
-        for (OButton oButton : menuItems) {
-            oButton.render(sb);
-        }
-
+        buttons.forEach(b->render());
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-
-        for (OButton oButton : menuItems) {
-            oButton.update(deltaTime);
-        }
-
+        buttons.forEach(b->b.update(deltaTime));
     }
 
     @Override
     public void updateInputs(float x, float y) {
-
+    }
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchDown(x, y));
+    }
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchRelease(x, y));
     }
 
-    public void touchDown(float x, float y) {
+    @Override
+    public void scrolled(int amount) {
 
-        for (OButton oButton : menuItems) {
-            if (oButton.getBoundRect().contains(x, y)) {
-
-                selectedButton = oButton;
-                selectedButton.touchDown(x, y);
-
-            }
-        }
-
-    }
-
-    public void touchRelease(float x, float y) {
-
-        if (selectedButton != null) {
-            selectedButton.touchRelease(x, y);
-        }
     }
 
     private void initButtons() {
@@ -144,23 +119,19 @@ public class OptionsState extends State {
             @Override
             public void touchRelease(float x, float y) {
                 if (btnBack.getBoundRect().contains(x, y)) {
-
                     getStateController().popState();
                     StateEnum state = getStateController().peek();
                     getStateController().setState(state);
-
                 }
             }
 
             @Override
             public void touchDown(float x, float y) {
-                // TODO Auto-generated method stub
-                System.out.println("Touched");
+
             }
 
             @Override
             public void dragged(float x, float y) {
-                // TODO Auto-generated method stub
 
             }
         });

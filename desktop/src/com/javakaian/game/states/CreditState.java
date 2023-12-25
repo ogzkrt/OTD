@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
-import com.javakaian.game.input.CreditStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
@@ -18,35 +17,21 @@ import java.util.List;
 public class CreditState extends State {
 
     private final String stateName = "CREDIT STATE";
-
     private OButton btnBack;
-
-    private OButton selectedButton;
-
-    private final List<OButton> menuItems;
-
+    private final List<OButton> buttons;
     private final BitmapFont textFont;
 
     public CreditState(StateController stateController) {
         super(stateController);
-
-        inputProcessor = new CreditStateInput(this);
-
         bitmapFont = GameUtils.generateBitmapFont(100, Color.WHITE);
+        glyphLayout.setText(bitmapFont, stateName);
 
-        glipLayout.setText(bitmapFont, stateName);
-
-        menuItems = new ArrayList<>();
-
+        buttons = new ArrayList<>();
         initButtons();
         setListeners();
-
-        selectedButton = null;
-
-        menuItems.add(btnBack);
+        buttons.add(btnBack);
 
         textFont = GameUtils.generateBitmapFont(30, Color.GRAY);
-
     }
 
     @Override
@@ -57,16 +42,10 @@ public class CreditState extends State {
         float blue = 94f;
 
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sr.begin(ShapeType.Line);
-
-        sr.end();
 
         sb.begin();
-
         GameUtils.render(stateName, sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT * 0.3f);
-
         GameUtils.renderCenter(stateName, sb, bitmapFont);
 
         float posY = GameConstants.SCREEN_HEIGHT / 2.4f;
@@ -78,21 +57,14 @@ public class CreditState extends State {
         posY += marginY;
         GameUtils.renderCenterWithY("JAVAKAIAN - DEVELOPER", sb, textFont, posY);
 
-        for (OButton oButton : menuItems) {
-            oButton.render(sb);
-        }
-
+        buttons.forEach(b->b.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-
-        for (OButton oButton : menuItems) {
-            oButton.update(deltaTime);
-        }
-
+        buttons.forEach(b->b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -112,56 +84,48 @@ public class CreditState extends State {
 
     }
 
-    public void touchDown(float x, float y) {
-
-        for (OButton oButton : menuItems) {
-            if (oButton.getBoundRect().contains(x, y)) {
-
-                selectedButton = oButton;
-                selectedButton.touchDown(x, y);
-
-            }
-        }
-
+    @Override
+    public void updateInputs(float x, float y) {
     }
 
-    public void touchRelease(float x, float y) {
-
-        if (selectedButton != null) {
-            selectedButton.touchRelease(x, y);
-        }
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b->b.getBoundRect().contains(x,y))
+                .findFirst()
+                .ifPresent(b->b.touchDown(x,y));
+    }
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b->b.getBoundRect().contains(x,y))
+                .findFirst()
+                .ifPresent(b->b.touchRelease(x,y));
     }
 
+    @Override
+    public void scrolled(int amount) {
+    }
     private void setListeners() {
 
         btnBack.setButtonListener(new OButtonListener() {
 
             @Override
             public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
-                if (btnBack.getBoundRect().contains(x, y)) {
+                if (btnBack.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.MenuState);
-                }
             }
 
             @Override
             public void touchDown(float x, float y) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
 
     }
 
-    @Override
-    public void updateInputs(float x, float y) {
-        // TODO Auto-generated method stub
-
-    }
 
 }

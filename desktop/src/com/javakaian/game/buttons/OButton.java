@@ -14,19 +14,19 @@ import com.javakaian.game.util.GameUtils;
 
 public class OButton {
 
-    protected Vector2 position;
-    protected Vector2 size;
-    protected Vector2 center;
+    protected final Vector2 position;
+    protected final Vector2 size;
+    protected final Vector2 center;
     protected Sprite sprite;
 
     protected Sprite pressedSprite;
     protected Sprite disabledSprite;
-    protected Rectangle boundRect;
+    protected final Rectangle boundRect;
 
     protected boolean isSelected = false;
     protected boolean enable = true;
 
-    protected BitmapFont font;
+    protected final BitmapFont font;
     protected GlyphLayout glipGlyphLayout;
     protected String text = "";
 

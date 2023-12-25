@@ -2,10 +2,8 @@ package com.javakaian.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
-import com.javakaian.game.input.MenuStateInput;
 import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
@@ -17,32 +15,22 @@ import java.util.List;
 public class MenuState extends State {
 
     private final String stateName = "MAIN MENU";
-
     private OButton btnPlay;
     private OButton btnOptions;
     private OButton btnCredits;
-
-    private OButton selectedButton;
-
-    private final List<OButton> menuItems;
+    private final List<OButton> buttons;
 
     public MenuState(StateController stateController) {
         super(stateController);
 
-        inputProcessor = new MenuStateInput(this);
+        glyphLayout.setText(bitmapFont, stateName);
 
-        glipLayout.setText(bitmapFont, stateName);
-
-        menuItems = new ArrayList<>();
-
+        buttons = new ArrayList<>();
         initButtons();
         setListeners();
-
-        selectedButton = null;
-
-        menuItems.add(btnPlay);
-        menuItems.add(btnOptions);
-        menuItems.add(btnCredits);
+        buttons.add(btnPlay);
+        buttons.add(btnOptions);
+        buttons.add(btnCredits);
     }
 
     @Override
@@ -54,28 +42,17 @@ public class MenuState extends State {
 
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sr.begin(ShapeType.Line);
-
-        sr.end();
 
         sb.begin();
-
         GameUtils.renderCenter(stateName, sb, bitmapFont);
-        for (OButton oButton : menuItems) {
-            oButton.render(sb);
-        }
-
+        buttons.forEach(button -> button.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-
-        for (OButton oButton : menuItems) {
-            oButton.update(deltaTime);
-        }
-
+        buttons.forEach(b -> b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -107,25 +84,6 @@ public class MenuState extends State {
 
     }
 
-    public void touchDown(float x, float y) {
-
-        for (OButton oButton : menuItems) {
-            if (oButton.getBoundRect().contains(x, y)) {
-
-                selectedButton = oButton;
-                selectedButton.touchDown(x, y);
-
-            }
-        }
-
-    }
-
-    public void touchRelease(float x, float y) {
-
-        if (selectedButton != null) {
-            selectedButton.touchRelease(x, y);
-        }
-    }
 
     private void setListeners() {
 
@@ -133,7 +91,6 @@ public class MenuState extends State {
 
             @Override
             public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
                 if (btnPlay.getBoundRect().contains(x, y)) {
                     getStateController().setState(StateEnum.PlayState);
                     MusicHandler.playBackgroundMusic();
@@ -143,36 +100,27 @@ public class MenuState extends State {
 
             @Override
             public void touchDown(float x, float y) {
-                System.out.println("btn play touch down");
+
             }
 
             @Override
-            public void dragged(float x, float y) {
-                // TODO Auto-generated method stub
-
-            }
+            public void dragged(float x, float y) {}
         });
 
         btnOptions.setButtonListener(new OButtonListener() {
-
             @Override
             public void touchRelease(float x, float y) {
 
-                if (btnOptions.getBoundRect().contains(x, y)) {
+                if (btnOptions.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.OptionState);
-                }
             }
 
             @Override
             public void touchDown(float x, float y) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void dragged(float x, float y) {
-                // TODO Auto-generated method stub
-
             }
         });
 
@@ -181,21 +129,18 @@ public class MenuState extends State {
             @Override
             public void touchRelease(float x, float y) {
 
-                if (btnCredits.getBoundRect().contains(x, y)) {
-
+                if (btnCredits.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.CreditsState);
-                }
+
             }
 
             @Override
             public void touchDown(float x, float y) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void dragged(float x, float y) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -204,8 +149,25 @@ public class MenuState extends State {
 
     @Override
     public void updateInputs(float x, float y) {
-        // TODO Auto-generated method stub
-
     }
 
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchDown(x, y));
+    }
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchRelease(x, y));
+    }
+
+    @Override
+    public void scrolled(int amount) {
+
+    }
 }

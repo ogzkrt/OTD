@@ -3,10 +3,8 @@ package com.javakaian.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
-import com.javakaian.game.input.PauseStateInput;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
@@ -19,31 +17,21 @@ public class PauseState extends State {
     private OButton btnResume;
     private OButton btnRestart;
     private OButton btnOptions;
-
-    private OButton selectedButton;
-
-    private final List<OButton> menuItems;
+    private final List<OButton> buttons;
 
     public PauseState(StateController stateController) {
         super(stateController);
 
-        inputProcessor = new PauseStateInput(this);
-
         bitmapFont = GameUtils.generateBitmapFont(80, Color.WHITE);
+        String stateName = "Paused Menu";
+        glyphLayout.setText(bitmapFont, stateName);
 
-        String stateName = "Main Menu";
-        glipLayout.setText(bitmapFont, stateName);
-
-        menuItems = new ArrayList<>();
-
+        buttons = new ArrayList<>();
         initButtons();
         setListeners();
-
-        selectedButton = null;
-
-        menuItems.add(btnRestart);
-        menuItems.add(btnResume);
-        menuItems.add(btnOptions);
+        buttons.add(btnRestart);
+        buttons.add(btnResume);
+        buttons.add(btnOptions);
 
     }
 
@@ -55,32 +43,20 @@ public class PauseState extends State {
         float blue = 94f;
 
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sr.begin(ShapeType.Line);
 
-        sr.end();
 
         sb.begin();
-
         GameUtils.render("PLANE DEFENCE", sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2,
                 GameConstants.SCREEN_HEIGHT * 0.3f);
-
-        for (OButton oButton : menuItems) {
-            oButton.render(sb);
-        }
-
+        buttons.forEach(b -> b.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-
-        for (OButton oButton : menuItems) {
-            oButton.update(deltaTime);
-        }
-
+        buttons.forEach(b -> b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -112,44 +88,41 @@ public class PauseState extends State {
 
     }
 
-    public void touchDown(float x, float y) {
 
-        for (OButton oButton : menuItems) {
-            if (oButton.getBoundRect().contains(x, y)) {
-
-                selectedButton = oButton;
-                selectedButton.touchDown(x, y);
-
-            }
-        }
-
+    @Override
+    public void updateInputs(float x, float y) {
     }
 
-    public void touchRelease(float x, float y) {
-
-        if (selectedButton != null) {
-            selectedButton.touchRelease(x, y);
-        }
-
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchDown(x, y));
+    }
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchRelease(x, y));
     }
 
+    @Override
+    public void scrolled(int amount) {
+
+    }
     private void setListeners() {
 
         btnRestart.setButtonListener(new OButtonListener() {
 
             @Override
             public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
+
                 if (btnRestart.getBoundRect().contains(x, y)) {
-
                     PlayState state = (PlayState) getStateController().getStateMap().get(StateEnum.PlayState.ordinal());
-                    if (state == null) {
-                        System.out.println("nulll");
-                    } else {
-                        state.restart();
-                        getStateController().setState(StateEnum.PlayState);
-                    }
-
+                    state.restart();
+                    getStateController().setState(StateEnum.PlayState);
                 }
             }
 
@@ -167,10 +140,8 @@ public class PauseState extends State {
 
             @Override
             public void touchRelease(float x, float y) {
-
-                if (btnResume.getBoundRect().contains(x, y)) {
+                if (btnResume.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.PlayState);
-                }
             }
 
             @Override
@@ -179,37 +150,23 @@ public class PauseState extends State {
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
 
         btnOptions.setButtonListener(new OButtonListener() {
-
             @Override
             public void touchRelease(float x, float y) {
-                if (btnOptions.getBoundRect().contains(x, y)) {
-
+                if (btnOptions.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.OptionState);
-                }
             }
 
             @Override
             public void touchDown(float x, float y) {
-
             }
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
-
     }
-
-    @Override
-    public void updateInputs(float x, float y) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

@@ -2,8 +2,6 @@ package com.javakaian.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector3;
-import com.javakaian.game.input.PlayStateInput;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MusicHandler;
 
@@ -15,8 +13,6 @@ public class PlayState extends State {
     public PlayState(StateController stateController) {
         super(stateController);
         level = new Level(this);
-        inputProcessor = new PlayStateInput(this);
-
     }
 
     @Override
@@ -42,15 +38,6 @@ public class PlayState extends State {
         }
     }
 
-    public void touchDown(float x, float y) {
-
-        this.level.touchDown(x, y);
-    }
-
-    public void touchRelease(float x, float y) {
-        this.level.touchRelease(x, y);
-    }
-
     public void gameOver() {
         MusicHandler.stopBackgroundMusic();
         level.restart();
@@ -68,13 +55,30 @@ public class PlayState extends State {
 
     @Override
     public void updateInputs(float x, float y) {
-
-        Vector3 unprojected = camera.unproject(new Vector3(x, y, 1));
-        level.updateInputs(unprojected.x, unprojected.y);
+        level.updateInputs(x,y);
     }
 
     public void restart() {
         level.restart();
+    }
+
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        level.touchDown(x,y);
+    }
+
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        level.touchRelease(x,y);
+    }
+
+    @Override
+    public void scrolled(int amount) {
+        if (amount > 0) {
+            getCamera().zoom += 0.5;
+        } else {
+            getCamera().zoom -= 0.5;
+        }
     }
 
 }

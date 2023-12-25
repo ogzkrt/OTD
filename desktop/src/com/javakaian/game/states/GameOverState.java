@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
-import com.javakaian.game.input.GameOverInput;
 import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.util.GameConstants;
@@ -18,32 +17,21 @@ import java.util.List;
 public class GameOverState extends State {
 
     private final String stateName = "GAME OVER";
-
     private OButton btnReplay;
     private OButton btnMenu;
-
-    private OButton selectedButton;
-
-    private final List<OButton> menuItems;
+    private final List<OButton> buttons;
 
     public GameOverState(StateController stateController) {
         super(stateController);
 
-        inputProcessor = new GameOverInput(this);
-
         bitmapFont = GameUtils.generateBitmapFont(100, Color.WHITE);
+        glyphLayout.setText(bitmapFont, stateName);
 
-        glipLayout.setText(bitmapFont, stateName);
-
-        menuItems = new ArrayList<>();
-
+        buttons = new ArrayList<>();
         initButtons();
         setListeners();
-
-        selectedButton = null;
-
-        menuItems.add(btnReplay);
-        menuItems.add(btnMenu);
+        buttons.add(btnReplay);
+        buttons.add(btnMenu);
     }
 
     @Override
@@ -54,31 +42,18 @@ public class GameOverState extends State {
         float blue = 94f;
 
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sr.begin(ShapeType.Line);
-
-        sr.end();
 
         sb.begin();
-
         GameUtils.render(stateName, sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT * 0.3f);
-
-        for (OButton oButton : menuItems) {
-            oButton.render(sb);
-        }
-
+        buttons.forEach(b->b.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-
-        for (OButton oButton : menuItems) {
-            oButton.update(deltaTime);
-        }
-
+        buttons.forEach(b->b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -102,33 +77,33 @@ public class GameOverState extends State {
 
     }
 
-    public void touchDown(float x, float y) {
-
-        for (OButton oButton : menuItems) {
-            if (oButton.getBoundRect().contains(x, y)) {
-
-                selectedButton = oButton;
-                selectedButton.touchDown(x, y);
-
-            }
-        }
-
+    @Override
+    public void updateInputs(float x, float y) {
     }
 
-    public void touchRelease(float x, float y) {
-
-        if (selectedButton != null) {
-            selectedButton.touchRelease(x, y);
-        }
+    @Override
+    public void touchDown(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchDown(x, y));
     }
 
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        buttons.stream()
+                .filter(b -> b.getBoundRect().contains(x, y))
+                .findFirst()
+                .ifPresent(b -> b.touchRelease(x, y));
+    }
+
+    @Override
+    public void scrolled(int amount) {
+    }
     private void setListeners() {
-
         btnReplay.setButtonListener(new OButtonListener() {
-
             @Override
             public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
                 if (btnReplay.getBoundRect().contains(x, y)) {
                     getStateController().setState(StateEnum.PlayState);
                     MusicHandler.playBackgroundMusic();
@@ -137,13 +112,10 @@ public class GameOverState extends State {
 
             @Override
             public void touchDown(float x, float y) {
-                System.out.println("btn play touch down");
             }
 
             @Override
             public void dragged(float x, float y) {
-                // TODO Auto-generated method stub
-
             }
         });
 
@@ -151,7 +123,6 @@ public class GameOverState extends State {
 
             @Override
             public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
                 if (btnMenu.getBoundRect().contains(x, y)) {
                     getStateController().setState(StateEnum.MenuState);
                     MusicHandler.playMenuMusic();
@@ -160,21 +131,12 @@ public class GameOverState extends State {
 
             @Override
             public void touchDown(float x, float y) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
-
-    }
-
-    @Override
-    public void updateInputs(float x, float y) {
-        // TODO Auto-generated method stub
 
     }
 
