@@ -2,6 +2,8 @@ package com.javakaian.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.resources.MusicHandler;
@@ -34,8 +36,7 @@ public class MenuState extends State {
     }
 
     @Override
-    public void render() {
-
+    public void render(SpriteBatch sb, ShapeRenderer sr) {
         float red = 50f;
         float green = 63f;
         float blue = 94f;
@@ -88,7 +89,6 @@ public class MenuState extends State {
     private void setListeners() {
 
         btnPlay.setButtonListener(new OButtonListener() {
-
             @Override
             public void touchRelease(float x, float y) {
                 if (btnPlay.getBoundRect().contains(x, y)) {
@@ -100,17 +100,16 @@ public class MenuState extends State {
 
             @Override
             public void touchDown(float x, float y) {
-
             }
 
             @Override
-            public void dragged(float x, float y) {}
+            public void dragged(float x, float y) {
+            }
         });
 
         btnOptions.setButtonListener(new OButtonListener() {
             @Override
             public void touchRelease(float x, float y) {
-
                 if (btnOptions.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.OptionState);
             }
@@ -128,20 +127,16 @@ public class MenuState extends State {
 
             @Override
             public void touchRelease(float x, float y) {
-
                 if (btnCredits.getBoundRect().contains(x, y))
                     getStateController().setState(StateEnum.CreditsState);
-
             }
 
             @Override
             public void touchDown(float x, float y) {
-
             }
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
 
@@ -158,6 +153,7 @@ public class MenuState extends State {
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
+
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
         buttons.stream()
@@ -168,6 +164,6 @@ public class MenuState extends State {
 
     @Override
     public void scrolled(int amount) {
-
     }
+
 }

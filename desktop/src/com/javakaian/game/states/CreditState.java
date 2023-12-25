@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
@@ -35,7 +37,7 @@ public class CreditState extends State {
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch sb,ShapeRenderer sr) {
 
         float red = 50f;
         float green = 63f;
@@ -113,7 +115,7 @@ public class CreditState extends State {
             @Override
             public void touchRelease(float x, float y) {
                 if (btnBack.getBoundRect().contains(x, y))
-                    getStateController().setState(StateEnum.MenuState);
+                    getStateController().goBack();
             }
 
             @Override

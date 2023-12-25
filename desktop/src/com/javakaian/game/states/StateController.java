@@ -3,6 +3,8 @@ package com.javakaian.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.javakaian.game.states.State.StateEnum;
@@ -13,53 +15,38 @@ import java.util.Stack;
 
 public class StateController extends InputAdapter {
 
-    private final Map<Integer, State> stateMap;
-
+    private final Map<StateEnum, State> stateMap;
     private State currentState;
-
-    private final Stack<StateEnum> stateStack;
+    private State previousState;
 
     public StateController() {
-
         stateMap = new HashMap<>();
-        stateStack = new Stack<>();
-    }
-
-    public void setState(StateEnum stateEnum) {
-
-        currentState = stateMap.get(stateEnum.ordinal());
-        if (currentState == null) {
-            switch (stateEnum) {
-                case PlayState:
-                    currentState = new PlayState(this);
-                    break;
-                case GameOverState:
-                    currentState = new GameOverState(this);
-                    break;
-                case MenuState:
-                    currentState = new MenuState(this);
-                    break;
-                case OptionState:
-                    currentState = new OptionsState(this);
-                    break;
-                case CreditsState:
-                    currentState = new CreditState(this);
-                    break;
-                case PauseState:
-                    currentState = new PauseState(this);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        stateMap.put(stateEnum.ordinal(), currentState);
-        stateStack.push(stateEnum);
         Gdx.input.setInputProcessor(this);
     }
 
-    public void render() {
-        currentState.render();
+    public void setState(StateEnum stateEnum) {
+        previousState = currentState;
+        currentState = getState(stateEnum);
+    }
+
+    /**
+     * Goes back to previous state, which means we have to swap current and previous state.
+     * */
+    public void goBack() {
+        State tmp = previousState;
+        previousState = currentState;
+        currentState = tmp;
+    }
+
+    /**
+     * Return the state, if it already exist or make a new one.
+     * */
+    public State getState(StateEnum stateEnum){
+        return stateMap.computeIfAbsent(stateEnum, this::createState);
+    }
+
+    public void render(SpriteBatch sb, ShapeRenderer sr) {
+        currentState.render(sb,sr);
     }
 
     public void update(float deltaTime) {
@@ -68,17 +55,6 @@ public class StateController extends InputAdapter {
         currentState.updateInputs(result.x,result.y);
     }
 
-    public Map<Integer, State> getStateMap() {
-        return stateMap;
-    }
-
-    public void popState() {
-        stateStack.pop();
-    }
-
-    public StateEnum peek() {
-        return stateStack.peek();
-    }
 
     private Vector2 unproject(int x, int y){
         final OrthographicCamera c = currentState.camera;
@@ -104,5 +80,23 @@ public class StateController extends InputAdapter {
     public boolean scrolled(int amount) {
         currentState.scrolled(amount);
         return false;
+    }
+    private State createState(StateEnum stateEnum) {
+        switch (stateEnum) {
+            case PlayState:
+                return new PlayState(this);
+            case GameOverState:
+                return new GameOverState(this);
+            case MenuState:
+                return new MenuState(this);
+            case OptionState:
+                return new OptionsState(this);
+            case CreditsState:
+                return new CreditState(this);
+            case PauseState:
+                return new PauseState(this);
+            default:
+                throw new IllegalArgumentException("Invalid state enum: " + stateEnum);
+        }
     }
 }

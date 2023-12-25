@@ -2,6 +2,8 @@ package com.javakaian.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
@@ -36,7 +38,7 @@ public class OptionsState extends State {
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch sb,ShapeRenderer sr) {
 
         final float red = 50f;
         final float green = 63f;
@@ -45,10 +47,9 @@ public class OptionsState extends State {
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         sb.begin();
         GameUtils.renderCenter(stateName, sb, bitmapFont);
-        buttons.forEach(b->render());
+        buttons.forEach(b->b.render(sb));
         sb.end();
 
     }
@@ -118,21 +119,16 @@ public class OptionsState extends State {
 
             @Override
             public void touchRelease(float x, float y) {
-                if (btnBack.getBoundRect().contains(x, y)) {
-                    getStateController().popState();
-                    StateEnum state = getStateController().peek();
-                    getStateController().setState(state);
-                }
+                if (btnBack.getBoundRect().contains(x, y))
+                    getStateController().goBack();
             }
 
             @Override
             public void touchDown(float x, float y) {
-
             }
 
             @Override
             public void dragged(float x, float y) {
-
             }
         });
 

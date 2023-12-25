@@ -3,6 +3,8 @@ package com.javakaian.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.resources.MyAtlas;
@@ -36,7 +38,7 @@ public class PauseState extends State {
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch sb,ShapeRenderer sr) {
 
         float red = 50f;
         float green = 63f;
@@ -45,13 +47,11 @@ public class PauseState extends State {
         Gdx.gl.glClearColor(red / 255f, green / 255f, blue / 255f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         sb.begin();
         GameUtils.render("PLANE DEFENCE", sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2,
                 GameConstants.SCREEN_HEIGHT * 0.3f);
         buttons.forEach(b -> b.render(sb));
         sb.end();
-
     }
 
     @Override
@@ -120,9 +120,9 @@ public class PauseState extends State {
             public void touchRelease(float x, float y) {
 
                 if (btnRestart.getBoundRect().contains(x, y)) {
-                    PlayState state = (PlayState) getStateController().getStateMap().get(StateEnum.PlayState.ordinal());
-                    state.restart();
+                    PlayState state = (PlayState) getStateController().getState(StateEnum.PlayState);
                     getStateController().setState(StateEnum.PlayState);
+                    state.restart();
                 }
             }
 

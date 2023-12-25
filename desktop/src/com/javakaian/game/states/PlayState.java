@@ -1,6 +1,8 @@
 package com.javakaian.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MusicHandler;
@@ -16,11 +18,7 @@ public class PlayState extends State {
     }
 
     @Override
-    public void render() {
-
-        camera.update();
-        sb.setProjectionMatrix(camera.combined);
-        sr.setProjectionMatrix(camera.combined);
+    public void render(SpriteBatch sb,ShapeRenderer sr) {
         sb.begin();
         level.render(sb);
         sb.end();
@@ -32,7 +30,6 @@ public class PlayState extends State {
 
     @Override
     public void update(float deltaTime) {
-
         if (!paused) {
             level.update(Gdx.graphics.getDeltaTime());
         }
@@ -75,9 +72,9 @@ public class PlayState extends State {
     @Override
     public void scrolled(int amount) {
         if (amount > 0) {
-            getCamera().zoom += 0.5;
+            camera.zoom += 0.5;
         } else {
-            getCamera().zoom -= 0.5;
+            camera.zoom -= 0.5;
         }
     }
 
