@@ -38,7 +38,7 @@ public class CreditState extends State {
 
     @Override
     public void render(SpriteBatch sb,ShapeRenderer sr) {
-
+        super.render(sb,sr);
         float red = 50f;
         float green = 63f;
         float blue = 94f;
@@ -109,24 +109,10 @@ public class CreditState extends State {
     public void scrolled(int amount) {
     }
     private void setListeners() {
-
-        btnBack.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnBack.getBoundRect().contains(x, y))
-                    getStateController().goBack();
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
+        btnBack.setButtonListener((event,x,y)-> {
+            if(event== OButtonListener.TouchEvent.RELEASE)
+                getStateController().goBack();
         });
-
     }
 
 

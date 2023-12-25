@@ -36,7 +36,7 @@ public class TowerButton extends OButton {
         if (enable) {
             isSelected = false;
             isDragged = false;
-            buttonListener.touchRelease(x, y);
+            buttonListener.touchEvent(OButtonListener.TouchEvent.RELEASE,x, y);
         }
     }
 
@@ -44,12 +44,12 @@ public class TowerButton extends OButton {
         if (enable) {
             isSelected = true;
             isDragged = true;
-            buttonListener.touchDown(x, y);
+            buttonListener.touchEvent(OButtonListener.TouchEvent.DOWN,x, y);
         }
     }
 
     public void dragged(float x, float y) {
-        buttonListener.dragged(x, y);
+        buttonListener.touchEvent(OButtonListener.TouchEvent.DRAGGED,x, y);
     }
 
     public void moneyChanged(int money) {

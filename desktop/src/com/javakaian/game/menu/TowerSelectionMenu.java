@@ -140,61 +140,32 @@ public class TowerSelectionMenu extends Menu {
 
     private void initButtonListener() {
 
-        btnFire.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchDown(float x, float y) {
+        btnFire.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.DOWN) {
                 level.renderGrids(true);
-
-            }
-
-            @Override
-            public void touchRelease(float x, float y) {
+            } else if (event == OButtonListener.TouchEvent.RELEASE) {
                 level.createTowerClicked(x, y, TowerType.FIRE);
                 level.renderGrids(false);
             }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
-
         });
 
-        btnIce.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchDown(float x, float y) {
+        btnIce.setButtonListener((event,x,y)-> {
+            if (event == OButtonListener.TouchEvent.DOWN) {
                 level.renderGrids(true);
-            }
-
-            @Override
-            public void touchRelease(float x, float y) {
+            } else if (event == OButtonListener.TouchEvent.RELEASE) {
                 level.createTowerClicked(x, y, TowerType.ICE);
                 level.renderGrids(false);
             }
 
-            @Override
-            public void dragged(float x, float y) {
-            }
         });
-        btnElectric.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                // TODO Auto-generated method stub
+        btnElectric.setButtonListener((event,x,y)-> {
+            if (event == OButtonListener.TouchEvent.DOWN) {
+                level.renderGrids(true);
+            } else if (event == OButtonListener.TouchEvent.RELEASE) {
                 level.createTowerClicked(x, y, TowerType.ELECTRIC);
                 level.renderGrids(false);
             }
 
-            @Override
-            public void touchDown(float x, float y) {
-                level.renderGrids(true);
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
         });
         btnPauseResume.setToggleListener(isToggled -> {
             if (isToggled) {
@@ -212,101 +183,29 @@ public class TowerSelectionMenu extends Menu {
             }
         });
 
-        btnDamage.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchDown(float x, float y) {
-                System.out.println("increase damage clciked");
-            }
-
-            @Override
-            public void touchRelease(float x, float y) {
-                System.out.println("increase attack clicked");
+        btnDamage.setButtonListener((event,x,y)-> {
+            if(event== OButtonListener.TouchEvent.RELEASE)
                 level.increaseAttackClickled();
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
         });
 
-        btnRange.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchDown(float x, float y) {
-
-            }
-
-            @Override
-            public void touchRelease(float x, float y) {
+        btnRange.setButtonListener((event,x,y)-> {
+            if(event== OButtonListener.TouchEvent.RELEASE)
                 level.increaseRangeClicked();
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
         });
 
-        btnSpeed.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchDown(float x, float y) {
-
-            }
-
-            @Override
-            public void touchRelease(float x, float y) {
+        btnSpeed.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
                 level.increaseSpeedClicked();
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
         });
 
-        btnRestart.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-
-                System.out.println("buton restart");
-                if (btnRestart.getBoundRect().contains(x, y)) {
-                    level.restart();
-                }
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-                System.out.println("btn restart touched..");
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
+        btnRestart.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
+                level.restart();
         });
 
-        btnExit.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnExit.getBoundRect().contains(x, y)) {
-                    level.returnToMenuClicked();
-                }
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-                System.out.println("exit");
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
-            }
+        btnExit.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
+                level.returnToMenuClicked();
         });
 
     }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.resources.MusicHandler;
@@ -37,8 +36,8 @@ public class GameOverState extends State {
     }
 
     @Override
-    public void render(SpriteBatch sb,ShapeRenderer sr) {
-
+    public void render(SpriteBatch sb, ShapeRenderer sr) {
+        super.render(sb,sr);
         float red = 50f;
         float green = 63f;
         float blue = 94f;
@@ -48,14 +47,14 @@ public class GameOverState extends State {
 
         sb.begin();
         GameUtils.render(stateName, sb, bitmapFont, GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT * 0.3f);
-        buttons.forEach(b->b.render(sb));
+        buttons.forEach(b -> b.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b->b.update(deltaTime));
+        buttons.forEach(b -> b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -102,41 +101,18 @@ public class GameOverState extends State {
     @Override
     public void scrolled(int amount) {
     }
+
     private void setListeners() {
-        btnReplay.setButtonListener(new OButtonListener() {
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnReplay.getBoundRect().contains(x, y)) {
-                    getStateController().setState(StateEnum.PlayState);
-                    MusicHandler.playBackgroundMusic();
-                }
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
+        btnReplay.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                getStateController().setState(StateEnum.PlayState);
+                MusicHandler.playBackgroundMusic();
             }
         });
-
-        btnMenu.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnMenu.getBoundRect().contains(x, y)) {
-                    getStateController().setState(StateEnum.MenuState);
-                    MusicHandler.playMenuMusic();
-                }
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
+        btnMenu.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                getStateController().setState(StateEnum.MenuState);
+                MusicHandler.playMenuMusic();
             }
         });
 

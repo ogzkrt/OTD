@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.buttons.OToggleButton;
@@ -38,8 +37,8 @@ public class OptionsState extends State {
     }
 
     @Override
-    public void render(SpriteBatch sb,ShapeRenderer sr) {
-
+    public void render(SpriteBatch sb, ShapeRenderer sr) {
+        super.render(sb,sr);
         final float red = 50f;
         final float green = 63f;
         final float blue = 94f;
@@ -49,19 +48,20 @@ public class OptionsState extends State {
 
         sb.begin();
         GameUtils.renderCenter(stateName, sb, bitmapFont);
-        buttons.forEach(b->b.render(sb));
+        buttons.forEach(b -> b.render(sb));
         sb.end();
 
     }
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b->b.update(deltaTime));
+        buttons.forEach(b -> b.update(deltaTime));
     }
 
     @Override
     public void updateInputs(float x, float y) {
     }
+
     @Override
     public void touchDown(float x, float y, int pointer, int button) {
         buttons.stream()
@@ -69,6 +69,7 @@ public class OptionsState extends State {
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
+
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
         buttons.stream()
@@ -106,30 +107,14 @@ public class OptionsState extends State {
         btnBack.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
         btnBack.setText("BACK");
         btnBack.setTextPositionCenter(true);
-
     }
 
     private void setListeners() {
-
         btnSound.setToggleListener(isToggled -> MusicHandler.setSoundOnOff(!isToggled));
-
         btnMusic.setToggleListener(isToggled -> MusicHandler.setMusicOnOff(!isToggled));
-
-        btnBack.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnBack.getBoundRect().contains(x, y))
-                    getStateController().goBack();
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
+        btnBack.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
+                getStateController().goBack();
         });
 
     }

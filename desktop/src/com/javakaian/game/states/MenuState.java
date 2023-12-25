@@ -37,6 +37,7 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch sb, ShapeRenderer sr) {
+        super.render(sb,sr);
         float red = 50f;
         float green = 63f;
         float blue = 94f;
@@ -87,56 +88,22 @@ public class MenuState extends State {
 
 
     private void setListeners() {
-
-        btnPlay.setButtonListener(new OButtonListener() {
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnPlay.getBoundRect().contains(x, y)) {
-                    getStateController().setState(StateEnum.PlayState);
-                    MusicHandler.playBackgroundMusic();
-                    MusicHandler.stopMenuMusic();
-                }
+        btnPlay.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                getStateController().setState(StateEnum.PlayState);
+                MusicHandler.playBackgroundMusic();
+                MusicHandler.stopMenuMusic();
             }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
+        });
+        btnOptions.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                getStateController().setState(StateEnum.OptionState);
             }
         });
 
-        btnOptions.setButtonListener(new OButtonListener() {
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnOptions.getBoundRect().contains(x, y))
-                    getStateController().setState(StateEnum.OptionState);
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
-        });
-
-        btnCredits.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnCredits.getBoundRect().contains(x, y))
-                    getStateController().setState(StateEnum.CreditsState);
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
+        btnCredits.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                getStateController().setState(StateEnum.CreditsState);
             }
         });
 

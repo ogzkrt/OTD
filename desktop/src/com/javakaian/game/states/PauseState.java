@@ -38,8 +38,8 @@ public class PauseState extends State {
     }
 
     @Override
-    public void render(SpriteBatch sb,ShapeRenderer sr) {
-
+    public void render(SpriteBatch sb, ShapeRenderer sr) {
+        super.render(sb,sr);
         float red = 50f;
         float green = 63f;
         float blue = 94f;
@@ -100,6 +100,7 @@ public class PauseState extends State {
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
+
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
         buttons.stream()
@@ -112,61 +113,22 @@ public class PauseState extends State {
     public void scrolled(int amount) {
 
     }
+
     private void setListeners() {
-
-        btnRestart.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-
-                if (btnRestart.getBoundRect().contains(x, y)) {
-                    PlayState state = (PlayState) getStateController().getState(StateEnum.PlayState);
-                    getStateController().setState(StateEnum.PlayState);
-                    state.restart();
-                }
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-
+        btnRestart.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE) {
+                PlayState state = (PlayState) getStateController().getState(StateEnum.PlayState);
+                getStateController().setState(StateEnum.PlayState);
+                state.restart();
             }
         });
-
-        btnResume.setButtonListener(new OButtonListener() {
-
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnResume.getBoundRect().contains(x, y))
-                    getStateController().setState(StateEnum.PlayState);
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
+        btnResume.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
+                getStateController().setState(StateEnum.PlayState);
         });
-
-        btnOptions.setButtonListener(new OButtonListener() {
-            @Override
-            public void touchRelease(float x, float y) {
-                if (btnOptions.getBoundRect().contains(x, y))
-                    getStateController().setState(StateEnum.OptionState);
-            }
-
-            @Override
-            public void touchDown(float x, float y) {
-            }
-
-            @Override
-            public void dragged(float x, float y) {
-            }
+        btnOptions.setButtonListener((event, x, y) -> {
+            if (event == OButtonListener.TouchEvent.RELEASE)
+                getStateController().setState(StateEnum.OptionState);
         });
     }
 }

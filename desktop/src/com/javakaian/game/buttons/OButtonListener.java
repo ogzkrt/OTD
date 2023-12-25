@@ -1,10 +1,9 @@
 package com.javakaian.game.buttons;
 
 public interface OButtonListener {
+    void touchEvent(TouchEvent event,float x,float y);
 
-    void touchDown(float x, float y);
-
-    void touchRelease(float x, float y);
-
-    void dragged(float x, float y);
+    enum TouchEvent{
+        DOWN,RELEASE,DRAGGED
+    }
 }

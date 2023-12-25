@@ -82,7 +82,7 @@ public class OButton {
     public void touchRelease(float x, float y) {
         if (enable) {
             isSelected = false;
-            buttonListener.touchRelease(x, y);
+            buttonListener.touchEvent(OButtonListener.TouchEvent.RELEASE,x, y);
         }
     }
 
@@ -90,7 +90,7 @@ public class OButton {
         if (enable) {
             isSelected = true;
             MusicHandler.playClickSound();
-            buttonListener.touchDown(x, y);
+            buttonListener.touchEvent(OButtonListener.TouchEvent.DOWN,x, y);
         }
     }
 

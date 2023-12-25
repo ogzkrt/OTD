@@ -19,6 +19,7 @@ public class PlayState extends State {
 
     @Override
     public void render(SpriteBatch sb,ShapeRenderer sr) {
+        super.render(sb,sr);
         sb.begin();
         level.render(sb);
         sb.end();
