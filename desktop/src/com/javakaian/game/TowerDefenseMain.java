@@ -15,8 +15,6 @@ public class TowerDefenseMain {
         config.height = (int) (GameConstants.SCREEN_HEIGHT
                 * GameConstants.GAME_SCALE);
         config.resizable = false;
-        config.x = 130;
-        config.y = 150;
         new LwjglApplication(game, config);
     }
 

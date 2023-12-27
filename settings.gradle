@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'tests'
+include 'desktop', 'android'
