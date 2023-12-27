@@ -55,7 +55,6 @@ public class OptionsState extends State {
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b -> b.update(deltaTime));
     }
 
     @Override
@@ -65,15 +64,16 @@ public class OptionsState extends State {
     @Override
     public void touchDown(float x, float y, int pointer, int button) {
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
 
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
+        buttons.forEach(b->b.setPressed(false));
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchRelease(x, y));
     }
@@ -93,20 +93,19 @@ public class OptionsState extends State {
         float space = GameConstants.GRID_WIDTH * 3.0f;
 
         btnSound = new OToggleButton(positionX, positionY, width, height);
-        btnSound.setIcon(MyAtlas.MENU_SOUND_ON);
-        btnSound.setPressedIcon(MyAtlas.MENU_SOUND_OFF);
+        btnSound.setIcon(MyAtlas.SOUND_ON);
+        btnSound.setToggledIcon(MyAtlas.SOUND_OFF);
 
         positionX += space;
         btnMusic = new OToggleButton(positionX, positionY, width, height);
-        btnMusic.setIcon(MyAtlas.MENU_MUSIC_ON);
-        btnMusic.setPressedIcon(MyAtlas.MENU_MUSIC_OFF);
+        btnMusic.setIcon(MyAtlas.MUSIC_ON);
+        btnMusic.setToggledIcon(MyAtlas.MUSIC_OFF);
 
         positionX += space;
         btnBack = new OButton(positionX, positionY, width, height);
-        btnBack.setIcon(MyAtlas.EMPTY_BUTTON);
-        btnBack.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnBack.setIcon(MyAtlas.GENERIC_BUTTON);
         btnBack.setText("BACK");
-        btnBack.setTextPositionCenter(true);
+        btnBack.setSetTextCenter(true);
     }
 
     private void setListeners() {

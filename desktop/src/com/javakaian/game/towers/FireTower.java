@@ -14,8 +14,8 @@ public class FireTower extends BaseTower {
         super(x, y, enemyList);
         type = TowerType.FIRE;
         damage = GameConstants.TOWER_DAMAGE_FIRE;
-        sprite = MyAtlas.FIRE_PLANE;
-        spriteSelected = MyAtlas.FIRE_PLANE;
+        sprite = MyAtlas.FIRE_TOWER;
+        spriteSelected = MyAtlas.FIRE_TOWER;
 
     }
 

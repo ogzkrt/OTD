@@ -26,13 +26,13 @@ public class Grid extends GameObject {
 
         switch (type) {
             case LAND:
-                sb.draw(MyAtlas.LAND, this.position.x, this.position.y, this.size.x, this.size.y);
+                sb.draw(MyAtlas.LAND_TILE, this.position.x, this.position.y, this.size.x, this.size.y);
                 break;
             case PATH:
-                sb.draw(MyAtlas.PATH, this.position.x, this.position.y, this.size.x, this.size.y);
+                sb.draw(MyAtlas.PATH_TILE, this.position.x, this.position.y, this.size.x, this.size.y);
                 break;
             default:
-                sb.draw(MyAtlas.LAND, this.position.x, this.position.y, this.size.x, this.size.y);
+                sb.draw(MyAtlas.LAND_TILE, this.position.x, this.position.y, this.size.x, this.size.y);
                 break;
         }
 

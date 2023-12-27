@@ -54,7 +54,6 @@ public class GameOverState extends State {
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b -> b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -67,14 +66,12 @@ public class GameOverState extends State {
         float space = GameConstants.GRID_WIDTH * 5.0f;
 
         btnReplay = new OButton(positionX, positionY, width, height);
-        btnReplay.setIcon(MyAtlas.REPLAY_BUTTON);
-        btnReplay.setPressedIcon(MyAtlas.REPLAY_BUTTON_PRESSED);
+        btnReplay.setIcon(MyAtlas.RESTART_GAME);
 
         positionX += space;
 
         btnMenu = new OButton(positionX, positionY, width, height);
         btnMenu.setIcon(MyAtlas.MENU_BUTTON);
-        btnMenu.setPressedIcon(MyAtlas.MENU_BUTTON_PRESSED);
 
     }
 
@@ -85,15 +82,16 @@ public class GameOverState extends State {
     @Override
     public void touchDown(float x, float y, int pointer, int button) {
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
 
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
+        buttons.forEach(b->b.setPressed(false));
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchRelease(x, y));
     }

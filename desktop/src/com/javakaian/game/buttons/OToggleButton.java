@@ -8,6 +8,8 @@ import com.javakaian.game.resources.MusicHandler;
 public class OToggleButton extends OButton {
 
     private OToggleButtonListener buttonListener;
+    private Sprite toggledIcon;
+    private boolean toogled = false;
 
     public OToggleButton(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -20,7 +22,8 @@ public class OToggleButton extends OButton {
 
     @Override
     public void render(SpriteBatch sb) {
-        super.render(sb);
+        Sprite s = toogled ? toggledIcon : icon;
+        sb.draw(s, this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     public void setToggleListener(OToggleButtonListener buttonListener) {
@@ -35,19 +38,19 @@ public class OToggleButton extends OButton {
     @Override
     public void touchRelease(float x, float y) {
         if (boundRect.contains(x, y)) {
-            setSelected(!isSelected);
-            buttonListener.toggled(isSelected);
+            setToogled(!toogled);
+            buttonListener.toggled(toogled);
         }
     }
-
-    @Override
-    public void setPressedIcon(Sprite spriteSelected) {
-        super.setPressedIcon(spriteSelected);
+    public void setToogled(boolean toogled) {
+        this.toogled = toogled;
     }
-
     @Override
     public void setIcon(Sprite sprite) {
         super.setIcon(sprite);
     }
 
+    public void setToggledIcon(Sprite toggledIcon) {
+        this.toggledIcon = toggledIcon;
+    }
 }

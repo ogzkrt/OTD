@@ -20,7 +20,7 @@ public class TowerButton extends OButton {
     public void render(SpriteBatch sb) {
         super.render(sb);
         if (isDragged) {
-            sb.draw(pressedSprite, draggedCoord.x - size.x / 2, draggedCoord.y - size.y / 2, size.x, size.y);
+            sb.draw(icon, draggedCoord.x - size.x / 2, draggedCoord.y - size.y / 2, size.x, size.y);
         }
     }
 
@@ -34,7 +34,7 @@ public class TowerButton extends OButton {
 
     public void touchRelease(float x, float y) {
         if (enable) {
-            isSelected = false;
+            pressed = false;
             isDragged = false;
             buttonListener.touchEvent(OButtonListener.TouchEvent.RELEASE,x, y);
         }
@@ -42,7 +42,7 @@ public class TowerButton extends OButton {
 
     public void touchDown(float x, float y) {
         if (enable) {
-            isSelected = true;
+            pressed = true;
             isDragged = true;
             buttonListener.touchEvent(OButtonListener.TouchEvent.DOWN,x, y);
         }
@@ -58,6 +58,7 @@ public class TowerButton extends OButton {
 
     public void setPrice(int price) {
         this.price = price;
+        this.setText(String.valueOf(price));
     }
 
 }

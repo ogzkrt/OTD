@@ -40,7 +40,7 @@ public class TowerSelectionMenu extends Menu {
 
     public TowerSelectionMenu(Level level) {
         super(0, GameConstants.GRID_HEIGHT * 7, GameConstants.TOWER_SELECTION_MENU_WIDTH,
-                GameConstants.TOWER_SELECTION_MENU_HEIGHT, MyAtlas.MENU);
+                GameConstants.TOWER_SELECTION_MENU_HEIGHT, MyAtlas.MENU_TILE);
         this.level = level;
 
         initButtons();
@@ -56,70 +56,59 @@ public class TowerSelectionMenu extends Menu {
 
         btnFire = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
         btnFire.setPrice(GameConstants.TOWER_PRICE);
-        btnFire.setIcon(MyAtlas.FIRE_PLANE_MENU);
-        btnFire.setPressedIcon(MyAtlas.FIRE_PLANE);
-        btnFire.setDisabledSprite(MyAtlas.FIRE_PLANE_MENU_DISABLED);
+        btnFire.setIcon(MyAtlas.FIRE_TOWER);
+
 
         xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
         btnIce = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH, GameConstants.MENU_ITEM_HEIGHT);
         btnIce.setPrice(GameConstants.TOWER_PRICE);
-        btnIce.setIcon(MyAtlas.ICE_TOWER_MENU);
-        btnIce.setPressedIcon(MyAtlas.ICE_TOWER_MENU);
-        btnIce.setDisabledSprite(MyAtlas.ICE_TOWER_MENU_DISABLED);
+        btnIce.setIcon(MyAtlas.ICE_TOWER);
+
 
         xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
         btnElectric = new TowerButton(xPosition, yPosition, GameConstants.MENU_ITEM_WIDTH,
                 GameConstants.MENU_ITEM_HEIGHT);
         btnElectric.setPrice(GameConstants.ELECTRIC_TOWER_PRICE);
-        btnElectric.setIcon(MyAtlas.ELECTRIC_MENU_ITEM);
-        btnElectric.setPressedIcon(MyAtlas.ELECTRIC_MENU_ITEM);
-        btnElectric.setDisabledSprite(MyAtlas.ELECTRIC_MENU_ITEM_DISABLED);
+        btnElectric.setIcon(MyAtlas.ELECTRIC_TOWER);
+
 
         xPosition += GameConstants.GRID_WIDTH * 3.5;
         xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
 
         btnDamage = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
                 GameConstants.MENU_ITEM_HEIGHT * (0.75f));
-        btnDamage.setIcon(MyAtlas.ATTACK_MENU_ITEM);
-        btnDamage.setPressedIcon(MyAtlas.ATTACK_MENU_ITEM_PRESSED);
-        btnDamage.setDisabledSprite(MyAtlas.ATTACK_MENU_ITEM_DISABLED);
+        btnDamage.setIcon(MyAtlas.DAMAGE);
         btnDamage.setEnable(false);
 
         xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
         btnRange = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
                 GameConstants.MENU_ITEM_HEIGHT * (0.75f));
-        btnRange.setIcon(MyAtlas.RANGE_MENU_ITEM);
-        btnRange.setPressedIcon(MyAtlas.RANGE_MENU_ITEM_PRESSED);
-        btnRange.setDisabledSprite(MyAtlas.RANGE_MENU_ITEM_DISABLED);
+        btnRange.setIcon(MyAtlas.RANGE);
         btnRange.setEnable(false);
 
         xPosition += (GameConstants.MENU_ITEM_OFFSET_X + GameConstants.MENU_ITEM_WIDTH);
         btnSpeed = new UpgradeButton(xPosition, damageRangeSpeedYPosition, GameConstants.MENU_ITEM_WIDTH * (0.75f),
                 GameConstants.MENU_ITEM_HEIGHT * (0.75f));
-        btnSpeed.setIcon(MyAtlas.SPEED_MENU_ITEM);
-        btnSpeed.setPressedIcon(MyAtlas.SPEED_MENU_ITEM_PRESSED);
-        btnSpeed.setDisabledSprite(MyAtlas.SPEED_MENU_ITEM_DISABLED);
+        btnSpeed.setIcon(MyAtlas.SPEED);
         btnSpeed.setEnable(false);
 
         btnPauseResume = new OToggleButton(GameConstants.PAUSE_RESUME_POS_X, yPosition,
                 GameConstants.PAUSE2X_ITEM_SIZE, GameConstants.PAUSE2X_ITEM_HEIGHT);
-        btnPauseResume.setIcon(MyAtlas.PAUSE_MENU_ITEM);
-        btnPauseResume.setPressedIcon(MyAtlas.RESUME_MENU_ITEM);
+        btnPauseResume.setIcon(MyAtlas.WAVE_PAUSE);
+        btnPauseResume.setToggledIcon(MyAtlas.WAVE_RESUME);
 
         btnDoubleSpeed = new OToggleButton(GameConstants.DOUBLE_SPEED_POS_X, yPosition,
                 GameConstants.PAUSE2X_ITEM_SIZE, GameConstants.PAUSE2X_ITEM_HEIGHT);
-        btnDoubleSpeed.setIcon(MyAtlas.MENU_ITEM_2X);
-        btnDoubleSpeed.setPressedIcon(MyAtlas.MENU_ITEM_2X_PRESSED);
+        btnDoubleSpeed.setIcon(MyAtlas.WAVE_SLOW);
+        btnDoubleSpeed.setToggledIcon(MyAtlas.WAVE_FAST);
 
         btnExit = new OButton(GameConstants.DOUBLE_SPEED_POS_X, yPosition + GameConstants.PAUSE2X_ITEM_SIZE,
                 GameConstants.PAUSE2X_ITEM_SIZE, GameConstants.PAUSE2X_ITEM_SIZE);
-        btnExit.setIcon(MyAtlas.QUIT_MENU_ITEM);
-        btnExit.setPressedIcon(MyAtlas.QUIT_MENU_ITEM_PRESSED);
+        btnExit.setIcon(MyAtlas.QUIT_X);
 
         btnRestart = new OButton(GameConstants.PAUSE_RESUME_POS_X, yPosition + GameConstants.PAUSE2X_ITEM_SIZE,
                 GameConstants.PAUSE2X_ITEM_SIZE, GameConstants.PAUSE2X_ITEM_SIZE);
-        btnRestart.setIcon(MyAtlas.REMAKE_MENU_ITEM);
-        btnRestart.setPressedIcon(MyAtlas.REMAKE_MENU_ITEM_PRESSED);
+        btnRestart.setIcon(MyAtlas.CHANGE_MAP);
 
         towerButtons.add(btnFire);
         towerButtons.add(btnIce);
@@ -216,12 +205,6 @@ public class TowerSelectionMenu extends Menu {
         super.render(sb);
         renderBitmapFonts(sb);
     }
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-    }
-
     @Override
     public void updateInputs(float x, float y) {
         super.updateInputs(x, y);

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.javakaian.game.buttons.OButton;
 import com.javakaian.game.buttons.OButtonListener;
 import com.javakaian.game.resources.MyAtlas;
@@ -66,7 +65,6 @@ public class CreditState extends State {
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b->b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -79,10 +77,9 @@ public class CreditState extends State {
         float space = GameConstants.GRID_WIDTH * 3.0f;
 
         btnBack = new OButton(positionX + space, positionY + GameConstants.GRID_HEIGHT * 2, width, height);
-        btnBack.setIcon(MyAtlas.EMPTY_BUTTON);
-        btnBack.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnBack.setIcon(MyAtlas.GENERIC_BUTTON);
         btnBack.setText("BACK");
-        btnBack.setTextPositionCenter(true);
+        btnBack.setSetTextCenter(true);
 
     }
 
@@ -93,14 +90,15 @@ public class CreditState extends State {
     @Override
     public void touchDown(float x, float y, int pointer, int button) {
         buttons.stream()
-                .filter(b->b.getBoundRect().contains(x,y))
+                .filter(b->b.contains(x,y))
                 .findFirst()
                 .ifPresent(b->b.touchDown(x,y));
     }
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
+        buttons.forEach(b->b.setPressed(false));
         buttons.stream()
-                .filter(b->b.getBoundRect().contains(x,y))
+                .filter(b->b.contains(x,y))
                 .findFirst()
                 .ifPresent(b->b.touchRelease(x,y));
     }
@@ -114,6 +112,4 @@ public class CreditState extends State {
                 getStateController().goBack();
         });
     }
-
-
 }

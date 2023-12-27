@@ -54,7 +54,6 @@ public class MenuState extends State {
 
     @Override
     public void update(float deltaTime) {
-        buttons.forEach(b -> b.update(deltaTime));
     }
 
     private void initButtons() {
@@ -68,21 +67,18 @@ public class MenuState extends State {
 
         btnPlay = new OButton(positionX, positionY, width, height);
         btnPlay.setIcon(MyAtlas.MENU_PLAY);
-        btnPlay.setPressedIcon(MyAtlas.MENU_PLAY_PRESSED);
 
         positionX += space;
         btnOptions = new OButton(positionX, positionY, width, height);
-        btnOptions.setIcon(MyAtlas.EMPTY_BUTTON);
-        btnOptions.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnOptions.setIcon(MyAtlas.GENERIC_BUTTON);
         btnOptions.setText("OPTIONS");
-        btnOptions.setTextPositionCenter(true);
+        btnOptions.setSetTextCenter(true);
 
         positionX += space;
         btnCredits = new OButton(positionX, positionY, width, height);
-        btnCredits.setIcon(MyAtlas.EMPTY_BUTTON);
-        btnCredits.setPressedIcon(MyAtlas.EMPTY_BUTTON_PRESSED);
+        btnCredits.setIcon(MyAtlas.GENERIC_BUTTON);
         btnCredits.setText("CREDITS");
-        btnCredits.setTextPositionCenter(true);
+        btnCredits.setSetTextCenter(true);
 
     }
 
@@ -116,15 +112,16 @@ public class MenuState extends State {
     @Override
     public void touchDown(float x, float y, int pointer, int button) {
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchDown(x, y));
     }
 
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
+        buttons.forEach(b->b.setPressed(false));
         buttons.stream()
-                .filter(b -> b.getBoundRect().contains(x, y))
+                .filter(b -> b.contains(x, y))
                 .findFirst()
                 .ifPresent(b -> b.touchRelease(x, y));
     }

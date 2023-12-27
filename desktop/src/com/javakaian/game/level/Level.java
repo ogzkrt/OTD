@@ -2,7 +2,6 @@ package com.javakaian.game.level;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.controllers.EnemyController;
@@ -58,7 +57,7 @@ public class Level {
         map = new Map();
         enemyController = new EnemyController(this);
         towerController = new TowerController();
-        informationMenu = new InformationMenu(MyAtlas.MENU);
+        informationMenu = new InformationMenu(MyAtlas.MENU_TILE);
         towerSelectionMenu = new TowerSelectionMenu(this);
     }
 
@@ -86,7 +85,6 @@ public class Level {
         map.update(deltaTime);
         enemyController.update(deltaTime);
         towerController.update(deltaTime);
-        towerSelectionMenu.update(deltaTime);
     }
 
     public void updateInputs(float x, float y) {

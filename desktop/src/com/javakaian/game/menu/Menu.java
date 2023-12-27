@@ -62,19 +62,6 @@ public class Menu {
         }
     }
 
-    public void update(float deltaTime) {
-
-        for (OButton button : menuButtons) {
-            button.update(deltaTime);
-        }
-        for (TowerButton menuItem : towerButtons) {
-            menuItem.update(deltaTime);
-        }
-        for (UpgradeButton upgradeButton : upgradeButtons) {
-            upgradeButton.update(deltaTime);
-        }
-    }
-
     public void updateInputs(float x, float y) {
 
         for (OButton button : menuButtons) {
@@ -92,7 +79,7 @@ public class Menu {
 
         for (TowerButton menuItem : towerButtons) {
 
-            if (menuItem.getBoundRect().contains(x, y)) {
+            if (menuItem.contains(x, y)) {
                 selectedMenuItem = menuItem;
                 selectedMenuItem.touchDown(x, y);
             }
@@ -100,14 +87,14 @@ public class Menu {
 
         for (OButton button : menuButtons) {
 
-            if (button.getBoundRect().contains(x, y)) {
+            if (button.contains(x, y)) {
                 selectedMenuButton = button;
                 selectedMenuButton.touchDown(x, y);
             }
 
         }
         for (UpgradeButton upgradeButton : upgradeButtons) {
-            if (upgradeButton.getBoundRect().contains(x, y)) {
+            if (upgradeButton.contains(x, y)) {
                 selectedUpgradeButton = upgradeButton;
                 selectedUpgradeButton.touchDown(x, y);
             }
