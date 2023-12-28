@@ -1,4 +1,4 @@
-package com.javakaian.game.buttons;
+package com.javakaian.game.ui.buttons;
 
 public interface OButtonListener {
     void touchEvent(TouchEvent event,float x,float y);

@@ -1,4 +1,4 @@
-package com.javakaian.game.buttons;
+package com.javakaian.game.ui.buttons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -8,14 +8,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.javakaian.game.ui.components.UIComponent;
 import com.javakaian.game.util.GameUtils;
 
-public class OButton {
+public class OButton implements UIComponent {
 
-    protected final Vector2 position;
-    protected final Vector2 size;
-    protected final Vector2 center;
-    protected final Rectangle boundRect;
+    protected Vector2 position;
+    protected Vector2 size;
+    protected Vector2 center;
+    protected Rectangle boundRect;
 
     protected boolean pressed = false;
     protected boolean enable = true;
@@ -33,10 +34,17 @@ public class OButton {
         this.size = new Vector2(width, height);
         this.boundRect = new Rectangle(x, y, this.size.x, this.size.y);
         this.font = GameUtils.generateBitmapFont(15, Color.BLACK);
-        this.center = new Vector2(position.x + size.x / 2, position.y + size.y / 2);
+        this.center = calCenter(this.position,this.size);
         glyphLayout = new GlyphLayout(font, text);
     }
-
+    public OButton(float width, float height) {
+        this.position = new Vector2(0, 0);
+        this.size = new Vector2(width, height);
+        this.boundRect = new Rectangle(0, 0, this.size.x, this.size.y);
+        this.font = GameUtils.generateBitmapFont(15, Color.BLACK);
+        this.center = calCenter(this.position,this.size);
+        glyphLayout = new GlyphLayout(font, text);
+    }
     public void setButtonListener(OButtonListener buttonListener) {
         this.buttonListener = buttonListener;
     }
@@ -44,6 +52,15 @@ public class OButton {
     public void render(ShapeRenderer sr) {
     }
 
+    @Override
+    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
+        this.size = new Vector2(compWidth,compHeight);
+        this.position = new Vector2(cx,cy);
+        this.center = calCenter(this.position,this.size);
+        this.boundRect = new Rectangle(this.position.x,this.position.y, this.size.x, this.size.y);
+    }
+
+    @Override
     public void render(SpriteBatch sb) {
         if (!enable || pressed) {
             sb.setColor(0.5f, 0.5f, 0.5f, 0.7f);
@@ -53,6 +70,11 @@ public class OButton {
             sb.draw(icon, this.position.x, this.position.y, this.size.x, this.size.y);
         }
         renderText(sb);
+    }
+
+    @Override
+    public Vector2 getSize() {
+        return size;
     }
 
     private void renderText(SpriteBatch sb) {
@@ -98,7 +120,9 @@ public class OButton {
         this.text = text;
         glyphLayout = new GlyphLayout(font, text);
     }
-
+    private Vector2 calCenter(Vector2 position,Vector2 size){
+        return new Vector2(position.x + size.x / 2, position.y + size.y / 2);
+    }
     public boolean contains(float x, float y) {
         return boundRect.contains(x, y);
     }

@@ -9,8 +9,8 @@ import com.javakaian.game.controllers.TowerController;
 import com.javakaian.game.map.Grid;
 import com.javakaian.game.map.Grid.EnumGridType;
 import com.javakaian.game.map.Map;
-import com.javakaian.game.menu.InformationMenu;
-import com.javakaian.game.menu.TowerSelectionMenu;
+import com.javakaian.game.ui.menu.InformationMenu;
+import com.javakaian.game.ui.menu.MainControlMenu;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.states.PlayState;
 import com.javakaian.game.states.State.StateEnum;
@@ -25,7 +25,7 @@ public class Level {
     private TowerController towerController;
 
     private Map map;
-    private TowerSelectionMenu towerSelectionMenu;
+    private MainControlMenu towerSelectionMenu;
     private InformationMenu informationMenu;
 
     private int enemyNumber;
@@ -58,7 +58,7 @@ public class Level {
         enemyController = new EnemyController(this);
         towerController = new TowerController();
         informationMenu = new InformationMenu(MyAtlas.MENU_TILE);
-        towerSelectionMenu = new TowerSelectionMenu(this);
+        towerSelectionMenu = new MainControlMenu(this);
     }
 
     public void render(ShapeRenderer sr) {
@@ -140,11 +140,8 @@ public class Level {
 
     public void touchDown(float x, float y) {
 
-        if (towerSelectionMenu.getBoundaryRect().contains(x, y)) {
+        if (towerSelectionMenu.contains(x, y)) {
             towerSelectionMenu.touchDown(x, y);
-        } else if (informationMenu.getBoundaryRect().contains(x, y)) {
-            informationMenu.touchDown(x, y);
-
         } else {
             selectGrid(x, y);
         }
@@ -152,9 +149,7 @@ public class Level {
     }
 
     public void touchRelease(float x, float y) {
-
         towerSelectionMenu.touchRelease(x, y);
-
     }
 
     public void selectGrid(float x, float y) {
@@ -165,7 +160,7 @@ public class Level {
         switch (grid.getType()) {
             case TOWER:
                 BaseTower t = towerController.getSelectedTower(grid.getPosition());
-                informationMenu.updateTowerInformations(t);
+                informationMenu.updateTowerInformation(t);
                 towerSelectionMenu.updateUpgradeButtons(money);
                 break;
             case LAND:
@@ -217,7 +212,7 @@ public class Level {
         if (cost <= money) {
             towerController.increaseAttack();
             decreaseMoney(cost);
-            informationMenu.updateTowerInformations(t);
+            informationMenu.updateTowerInformation(t);
         }
 
     }
@@ -228,7 +223,7 @@ public class Level {
         if (cost <= money) {
             towerController.increaseRange();
             decreaseMoney(cost);
-            informationMenu.updateTowerInformations(t);
+            informationMenu.updateTowerInformation(t);
         }
 
     }
@@ -239,7 +234,7 @@ public class Level {
         if (cost <= money) {
             towerController.increaseSpeed();
             decreaseMoney(cost);
-            informationMenu.updateTowerInformations(t);
+            informationMenu.updateTowerInformation(t);
         }
     }
 

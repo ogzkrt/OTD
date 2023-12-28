@@ -109,11 +109,11 @@ public class Enemy extends GameObject {
             switch (currentDirection) {
                 case UP:
                 case DOWN:
-                    distanceToTile = GameConstants.VERTICAL_MOVEMENT_UNIT;
+                    distanceToTile = GameConstants.GRID_WIDTH;
                     break;
                 case RIGHT:
                 case LEFT:
-                    distanceToTile = GameConstants.HORIZONTAL_MOVEMENT_UNIT;
+                    distanceToTile = GameConstants.GRID_HEIGHT;
                     break;
             }
 

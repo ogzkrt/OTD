@@ -1,4 +1,4 @@
-package com.javakaian.game.buttons;
+package com.javakaian.game.ui.buttons;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,10 +9,14 @@ public class OToggleButton extends OButton {
 
     private OToggleButtonListener buttonListener;
     private Sprite toggledIcon;
-    private boolean toogled = false;
+    private boolean toggled = false;
 
     public OToggleButton(float x, float y, float width, float height) {
         super(x, y, width, height);
+    }
+
+    public OToggleButton(float width,float height){
+        super(0,0,width,height);
     }
 
     @Override
@@ -22,7 +26,7 @@ public class OToggleButton extends OButton {
 
     @Override
     public void render(SpriteBatch sb) {
-        Sprite s = toogled ? toggledIcon : icon;
+        Sprite s = toggled ? toggledIcon : icon;
         sb.draw(s, this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
@@ -38,12 +42,16 @@ public class OToggleButton extends OButton {
     @Override
     public void touchRelease(float x, float y) {
         if (boundRect.contains(x, y)) {
-            setToogled(!toogled);
-            buttonListener.toggled(toogled);
+            setToggled(!toggled);
+            buttonListener.toggled(toggled);
         }
     }
-    public void setToogled(boolean toogled) {
-        this.toogled = toogled;
+    @Override
+    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
+        super.setSizeLocation(cx, cy, compWidth, compHeight);
+    }
+    public void setToggled(boolean toggled) {
+        this.toggled = toggled;
     }
     @Override
     public void setIcon(Sprite sprite) {
