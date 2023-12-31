@@ -24,11 +24,11 @@ public class InformationMenu {
     public InformationMenu(Sprite menuSprite) {
         this.menuSprite = menuSprite;
         this.layout = new SimpleLayout(
-                5,
-                5,
+                0,
+                0,
                 GameConstants.SCREEN_WIDTH,
                 GameConstants.GRID_HEIGHT,
-                10);
+                45,15);
         lblDamage = new OLabel("DAMAGE: ");
         lblRange = new OLabel("RANGE: ");
         lblSpeed = new OLabel("SPEED: ");

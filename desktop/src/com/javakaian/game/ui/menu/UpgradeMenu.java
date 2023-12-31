@@ -31,7 +31,7 @@ public class UpgradeMenu {
         layout = new SimpleLayout(
                 GameConstants.GRID_WIDTH * 4,
                 GameConstants.GRID_HEIGHT * 2,
-                2);
+                15,32);
         buttons = new ArrayList<>();
         initButtons();
     }

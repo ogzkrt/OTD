@@ -17,7 +17,7 @@ public class OLabel implements UIComponent {
     protected GlyphLayout glyphLayout;
 
     public OLabel(String text) {
-        this(new Vector2(GameConstants.GRID_WIDTH * 3,
+        this(new Vector2(GameConstants.GRID_WIDTH * 2.5f,
                 GameConstants.GRID_HEIGHT), text);
     }
 

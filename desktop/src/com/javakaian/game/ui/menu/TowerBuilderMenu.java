@@ -32,7 +32,7 @@ public class TowerBuilderMenu {
         this.layout = new SimpleLayout(
                 GameConstants.GRID_WIDTH * 6,
                 GameConstants.GRID_HEIGHT * 2,
-                10);
+                10,20);
         towerButtons = new ArrayList<>();
         initButtons();
     }

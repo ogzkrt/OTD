@@ -11,19 +11,29 @@ import java.util.List;
 public class SimpleLayout implements UIComponent {
 
     private final List<UIComponent> elements;
-    private final int offset;
+    private final int xOffset;
+    private final int yOffset;
     private Vector2 size;
     private Vector2 position;
 
     public SimpleLayout(float x, float y, float width, float height, int offset) {
-        this.offset = offset;
-        this.elements = new ArrayList<>();
-        this.position = new Vector2(x, y);
-        this.size = new Vector2(width, height);
+        this(x, y, width, height, offset, offset);
     }
 
     public SimpleLayout(float width, float height, int offset) {
-        this(0, 0, width, height, offset);
+        this(0, 0, width, height, offset, offset);
+    }
+
+    public SimpleLayout(float width, float height, int xOffset, int yOffset) {
+        this(0, 0, width, height, xOffset, yOffset);
+    }
+
+    public SimpleLayout(float x, float y, float width, float height, int xOffset, int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        this.elements = new ArrayList<>();
+        this.position = new Vector2(x, y);
+        this.size = new Vector2(width, height);
     }
 
     public void setSize(Vector2 size) {
@@ -44,21 +54,21 @@ public class SimpleLayout implements UIComponent {
 
     public void pack() {
 
-        float x = offset + position.x;
-        float y = offset + position.y;
+        float x = xOffset + position.x;
+        float y = yOffset + position.y;
         float maxHeight = (float) elements.stream().
                 mapToDouble(e -> e.getSize().y).max().orElse(0);
         float yPos;
 
         for (int i = 0; i < elements.size(); i++) {
             UIComponent c = elements.get(i);
-            if (x + c.getSize().x + offset > size.x + position.x) {
-                x = offset + position.x;
-                y += maxHeight + offset;
+            if (x + c.getSize().x + xOffset > size.x + position.x) {
+                x = xOffset + position.x;
+                y += maxHeight + yOffset;
             }
             yPos = (maxHeight - c.getSize().y) / 2;
             c.setSizeLocation(x, y + yPos, c.getSize().x, c.getSize().y);
-            x += c.getSize().x + offset;
+            x += c.getSize().x + xOffset;
         }
         elements.stream().
                 filter(SimpleLayout.class::isInstance).

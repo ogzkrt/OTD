@@ -30,7 +30,7 @@ public class FunctionalButtonsMenu {
 
         this.layoutFunctionalButtons = new SimpleLayout(GameConstants.GRID_WIDTH * 2,
                 GameConstants.GRID_HEIGHT * 2,
-                1);
+                2,5);
         menuButtons = new ArrayList<>();
         initButtons();
     }
