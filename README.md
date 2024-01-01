@@ -27,8 +27,6 @@ git clone https://github.com/ogzkrt/OTD.git
 
 Then import it as a Gradle project with IDE of your choice. It has been tested on Android Studio.
 
-```
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
