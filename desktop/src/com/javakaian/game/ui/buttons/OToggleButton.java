@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.ui.components.Pressable;
 import com.javakaian.game.ui.components.UIComponent;
 
@@ -46,7 +45,6 @@ public class OToggleButton implements UIComponent, Pressable {
     }
 
     public void touchDown(float x, float y) {
-        MusicHandler.playClickSound();
     }
 
     public void touchRelease(float x, float y) {
@@ -54,6 +52,10 @@ public class OToggleButton implements UIComponent, Pressable {
             setToggled(!toggled);
             buttonListener.toggled(toggled);
         }
+    }
+
+    public boolean isToggled() {
+        return toggled;
     }
 
     @Override
@@ -82,4 +84,5 @@ public class OToggleButton implements UIComponent, Pressable {
     public void setToggledIcon(Sprite toggledIcon) {
         this.toggledIcon = toggledIcon;
     }
+
 }

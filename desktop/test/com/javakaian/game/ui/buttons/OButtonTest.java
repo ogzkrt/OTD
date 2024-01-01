@@ -146,11 +146,26 @@ public class OButtonTest {
     }
 
     @Test
-    public void testEnableWorksProperly() {
+    public void testButtonIsClickableOnlyWhenEnabled() {
         final OButton button = new OButton(0, 0, 100, 50);
+        button.setButtonListener(listener);
         button.setEnable(false);
         assertFalse(button.isEnable());
+        button.touchDown(10,10);
+        assertFalse(button.isPressed());
         button.setEnable(true);
+        button.touchDown(10,10);
         assertTrue(button.isEnable());
+        assertTrue(button.isPressed());
+    }
+    @Test
+    public void testTouchReleaseShouldReturnEarlyIfButtonDisabled() {
+        final OButton button = new OButton(0, 0, 100, 50);
+        button.setButtonListener(listener);
+        button.setEnable(false);
+        button.touchDown(10,10);
+        button.touchRelease(10,10);
+        assertFalse(button.isEnable());
+        assertFalse(button.isPressed());
     }
 }
