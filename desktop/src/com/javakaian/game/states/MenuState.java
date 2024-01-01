@@ -66,10 +66,9 @@ public class MenuState extends State {
     }
 
     private void initButtons() {
-
         final ButtonFactory bf = new ButtonFactory(GameConstants.GRID_WIDTH * 1.5f,
                 GameConstants.GRID_HEIGHT * 1.5f);
-        btnPlay = bf.createOButton("", MyAtlas.MENU_PLAY, false);
+        btnPlay = bf.createOButton(MyAtlas.MENU_PLAY);
         btnOptions = bf.createOButton("OPTIONS", MyAtlas.GENERIC_BUTTON, true);
         btnCredits = bf.createOButton("CREDITS", MyAtlas.GENERIC_BUTTON, true);
 

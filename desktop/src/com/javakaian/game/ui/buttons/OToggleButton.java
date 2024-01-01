@@ -1,61 +1,82 @@
 package com.javakaian.game.ui.buttons;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.javakaian.game.resources.MusicHandler;
+import com.javakaian.game.ui.components.Pressable;
+import com.javakaian.game.ui.components.UIComponent;
 
-public class OToggleButton extends OButton {
+public class OToggleButton implements UIComponent, Pressable {
 
     private OToggleButtonListener buttonListener;
     private Sprite toggledIcon;
     private boolean toggled = false;
+    private final OButton button;
 
-    public OToggleButton(float x, float y, float width, float height) {
-        super(x, y, width, height);
+    public OToggleButton(float x, float y, float width, float height, BitmapFont font, String text,
+                         GlyphLayout glyphLayout) {
+        this.button = new OButton(x, y, width, height, font, text, glyphLayout);
     }
 
-    public OToggleButton(float width,float height){
-        super(0,0,width,height);
-    }
-
-    @Override
-    public void render(ShapeRenderer sr) {
-        super.render(sr);
+    public OToggleButton(float width, float height) {
+        this(0, 0, width, height, null, null, null);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        Sprite s = toggled ? toggledIcon : icon;
-        sb.draw(s, this.position.x, this.position.y, this.size.x, this.size.y);
+        Sprite s = toggled ? toggledIcon : button.getIcon();
+        sb.draw(s, button.getPosition().x, button.getPosition().y, button.getSize().x, button.getSize().y);
+    }
+
+    @Override
+    public Vector2 getSize() {
+        return button.getSize();
+    }
+
+    @Override
+    public boolean contains(float x, float y) {
+        return button.contains(x, y);
     }
 
     public void setToggleListener(OToggleButtonListener buttonListener) {
         this.buttonListener = buttonListener;
     }
 
-    @Override
     public void touchDown(float x, float y) {
         MusicHandler.playClickSound();
     }
 
-    @Override
     public void touchRelease(float x, float y) {
-        if (boundRect.contains(x, y)) {
+        if (button.contains(x, y)) {
             setToggled(!toggled);
             buttonListener.toggled(toggled);
         }
     }
+
     @Override
-    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
-        super.setSizeLocation(cx, cy, compWidth, compHeight);
+    public boolean isPressed() {
+        return button.isPressed();
     }
+
+    @Override
+    public void setPressed(boolean pressed) {
+        button.setPressed(pressed);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        button.setPosition(x, y);
+    }
+
     public void setToggled(boolean toggled) {
         this.toggled = toggled;
     }
-    @Override
+
     public void setIcon(Sprite sprite) {
-        super.setIcon(sprite);
+        button.setIcon(sprite);
     }
 
     public void setToggledIcon(Sprite toggledIcon) {

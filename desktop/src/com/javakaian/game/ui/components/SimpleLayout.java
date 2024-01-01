@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleLayout implements UIComponent {
+public class SimpleLayout implements UIComponent, Pressable {
 
     private final List<UIComponent> elements;
     private final int xOffset;
@@ -40,10 +40,6 @@ public class SimpleLayout implements UIComponent {
         this.size = size;
     }
 
-    public void addComponent(UIComponent element) {
-        this.elements.add(element);
-    }
-
     public void addComponents(List<? extends UIComponent> elements) {
         this.elements.addAll(elements);
     }
@@ -67,7 +63,7 @@ public class SimpleLayout implements UIComponent {
                 y += maxHeight + yOffset;
             }
             yPos = (maxHeight - c.getSize().y) / 2;
-            c.setSizeLocation(x, y + yPos, c.getSize().x, c.getSize().y);
+            c.setPosition(x, y + yPos);
             x += c.getSize().x + xOffset;
         }
         elements.stream().
@@ -77,9 +73,8 @@ public class SimpleLayout implements UIComponent {
     }
 
     @Override
-    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
-        this.size = new Vector2(compWidth, compHeight);
-        this.position = new Vector2(cx, cy);
+    public void setPosition(float x, float y) {
+        this.position = new Vector2(x, y);
     }
 
     public void render(ShapeRenderer sr) {
@@ -99,5 +94,25 @@ public class SimpleLayout implements UIComponent {
     public boolean contains(float x, float y) {
         return x >= position.x && x <= position.x + size.x &&
                 y >= position.y && y <= position.y + size.y;
+    }
+
+    @Override
+    public void touchDown(float x, float y) {
+
+    }
+
+    @Override
+    public void touchRelease(float x, float y) {
+
+    }
+
+    @Override
+    public boolean isPressed() {
+        return false;
+    }
+
+    @Override
+    public void setPressed(boolean pressed) {
+
     }
 }

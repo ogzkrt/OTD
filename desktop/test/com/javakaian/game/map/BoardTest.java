@@ -1,4 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*;
+package com.javakaian.game.map;
+
 
 import org.junit.jupiter.api.Test;
 

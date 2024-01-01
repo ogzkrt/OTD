@@ -17,6 +17,7 @@ import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.buttons.OToggleButton;
+import com.javakaian.game.ui.components.Pressable;
 import com.javakaian.game.ui.components.SimpleLayout;
 import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
@@ -31,7 +32,7 @@ public class OptionsState extends State {
     private OToggleButton btnMusic;
     private OToggleButton btnSound;
     private OButton btnBack;
-    private final List<OButton> buttons;
+    private final List<Pressable> buttons;
     private final SimpleLayout layout;
 
     public OptionsState(StateController stateController) {
@@ -94,7 +95,6 @@ public class OptionsState extends State {
     }
 
     private void initButtons() {
-
         final ButtonFactory bf = new ButtonFactory(GRID_WIDTH * 1.5f, GRID_HEIGHT * 1.5f);
         btnSound = bf.createToggleButton(MyAtlas.SOUND_ON, MyAtlas.SOUND_OFF);
         btnMusic = bf.createToggleButton(MyAtlas.MUSIC_ON, MyAtlas.MUSIC_OFF);
@@ -104,7 +104,7 @@ public class OptionsState extends State {
         buttons.add(btnMusic);
         buttons.add(btnBack);
 
-        layout.addComponents(buttons);
+        layout.addComponents(btnSound, btnMusic, btnBack);
         layout.pack();
     }
 

@@ -1,35 +1,41 @@
 package com.javakaian.game.ui.buttons;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.javakaian.game.ui.components.Pressable;
 import com.javakaian.game.ui.components.UIComponent;
 
-public class TowerBuilder implements UIComponent {
+public class TowerBuilder implements UIComponent, Pressable {
 
     private final Vector2 previewPosition;
     private boolean isDragged = false;
-    private int price;
+    private final int price;
     private final OButton button;
 
-    public TowerBuilder(float width, float height) {
+    public TowerBuilder(float width, float height, BitmapFont font,
+                        GlyphLayout glyphLayout, int price) {
         this.previewPosition = new Vector2();
-        this.button = new OButton(0, 0, width, height);
+        this.price = price;
+        this.button = new OButton(0, 0, width, height, font, String.valueOf(price),
+                glyphLayout);
     }
 
     @Override
     public void render(SpriteBatch sb) {
         button.render(sb);
         if (isDragged) {
-            sb.draw(button.icon,
-                    previewPosition.x - button.size.x / 2,
-                    previewPosition.y - button.size.y / 2,
-                    button.size.x, button.size.y);
+            sb.draw(button.getIcon(),
+                    previewPosition.x - button.getSize().x / 2,
+                    previewPosition.y - button.getSize().y / 2,
+                    button.getSize().x, button.getSize().y);
         }
     }
 
     public void updateInputs(float x, float y) {
-        if (isDragged & button.enable) {
+        if (isDragged & button.isEnable()) {
             previewPosition.x = x;
             previewPosition.y = y;
             dragged(x, y);
@@ -37,32 +43,37 @@ public class TowerBuilder implements UIComponent {
     }
 
     public void touchRelease(float x, float y) {
-        if (button.enable) {
-            button.pressed = false;
+        if (button.isEnable()) {
+            button.setPressed(false);
             isDragged = false;
-            button.buttonListener.touchEvent(OButtonListener.TouchEvent.RELEASE, x, y);
+            button.getButtonListener().touchEvent(OButtonListener.TouchEvent.RELEASE, x, y);
         }
     }
 
+    @Override
+    public boolean isPressed() {
+        return button.isPressed();
+    }
+
+    @Override
+    public void setPressed(boolean pressed) {
+        button.setPressed(pressed);
+    }
+
     public void touchDown(float x, float y) {
-        if (button.enable) {
-            button.pressed = true;
+        if (button.isEnable()) {
+            button.setPressed(true);
             isDragged = true;
-            button.buttonListener.touchEvent(OButtonListener.TouchEvent.DOWN, x, y);
+            button.getButtonListener().touchEvent(OButtonListener.TouchEvent.DOWN, x, y);
         }
     }
 
     public void dragged(float x, float y) {
-        button.buttonListener.touchEvent(OButtonListener.TouchEvent.DRAGGED, x, y);
+        button.getButtonListener().touchEvent(OButtonListener.TouchEvent.DRAGGED, x, y);
     }
 
     public void moneyChanged(int money) {
-        button.enable = price <= money;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-        this.button.setText(String.valueOf(price));
+        button.setEnable(price <= money);
     }
 
     public void setIcon(Sprite icon) {
@@ -72,13 +83,15 @@ public class TowerBuilder implements UIComponent {
     public void setButtonListener(OButtonListener buttonListener) {
         this.button.setButtonListener(buttonListener);
     }
+
     @Override
-    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
-        this.button.setSizeLocation(cx,cy,compWidth,compHeight);
+    public void setPosition(float x, float y) {
+        this.button.setPosition(x, y);
     }
+
     @Override
     public Vector2 getSize() {
-        return button.size;
+        return button.getSize();
     }
 
     public boolean contains(float x, float y) {

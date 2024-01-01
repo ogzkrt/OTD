@@ -12,6 +12,7 @@ import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.buttons.OToggleButton;
+import com.javakaian.game.ui.components.Pressable;
 import com.javakaian.game.ui.components.SimpleLayout;
 import com.javakaian.game.ui.components.UIComponent;
 
@@ -25,7 +26,7 @@ public class FunctionalButtonsMenu {
 
     private OButton btnRestart;
     private OButton btnExit;
-    private final List<OButton> menuButtons;
+    private final List<Pressable> menuButtons;
     private final SimpleLayout layoutFunctionalButtons;
     private final Level level;
 
@@ -42,15 +43,15 @@ public class FunctionalButtonsMenu {
         final ButtonFactory bf = new ButtonFactory(FUNC_BUTTON_WH, FUNC_BUTTON_WH);
         btnPauseResume = bf.createToggleButton(MyAtlas.WAVE_PAUSE, MyAtlas.WAVE_RESUME);
         btnDoubleSpeed = bf.createToggleButton(MyAtlas.WAVE_SLOW, MyAtlas.WAVE_FAST);
-        btnExit = bf.createOButton("", MyAtlas.QUIT_X, false);
-        btnRestart = bf.createOButton("", MyAtlas.CHANGE_MAP, false);
+        btnExit = bf.createOButton(MyAtlas.QUIT_X);
+        btnRestart = bf.createOButton(MyAtlas.CHANGE_MAP);
 
         menuButtons.add(btnPauseResume);
         menuButtons.add(btnDoubleSpeed);
         menuButtons.add(btnRestart);
         menuButtons.add(btnExit);
 
-        layoutFunctionalButtons.addComponents(menuButtons);
+        layoutFunctionalButtons.addComponents(btnPauseResume,btnDoubleSpeed,btnRestart,btnExit);
         layoutFunctionalButtons.pack();
 
         initButtonListener();

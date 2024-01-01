@@ -39,11 +39,9 @@ public class OLabel implements UIComponent {
     }
 
     @Override
-    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
+    public void setPosition(float cx, float cy) {
         this.position.x = cx;
         this.position.y = cy;
-        this.size.x = compWidth;
-        this.size.y = compHeight;
     }
 
     public void setText(String text) {

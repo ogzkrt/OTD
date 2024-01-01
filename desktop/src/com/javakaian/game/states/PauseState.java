@@ -62,11 +62,10 @@ public class PauseState extends State {
     }
 
     private void initButtons() {
-
         final ButtonFactory bf = new ButtonFactory(GameConstants.GRID_WIDTH * 1.5f,
                 GameConstants.GRID_HEIGHT * 1.5f);
-        btnRestart = bf.createOButton("", MyAtlas.RESTART_GAME, false);
-        btnResume = bf.createOButton("", MyAtlas.RESUME_GAME, false);
+        btnRestart = bf.createOButton(MyAtlas.RESTART_GAME);
+        btnResume = bf.createOButton(MyAtlas.RESUME_GAME);
         btnOptions = bf.createOButton("Options", MyAtlas.GENERIC_BUTTON, true);
 
         buttons.add(btnRestart);

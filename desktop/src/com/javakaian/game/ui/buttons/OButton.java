@@ -1,64 +1,43 @@
 package com.javakaian.game.ui.buttons;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.javakaian.game.ui.components.Pressable;
 import com.javakaian.game.ui.components.UIComponent;
-import com.javakaian.game.util.GameUtils;
 
-public class OButton implements UIComponent {
 
-    protected Vector2 position;
-    protected Vector2 size;
-    protected Vector2 center;
-    protected Rectangle boundRect;
+public class OButton implements UIComponent, Pressable {
 
-    protected boolean pressed = false;
-    protected boolean enable = true;
-    protected boolean setTextCenter = false;
+    private final Vector2 position;
+    private final Vector2 size;
 
-    protected Sprite icon;
-    protected final BitmapFont font;
-    protected GlyphLayout glyphLayout;
-    protected String text = "";
+    private boolean pressed = false;
+    private boolean enable = true;
+    private boolean setTextCenter = false;
 
-    protected OButtonListener buttonListener;
+    private Sprite icon;
+    private final BitmapFont font;
+    private final GlyphLayout glyphLayout;
+    private String text;
 
-    public OButton(float x, float y, float width, float height) {
+    private OButtonListener buttonListener;
+
+    public OButton(float x, float y, float width, float height, BitmapFont font, String text,
+                   GlyphLayout glyphLayout) {
         this.position = new Vector2(x, y);
         this.size = new Vector2(width, height);
-        this.boundRect = new Rectangle(x, y, this.size.x, this.size.y);
-        this.font = GameUtils.generateBitmapFont(15, Color.BLACK);
-        this.center = calCenter(this.position,this.size);
-        glyphLayout = new GlyphLayout(font, text);
-    }
-    public OButton(float width, float height) {
-        this.position = new Vector2(0, 0);
-        this.size = new Vector2(width, height);
-        this.boundRect = new Rectangle(0, 0, this.size.x, this.size.y);
-        this.font = GameUtils.generateBitmapFont(15, Color.BLACK);
-        this.center = calCenter(this.position,this.size);
-        glyphLayout = new GlyphLayout(font, text);
-    }
-    public void setButtonListener(OButtonListener buttonListener) {
-        this.buttonListener = buttonListener;
+        this.font = font;
+        this.text = text;
+        this.glyphLayout = glyphLayout;
     }
 
-    public void render(ShapeRenderer sr) {
+    public OButton(float x, float y, float width, float height) {
+        this(x, y, width, height, null, null, null);
     }
 
-    @Override
-    public void setSizeLocation(float cx, float cy, float compWidth, float compHeight) {
-        this.size = new Vector2(compWidth,compHeight);
-        this.position = new Vector2(cx,cy);
-        this.center = calCenter(this.position,this.size);
-        this.boundRect = new Rectangle(this.position.x,this.position.y, this.size.x, this.size.y);
-    }
 
     @Override
     public void render(SpriteBatch sb) {
@@ -69,23 +48,19 @@ public class OButton implements UIComponent {
         } else {
             sb.draw(icon, this.position.x, this.position.y, this.size.x, this.size.y);
         }
-        renderText(sb);
-    }
-
-    @Override
-    public Vector2 getSize() {
-        return size;
+        if (text != null && !text.isEmpty()) {
+            renderText(sb);
+        }
     }
 
     private void renderText(SpriteBatch sb) {
         if (setTextCenter) {
-            font.draw(sb, text, center.x - glyphLayout.width / 2, center.y - glyphLayout.height / 2);
+            final float x = position.x + size.x / 2 - glyphLayout.width / 2;
+            final float y = position.y + size.y / 2 - glyphLayout.height / 2;
+            font.draw(sb, text, x, y);
         } else {
             font.draw(sb, text, position.x, position.y - glyphLayout.height);
         }
-    }
-
-    public void updateInputs(float x, float y) {
     }
 
     public void touchRelease(float x, float y) {
@@ -100,6 +75,16 @@ public class OButton implements UIComponent {
         buttonListener.touchEvent(OButtonListener.TouchEvent.DOWN, x, y);
     }
 
+    public void setButtonListener(OButtonListener buttonListener) {
+        this.buttonListener = buttonListener;
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
     public void setIcon(Sprite sprite) {
         this.icon = sprite;
     }
@@ -112,19 +97,52 @@ public class OButton implements UIComponent {
         this.enable = enable;
     }
 
-    public void setSetTextCenter(boolean setTextCenter) {
+    public void setTextCenter(boolean setTextCenter) {
         this.setTextCenter = setTextCenter;
     }
 
     public void setText(String text) {
         this.text = text;
-        glyphLayout = new GlyphLayout(font, text);
+        glyphLayout.setText(font, text);
     }
-    private Vector2 calCenter(Vector2 position,Vector2 size){
-        return new Vector2(position.x + size.x / 2, position.y + size.y / 2);
+
+    @Override
+    public boolean isPressed() {
+        return pressed;
     }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public Sprite getIcon() {
+        return icon;
+    }
+
+    public BitmapFont getFont() {
+        return font;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public OButtonListener getButtonListener() {
+        return buttonListener;
+    }
+
+    @Override
+    public Vector2 getSize() {
+        return size;
+    }
+
     public boolean contains(float x, float y) {
-        return boundRect.contains(x, y);
+        return (x >= position.x && x <= position.x + size.x) &&
+                (y >= position.y && y <= position.y + size.y);
     }
 
 }

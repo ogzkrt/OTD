@@ -72,8 +72,8 @@ public class GameOverState extends State {
     private void initButtons() {
 
         final ButtonFactory bf = new ButtonFactory(GRID_WIDTH * 1.5f, GRID_HEIGHT * 1.5f);
-        btnReplay = bf.createOButton("", MyAtlas.RESTART_GAME, false);
-        btnMenu = bf.createOButton("", MyAtlas.MENU_BUTTON, false);
+        btnReplay = bf.createOButton(MyAtlas.RESTART_GAME);
+        btnMenu = bf.createOButton(MyAtlas.MENU_BUTTON);
 
         buttons.add(btnReplay);
         buttons.add(btnMenu);
