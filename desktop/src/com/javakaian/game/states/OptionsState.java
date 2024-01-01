@@ -3,6 +3,8 @@ package com.javakaian.game.states;
 import static com.javakaian.game.util.GameConstants.ALPHA;
 import static com.javakaian.game.util.GameConstants.BLUE;
 import static com.javakaian.game.util.GameConstants.GREEN;
+import static com.javakaian.game.util.GameConstants.GRID_HEIGHT;
+import static com.javakaian.game.util.GameConstants.GRID_WIDTH;
 import static com.javakaian.game.util.GameConstants.RED;
 
 import com.badlogic.gdx.Gdx;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.buttons.OToggleButton;
@@ -92,22 +95,10 @@ public class OptionsState extends State {
 
     private void initButtons() {
 
-        float width = GameConstants.GRID_WIDTH * 1.5f;
-        float height = GameConstants.GRID_HEIGHT * 1.5f;
-
-
-        btnSound = new OToggleButton(width, height);
-        btnSound.setIcon(MyAtlas.SOUND_ON);
-        btnSound.setToggledIcon(MyAtlas.SOUND_OFF);
-
-        btnMusic = new OToggleButton(width, height);
-        btnMusic.setIcon(MyAtlas.MUSIC_ON);
-        btnMusic.setToggledIcon(MyAtlas.MUSIC_OFF);
-
-        btnBack = new OButton(width, height);
-        btnBack.setIcon(MyAtlas.GENERIC_BUTTON);
-        btnBack.setText("BACK");
-        btnBack.setSetTextCenter(true);
+        final ButtonFactory bf = new ButtonFactory(GRID_WIDTH * 1.5f, GRID_HEIGHT * 1.5f);
+        btnSound = bf.createToggleButton(MyAtlas.SOUND_ON, MyAtlas.SOUND_OFF);
+        btnMusic = bf.createToggleButton(MyAtlas.MUSIC_ON, MyAtlas.MUSIC_OFF);
+        btnBack = bf.createOButton("BACK", MyAtlas.GENERIC_BUTTON, true);
 
         buttons.add(btnSound);
         buttons.add(btnMusic);

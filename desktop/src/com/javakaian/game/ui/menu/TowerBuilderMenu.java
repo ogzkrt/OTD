@@ -1,13 +1,18 @@
 package com.javakaian.game.ui.menu;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import static com.javakaian.game.util.GameConstants.ELECTRIC_TOWER_PRICE;
+import static com.javakaian.game.util.GameConstants.MENU_ITEM_HEIGHT;
+import static com.javakaian.game.util.GameConstants.MENU_ITEM_WIDTH;
+import static com.javakaian.game.util.GameConstants.TOWER_PRICE;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.buttons.TowerBuilder;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.towers.BaseTower;
+import com.javakaian.game.ui.buttons.ButtonFactory;
+import com.javakaian.game.ui.buttons.OButtonListener;
+import com.javakaian.game.ui.buttons.TowerBuilder;
 import com.javakaian.game.ui.components.SimpleLayout;
 import com.javakaian.game.ui.components.UIComponent;
 import com.javakaian.game.util.GameConstants;
@@ -32,16 +37,16 @@ public class TowerBuilderMenu {
         this.layout = new SimpleLayout(
                 GameConstants.GRID_WIDTH * 6,
                 GameConstants.GRID_HEIGHT * 2,
-                10,20);
+                10, 20);
         towerButtons = new ArrayList<>();
         initButtons();
     }
 
     private void initButtons() {
-
-        btnFire = createTowerBuilderButton(GameConstants.TOWER_PRICE, MyAtlas.FIRE_TOWER);
-        btnIce = createTowerBuilderButton(GameConstants.TOWER_PRICE, MyAtlas.ICE_TOWER);
-        btnElectric = createTowerBuilderButton(GameConstants.ELECTRIC_TOWER_PRICE, MyAtlas.ELECTRIC_TOWER);
+        final ButtonFactory bf = new ButtonFactory(MENU_ITEM_WIDTH, MENU_ITEM_HEIGHT);
+        btnFire = bf.createBuilderButton(TOWER_PRICE, MyAtlas.FIRE_TOWER);
+        btnIce = bf.createBuilderButton(TOWER_PRICE, MyAtlas.ICE_TOWER);
+        btnElectric = bf.createBuilderButton(ELECTRIC_TOWER_PRICE, MyAtlas.ELECTRIC_TOWER);
 
         towerButtons.add(btnFire);
         towerButtons.add(btnIce);
@@ -51,15 +56,6 @@ public class TowerBuilderMenu {
         layout.pack();
 
         initButtonListener();
-    }
-
-    private TowerBuilder createTowerBuilderButton(int price, Sprite sprite) {
-        final TowerBuilder tb = new TowerBuilder(
-                GameConstants.MENU_ITEM_WIDTH,
-                GameConstants.MENU_ITEM_HEIGHT);
-        tb.setPrice(price);
-        tb.setIcon(sprite);
-        return tb;
     }
 
     private void initButtonListener() {

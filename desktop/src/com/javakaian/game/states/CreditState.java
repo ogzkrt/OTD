@@ -3,7 +3,10 @@ package com.javakaian.game.states;
 import static com.javakaian.game.util.GameConstants.ALPHA;
 import static com.javakaian.game.util.GameConstants.BLUE;
 import static com.javakaian.game.util.GameConstants.GREEN;
+import static com.javakaian.game.util.GameConstants.GRID_HEIGHT;
+import static com.javakaian.game.util.GameConstants.GRID_WIDTH;
 import static com.javakaian.game.util.GameConstants.RED;
+import static com.javakaian.game.util.GameConstants.SCREEN_HEIGHT;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,9 +15,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.util.GameConstants;
 import com.javakaian.game.util.GameUtils;
 
 import java.util.ArrayList;
@@ -48,8 +51,8 @@ public class CreditState extends State {
         sb.begin();
         GameUtils.renderCenter(stateName, sb, bitmapFont);
 
-        float posY = GameConstants.SCREEN_HEIGHT / 2.4f;
-        float yOffset = GameConstants.GRID_HEIGHT / 1.5f;
+        float posY = SCREEN_HEIGHT / 2.4f;
+        float yOffset = GRID_HEIGHT / 1.5f;
 
         GameUtils.renderCenterWithY("I want to thank, my best friend" +
                 " for the graphics", sb, textFont, posY);
@@ -67,21 +70,11 @@ public class CreditState extends State {
     }
 
     private void initButtons() {
-
-        float positionX = GameConstants.GRID_WIDTH * 7.5f;
-        float positionY = GameConstants.GRID_HEIGHT * 7;
-        float width = GameConstants.GRID_WIDTH * 1.5f;
-        float height = GameConstants.GRID_HEIGHT * 1.5f;
-
-        btnBack = new OButton(positionX,
-                positionY,
-                width,
-                height);
-        btnBack.setIcon(MyAtlas.GENERIC_BUTTON);
-        btnBack.setText("BACK");
-        btnBack.setSetTextCenter(true);
+        float positionX = GRID_WIDTH * 7.5f;
+        float positionY = GRID_HEIGHT * 7;
+        final ButtonFactory bf = new ButtonFactory(GRID_WIDTH * 1.5f, GRID_HEIGHT * 1.5f);
+        btnBack = bf.createOButton(positionX, positionY, "BACK", MyAtlas.GENERIC_BUTTON, true);
         buttons.add(btnBack);
-
     }
 
     @Override

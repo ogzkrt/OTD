@@ -7,11 +7,11 @@ import static com.javakaian.game.util.GameConstants.RED;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.resources.MusicHandler;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.components.SimpleLayout;
@@ -67,9 +67,11 @@ public class MenuState extends State {
 
     private void initButtons() {
 
-        btnPlay = createMenuButton("", MyAtlas.MENU_PLAY, false);
-        btnOptions = createMenuButton("OPTIONS", MyAtlas.GENERIC_BUTTON, true);
-        btnCredits = createMenuButton("CREDITS", MyAtlas.GENERIC_BUTTON, true);
+        final ButtonFactory bf = new ButtonFactory(GameConstants.GRID_WIDTH * 1.5f,
+                GameConstants.GRID_HEIGHT * 1.5f);
+        btnPlay = bf.createOButton("", MyAtlas.MENU_PLAY, false);
+        btnOptions = bf.createOButton("OPTIONS", MyAtlas.GENERIC_BUTTON, true);
+        btnCredits = bf.createOButton("CREDITS", MyAtlas.GENERIC_BUTTON, true);
 
         buttons.add(btnPlay);
         buttons.add(btnOptions);
@@ -78,17 +80,6 @@ public class MenuState extends State {
         layout.addComponents(buttons);
         layout.pack();
     }
-
-    private OButton createMenuButton(String text, Sprite icon, boolean textCenter) {
-        final OButton btn = new OButton(
-                GameConstants.GRID_WIDTH * 1.5f,
-                GameConstants.GRID_HEIGHT * 1.5f);
-        btn.setIcon(icon);
-        btn.setText(text);
-        btn.setSetTextCenter(textCenter);
-        return btn;
-    }
-
 
     private void setListeners() {
         btnPlay.setButtonListener((event, x, y) -> {

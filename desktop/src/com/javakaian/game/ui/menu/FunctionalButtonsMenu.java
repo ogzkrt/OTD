@@ -1,15 +1,19 @@
 package com.javakaian.game.ui.menu;
 
+import static com.javakaian.game.util.GameConstants.FUNC_BUTTON_WH;
+import static com.javakaian.game.util.GameConstants.GRID_HEIGHT;
+import static com.javakaian.game.util.GameConstants.GRID_WIDTH;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.javakaian.game.level.Level;
+import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.buttons.OToggleButton;
-import com.javakaian.game.level.Level;
-import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.ui.components.SimpleLayout;
 import com.javakaian.game.ui.components.UIComponent;
-import com.javakaian.game.util.GameConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,38 +29,21 @@ public class FunctionalButtonsMenu {
     private final SimpleLayout layoutFunctionalButtons;
     private final Level level;
 
-    public FunctionalButtonsMenu(Level level){
+    public FunctionalButtonsMenu(Level level) {
         this.level = level;
-
-        this.layoutFunctionalButtons = new SimpleLayout(GameConstants.GRID_WIDTH * 2,
-                GameConstants.GRID_HEIGHT * 2,
-                2,5);
+        this.layoutFunctionalButtons = new SimpleLayout(GRID_WIDTH * 2, GRID_HEIGHT * 2,
+                2, 5);
         menuButtons = new ArrayList<>();
         initButtons();
     }
+
     private void initButtons() {
 
-        btnPauseResume = new OToggleButton(
-                GameConstants.FUNC_BUTTON_WH,
-                GameConstants.FUNC_BUTTON_WH);
-        btnPauseResume.setIcon(MyAtlas.WAVE_PAUSE);
-        btnPauseResume.setToggledIcon(MyAtlas.WAVE_RESUME);
-
-        btnDoubleSpeed = new OToggleButton(
-                GameConstants.FUNC_BUTTON_WH,
-                GameConstants.FUNC_BUTTON_WH);
-        btnDoubleSpeed.setIcon(MyAtlas.WAVE_SLOW);
-        btnDoubleSpeed.setToggledIcon(MyAtlas.WAVE_FAST);
-
-        btnExit = new OButton(
-                GameConstants.FUNC_BUTTON_WH,
-                GameConstants.FUNC_BUTTON_WH);
-        btnExit.setIcon(MyAtlas.QUIT_X);
-
-        btnRestart = new OButton(
-                GameConstants.FUNC_BUTTON_WH,
-                GameConstants.FUNC_BUTTON_WH);
-        btnRestart.setIcon(MyAtlas.CHANGE_MAP);
+        final ButtonFactory bf = new ButtonFactory(FUNC_BUTTON_WH, FUNC_BUTTON_WH);
+        btnPauseResume = bf.createToggleButton(MyAtlas.WAVE_PAUSE, MyAtlas.WAVE_RESUME);
+        btnDoubleSpeed = bf.createToggleButton(MyAtlas.WAVE_SLOW, MyAtlas.WAVE_FAST);
+        btnExit = bf.createOButton("", MyAtlas.QUIT_X, false);
+        btnRestart = bf.createOButton("", MyAtlas.CHANGE_MAP, false);
 
         menuButtons.add(btnPauseResume);
         menuButtons.add(btnDoubleSpeed);
@@ -69,6 +56,7 @@ public class FunctionalButtonsMenu {
         initButtonListener();
 
     }
+
     private void initButtonListener() {
 
         btnPauseResume.setToggleListener(isToggled -> {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.javakaian.game.resources.MyAtlas;
+import com.javakaian.game.ui.buttons.ButtonFactory;
 import com.javakaian.game.ui.buttons.OButton;
 import com.javakaian.game.ui.buttons.OButtonListener;
 import com.javakaian.game.ui.components.SimpleLayout;
@@ -62,19 +63,11 @@ public class PauseState extends State {
 
     private void initButtons() {
 
-        float width = GameConstants.GRID_WIDTH * 1.5f;
-        float height = GameConstants.GRID_HEIGHT * 1.5f;
-
-        btnRestart = new OButton(width, height);
-        btnRestart.setIcon(MyAtlas.RESTART_GAME);
-
-        btnResume = new OButton(width, height);
-        btnResume.setIcon(MyAtlas.RESUME_GAME);
-
-        btnOptions = new OButton(width, height);
-        btnOptions.setIcon(MyAtlas.GENERIC_BUTTON);
-        btnOptions.setText("Options");
-        btnOptions.setSetTextCenter(true);
+        final ButtonFactory bf = new ButtonFactory(GameConstants.GRID_WIDTH * 1.5f,
+                GameConstants.GRID_HEIGHT * 1.5f);
+        btnRestart = bf.createOButton("", MyAtlas.RESTART_GAME, false);
+        btnResume = bf.createOButton("", MyAtlas.RESUME_GAME, false);
+        btnOptions = bf.createOButton("Options", MyAtlas.GENERIC_BUTTON, true);
 
         buttons.add(btnRestart);
         buttons.add(btnResume);

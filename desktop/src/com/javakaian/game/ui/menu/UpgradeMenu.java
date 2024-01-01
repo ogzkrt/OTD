@@ -1,14 +1,17 @@
 package com.javakaian.game.ui.menu;
 
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import static com.javakaian.game.util.GameConstants.GRID_HEIGHT;
+import static com.javakaian.game.util.GameConstants.GRID_WIDTH;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.javakaian.game.ui.buttons.OButtonListener;
-import com.javakaian.game.ui.buttons.TowerUpgrade;
 import com.javakaian.game.level.Level;
 import com.javakaian.game.resources.MyAtlas;
 import com.javakaian.game.towers.BaseTower;
+import com.javakaian.game.ui.buttons.ButtonFactory;
+import com.javakaian.game.ui.buttons.OButtonListener;
+import com.javakaian.game.ui.buttons.TowerUpgrade;
 import com.javakaian.game.ui.components.SimpleLayout;
 import com.javakaian.game.ui.components.UIComponent;
 import com.javakaian.game.util.GameConstants;
@@ -29,9 +32,9 @@ public class UpgradeMenu {
         this.level = level;
 
         layout = new SimpleLayout(
-                GameConstants.GRID_WIDTH * 4,
+                GRID_WIDTH * 4,
                 GameConstants.GRID_HEIGHT * 2,
-                15,32);
+                15, 32);
         buttons = new ArrayList<>();
         initButtons();
     }
@@ -45,10 +48,10 @@ public class UpgradeMenu {
     }
 
     private void initButtons() {
-
-        btnDamage = createUpgradeButton(MyAtlas.DAMAGE,false);
-        btnRange = createUpgradeButton(MyAtlas.RANGE,false);
-        btnSpeed = createUpgradeButton(MyAtlas.SPEED,false);
+        final ButtonFactory bf = new ButtonFactory(GRID_WIDTH, GRID_HEIGHT);
+        btnDamage = bf.createUpgradeButton(MyAtlas.DAMAGE, false);
+        btnRange = bf.createUpgradeButton(MyAtlas.RANGE, false);
+        btnSpeed = bf.createUpgradeButton(MyAtlas.SPEED, false);
 
         buttons.add(btnDamage);
         buttons.add(btnRange);
@@ -59,16 +62,6 @@ public class UpgradeMenu {
 
         initButtonListener();
 
-    }
-
-    private TowerUpgrade createUpgradeButton(Sprite icon, boolean enable) {
-        final TowerUpgrade btn = new TowerUpgrade(
-                GameConstants.GRID_WIDTH,
-                GameConstants.GRID_HEIGHT
-        );
-        btn.setIcon(icon);
-        btn.setEnable(enable);
-        return btn;
     }
 
     private void initButtonListener() {
