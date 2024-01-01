@@ -18,7 +18,7 @@ public abstract class State {
 
     public State(StateController stateController) {
         this.stateController = stateController;
-        bitmapFont = GameUtils.generateBitmapFont(70, Color.WHITE);
+        bitmapFont = GameUtils.generateBitmapFont(100, Color.WHITE);
         glyphLayout = new GlyphLayout();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);

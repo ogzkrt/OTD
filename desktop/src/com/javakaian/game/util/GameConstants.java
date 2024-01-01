@@ -2,6 +2,11 @@ package com.javakaian.game.util;
 
 public class GameConstants {
 
+	public static final float RED = 50f / 255f;
+	public static final float GREEN = 63f / 255f;
+	public static final float BLUE = 94f / 255f;
+	public static final float ALPHA = 0.5f;
+
     public static float GAME_SCALE = 1f;
     public static int ROW_SIZE = 9;
     public static int MAP_ROW_SIZE = 6;
